@@ -4,33 +4,16 @@ import { useState } from 'react';
 import ImageSlider from '@/components/ImageSlider';
 import SearchForm from '@/components/SearchForm';
 import FeaturedHotels from '@/components/FeaturedHotels';
-import { searchHotels } from '@/lib/hotelbedsApi';
+import SearchResults from '@/components/SearchResults';
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [searchData, setSearchData] = useState(null);
 
-  const handleSearch = async (searchData) => {
-    setIsLoading(true);
-    try {
-      console.log('Searching for hotels with data:', searchData);
-      // For now, we'll just log the search data
-      // In a real implementation, you would call the API here
-      // const results = await searchHotels(searchData);
-      // setSearchResults(results);
-      
-      // Mock results for demonstration
-      setTimeout(() => {
-        setSearchResults({
-          hotels: [],
-          message: `Searching for hotels in ${searchData.destination} from ${searchData.checkIn} to ${searchData.checkOut} for ${searchData.adults} adults, ${searchData.children} children, ${searchData.rooms} room(s)`
-        });
-        setIsLoading(false);
-      }, 2000);
-    } catch (error) {
-      console.error('Search failed:', error);
-      setIsLoading(false);
-    }
+  const handleSearch = (results) => {
+    console.log('Search results:', results);
+    setSearchResults(results.hotels || []);
+    setSearchData(results);
   };
 
   return (
@@ -41,24 +24,13 @@ export default function Home() {
       {/* Search Form */}
       <SearchForm onSearch={handleSearch} />
       
-      {/* Search Results or Loading */}
-      {isLoading && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="mt-4 text-gray-600">Searching for the best hotels...</p>
-        </div>
-      )}
-      
-      {searchResults && !isLoading && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-blue-800">{searchResults.message}</p>
-          </div>
-        </div>
+      {/* Search Results */}
+      {searchResults && (
+        <SearchResults hotels={searchResults} searchData={searchData} />
       )}
 
-      {/* Featured Hotels Section */}
-      <FeaturedHotels />
+      {/* Featured Hotels Section - Only show if no search results */}
+      {!searchResults && <FeaturedHotels />}
 
       {/* Additional Sections */}
       <section className="py-16 bg-white">
