@@ -12,7 +12,7 @@ export default function Home() {
 
   const handleSearch = (results) => {
     console.log('Search results:', results);
-    setSearchResults(results.hotels || []);
+    setSearchResults(results.listings || []); // Changed from hotels to listings
     setSearchData(results);
   };
 
@@ -38,7 +38,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                Why Choose LuxuryStay?
+                Why Choose Guestyz?
               </h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">

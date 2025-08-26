@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'LuxuryStay - Premium Hotel Booking',
-  description: 'Book luxury hotels and resorts worldwide with LuxuryStay. Experience the finest accommodations with our premium booking service.',
+  title: 'Guestyz - Premium Hotel Booking',
+  description: 'Book luxury hotels and resorts worldwide with Guestyz. Experience the finest accommodations with our premium booking service.',
 };
 
 export default function RootLayout({ children }) {

@@ -25,10 +25,29 @@ export default function TestPage() {
     }
   };
 
-  const testCountries = async () => {
+  const testCities = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/countries');
+      const response = await fetch('/api/countries'); // This now returns cities
+      const data = await response.json();
+      setResult({
+        status: response.status,
+        data: data
+      });
+    } catch (error) {
+      setResult({
+        status: 'error',
+        data: { error: error.message }
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const testListings = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/hotels?limit=5');
       const data = await response.json();
       setResult({
         status: response.status,
@@ -46,7 +65,7 @@ export default function TestPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">HotelBeds API Test</h1>
+      <h1 className="text-2xl font-bold mb-6">Guesty API Test</h1>
       
       <div className="space-x-4 mb-6">
         <button
@@ -54,15 +73,23 @@ export default function TestPage() {
           disabled={loading}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
         >
-          {loading ? 'Testing...' : 'Test API'}
+          {loading ? 'Testing...' : 'Test API Connection'}
         </button>
         
         <button
-          onClick={testCountries}
+          onClick={testCities}
           disabled={loading}
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:bg-gray-400"
         >
-          {loading ? 'Testing...' : 'Test Countries'}
+          {loading ? 'Testing...' : 'Test Cities'}
+        </button>
+
+        <button
+          onClick={testListings}
+          disabled={loading}
+          className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 disabled:bg-gray-400"
+        >
+          {loading ? 'Testing...' : 'Test Listings'}
         </button>
       </div>
 

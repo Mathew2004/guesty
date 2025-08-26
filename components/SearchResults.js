@@ -1,14 +1,15 @@
 'use client';
 
-import { Star, MapPin, Phone, Mail } from 'lucide-react';
+import Link from 'next/link';
+import { MapPin, Users, Bed, Bath } from 'lucide-react';
 
 export default function SearchResults({ hotels, searchData }) {
   if (!hotels || hotels.length === 0) {
     return (
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">No Hotels Found</h2>
-          <p className="text-gray-600">Try adjusting your search criteria to find available hotels.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">No Properties Found</h2>
+          <p className="text-gray-600">Try adjusting your search criteria to find available properties.</p>
         </div>
       </section>
     );
@@ -22,112 +23,122 @@ export default function SearchResults({ hotels, searchData }) {
             Search Results
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Found {hotels.length} hotels{searchData?.destination && ` in ${searchData.destination}`}
+            Found {hotels.length} properties{searchData?.city && ` in ${searchData.city}`}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {hotels.map((hotel) => (
-            <div key={hotel.code} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
-              {/* Hotel Image - Using a placeholder for now since API doesn't include images */}
+            <Link 
+              key={hotel.code} 
+              href={`/listing/${hotel.code}`}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group block"
+            >
+              {/* Property Image */}
               <div className="relative h-64 overflow-hidden bg-gradient-to-br from-blue-400 to-blue-600">
-                <div className="flex items-center justify-center h-full text-white">
-                  <div className="text-center">
-                    <MapPin size={48} className="mx-auto mb-2" />
-                    <p className="text-sm font-medium">Hotel Image</p>
+                {hotel.images && hotel.images.length > 0 ? (
+                  <img
+                    src={hotel.images[0]}
+                    alt={hotel.name?.content}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/400x300?text=Property+Image';
+                    }}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-white">
+                    <div className="text-center">
+                      <MapPin size={48} className="mx-auto mb-2" />
+                      <p className="text-sm font-medium">Property Image</p>
+                    </div>
                   </div>
-                </div>
-                {hotel.categoryCode && (
+                )}
+                {hotel.accommodationTypeCode && (
                   <div className="absolute top-4 right-4 bg-white bg-opacity-90 px-3 py-1 rounded-full">
-                    <span className="text-sm font-semibold">{hotel.categoryCode}</span>
+                    <span className="text-sm font-semibold">{hotel.accommodationTypeCode}</span>
                   </div>
                 )}
               </div>
 
-              {/* Hotel Details */}
+              {/* Property Details */}
               <div className="p-6">
                 <div className="flex items-center space-x-2 text-gray-500 mb-2">
                   <MapPin size={16} />
                   <span className="text-sm">
-                    {hotel.city?.content}, {hotel.countryCode}
+                    {hotel.city?.content || hotel.address?.city}, {hotel.countryCode || hotel.address?.country}
                   </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {hotel.name?.content || 'Hotel Name Not Available'}
+                  {hotel.name?.content || hotel.title || 'Property Name Not Available'}
                 </h3>
 
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                  {hotel.description?.content || 'Description not available'}
+                  {hotel.description?.content || 'Beautiful property with modern amenities and great location.'}
                 </p>
 
-                {/* Address */}
-                {hotel.address?.content && (
-                  <p className="text-xs text-gray-500 mb-3">
-                    📍 {hotel.address.content}
-                  </p>
-                )}
-
-                {/* Contact Info */}
-                <div className="flex flex-col space-y-2 mb-4">
-                  {hotel.email && (
-                    <div className="flex items-center space-x-2 text-xs text-gray-600">
-                      <Mail size={12} />
-                      <span className="truncate">{hotel.email}</span>
-                    </div>
-                  )}
-                  {hotel.phones && hotel.phones.length > 0 && (
-                    <div className="flex items-center space-x-2 text-xs text-gray-600">
-                      <Phone size={12} />
-                      <span>{hotel.phones[0].phoneNumber}</span>
-                    </div>
-                  )}
+                {/* Property Stats */}
+                <div className="flex items-center space-x-4 mb-4 text-sm text-gray-600">
+                  <div className="flex items-center space-x-1">
+                    <Users size={16} />
+                    <span>{hotel.rooms?.[0]?.maxPax || hotel.accommodates || 2} guests</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Bed size={16} />
+                    <span>{hotel.bedrooms || 1} bed{hotel.bedrooms !== 1 ? 's' : ''}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Bath size={16} />
+                    <span>{hotel.bathrooms || 1} bath{hotel.bathrooms !== 1 ? 's' : ''}</span>
+                  </div>
                 </div>
 
-                {/* Room Types */}
-                {hotel.rooms && hotel.rooms.length > 0 && (
+                {/* Amenities */}
+                {hotel.amenities && hotel.amenities.length > 0 && (
                   <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Room Types:</p>
                     <div className="flex flex-wrap gap-1">
-                      {hotel.rooms.slice(0, 3).map((room, index) => (
-                        <span key={index} className="bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-xs">
-                          {room.roomType} ({room.maxPax} pax)
+                      {hotel.amenities.slice(0, 3).map((amenity, index) => (
+                        <span key={index} className="bg-gray-50 text-gray-600 px-2 py-1 rounded-full text-xs">
+                          {amenity}
                         </span>
                       ))}
-                      {hotel.rooms.length > 3 && (
+                      {hotel.amenities.length > 3 && (
                         <span className="text-xs text-gray-500 px-2 py-1">
-                          +{hotel.rooms.length - 3} more
+                          +{hotel.amenities.length - 3} more
                         </span>
                       )}
                     </div>
                   </div>
                 )}
 
-                {/* Board Codes */}
-                {hotel.boardCodes && hotel.boardCodes.length > 0 && (
+                {/* House Rules */}
+                {hotel.houseRules && (
                   <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Board Options:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {hotel.boardCodes.slice(0, 4).map((board, index) => (
-                        <span key={index} className="bg-green-50 text-green-600 px-2 py-1 rounded-full text-xs">
-                          {board}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap gap-1 text-xs">
+                      {hotel.houseRules.petsAllowed && (
+                        <span className="bg-green-50 text-green-600 px-2 py-1 rounded-full">🐕 Pets OK</span>
+                      )}
+                      {hotel.houseRules.suitableForChildren && (
+                        <span className="bg-green-50 text-green-600 px-2 py-1 rounded-full">👶 Kids OK</span>
+                      )}
+                      {hotel.houseRules.smokingAllowed && (
+                        <span className="bg-yellow-50 text-yellow-600 px-2 py-1 rounded-full">🚬 Smoking OK</span>
+                      )}
                     </div>
                   </div>
                 )}
 
-                {/* Action Button */}
+                {/* Property Info */}
                 <div className="flex items-center justify-between">
                   <div className="text-sm text-gray-500">
-                    Hotel Code: {hotel.code}
+                    {hotel.propertyType || hotel.accommodationTypeCode} • {hotel.listingType || hotel.categoryCode}
                   </div>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors duration-300">
-                    View Details
-                  </button>
+                  <div className="text-sm text-blue-600 font-medium">
+                    View details →
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

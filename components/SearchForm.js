@@ -2,109 +2,160 @@
 
 import { useState, useEffect } from 'react';
 import { Search, MapPin, Calendar, Users, Globe } from 'lucide-react';
-import { getCountries, getDestinations, getHotels } from '../lib/hotelbedsClient';
+import { getCities, getListings } from '../lib/hotelbedsClient';
 
 export default function SearchForm({ onSearch }) {
   const [searchData, setSearchData] = useState({
+    city: '',
     country: '',
-    destination: '',
+    state: '',
     checkIn: '',
     checkOut: '',
     adults: 2,
     children: 0,
-    rooms: 1
+    rooms: 1,
+    numberOfBedrooms: 0,
+    numberOfBathrooms: 0,
+    propertyType: '',
+    listingType: ''
   });
 
+  const [cities, setCities] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [destinations, setDestinations] = useState([]);
+  const [states, setStates] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
   const [loading, setLoading] = useState({
-    countries: false,
-    destinations: false,
-    hotels: false
+    cities: false,
+    listings: false
   });
   const [error, setError] = useState(null);
 
-  // Fetch countries on component mount
+  // Fetch cities on component mount
   useEffect(() => {
-    fetchCountries();
+    fetchCities();
   }, []);
 
-  // Fetch destinations when country is selected
+  const fetchCities = async () => {
+    setLoading(prev => ({ ...prev, cities: true }));
+    setError(null);
+    try {
+      console.log('Fetching cities...');
+      const response = await getCities();
+      console.log('Cities response:', response);
+      const allCities = response.cities || [];
+      setCities(allCities);
+      
+      // Extract unique countries
+      const uniqueCountries = [...new Set(allCities.map(city => city.country))].sort();
+      setCountries(uniqueCountries);
+      
+    } catch (err) {
+      console.error('Error fetching cities:', err);
+      setError('Failed to load cities. Please check console for details.');
+    } finally {
+      setLoading(prev => ({ ...prev, cities: false }));
+    }
+  };
+
+  // Update states when country changes
   useEffect(() => {
-    if (searchData.country) {
-      fetchDestinations(searchData.country);
+    if (searchData.country && cities.length > 0) {
+      const countryStates = cities
+        .filter(city => city.country === searchData.country)
+        .map(city => city.state)
+        .filter(state => state && state.trim() !== '')
+        .filter((state, index, arr) => arr.indexOf(state) === index) // unique states
+        .sort();
+      
+      setStates(countryStates);
+      
+      // Reset state and city when country changes
+      setSearchData(prev => ({
+        ...prev,
+        state: '',
+        city: ''
+      }));
     } else {
-      setDestinations([]);
+      setStates([]);
+      setSearchData(prev => ({
+        ...prev,
+        state: '',
+        city: ''
+      }));
     }
-  }, [searchData.country]);
+  }, [searchData.country, cities]);
 
-  const fetchCountries = async () => {
-    setLoading(prev => ({ ...prev, countries: true }));
-    setError(null);
-    try {
-      console.log('Fetching countries...');
-      const response = await getCountries();
-      console.log('Countries response:', response);
-      setCountries(response.countries || []);
-    } catch (err) {
-      console.error('Error fetching countries:', err);
-      setError('Failed to load countries. Please check console for details.');
-    } finally {
-      setLoading(prev => ({ ...prev, countries: false }));
+  // Update cities when state changes
+  useEffect(() => {
+    if (searchData.country && cities.length > 0) {
+      let filtered = cities.filter(city => city.country === searchData.country);
+      
+      if (searchData.state) {
+        filtered = filtered.filter(city => city.state === searchData.state);
+      }
+      
+      setFilteredCities(filtered);
+      
+      // Reset city when state changes
+      if (searchData.state) {
+        setSearchData(prev => ({
+          ...prev,
+          city: ''
+        }));
+      }
+    } else {
+      setFilteredCities([]);
     }
-  };
-
-  const fetchDestinations = async (countryCode) => {
-    setLoading(prev => ({ ...prev, destinations: true }));
-    setError(null);
-    try {
-      const response = await getDestinations(countryCode);
-      setDestinations(response.destinations || []);
-    } catch (err) {
-      console.error('Error fetching destinations:', err);
-      setError('Failed to load destinations. Please try again.');
-    } finally {
-      setLoading(prev => ({ ...prev, destinations: false }));
-    }
-  };
+  }, [searchData.country, searchData.state, cities]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSearchData(prev => {
-      const newData = { ...prev, [name]: value };
-      // Reset destination when country changes
-      if (name === 'country') {
-        newData.destination = '';
-      }
-      return newData;
-    });
+    setSearchData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!searchData.country || !searchData.destination) {
-      setError('Please select both country and destination');
+    if (!searchData.country) {
+      setError('Please select a country');
       return;
     }
 
-    setLoading(prev => ({ ...prev, hotels: true }));
+    setLoading(prev => ({ ...prev, listings: true }));
     setError(null);
     
     try {
-      const hotelsResponse = await getHotels(searchData.destination, searchData.country);
+      const searchParams = {
+        city: searchData.city,
+        country: searchData.country,
+        state: searchData.state,
+        checkIn: searchData.checkIn,
+        checkOut: searchData.checkOut,
+        adults: parseInt(searchData.adults),
+        numberOfBedrooms: parseInt(searchData.numberOfBedrooms),
+        numberOfBathrooms: parseInt(searchData.numberOfBathrooms),
+        propertyType: searchData.propertyType,
+        listingType: searchData.listingType,
+        limit: 20
+      };
+
+      const listingsResponse = await getListings(searchParams);
       
       if (onSearch) {
         onSearch({
           ...searchData,
-          hotels: hotelsResponse.hotels || []
+          listings: listingsResponse.hotels || [], // Note: changed from results to hotels
+          total: listingsResponse.total || 0
         });
       }
     } catch (err) {
-      console.error('Error searching hotels:', err);
-      setError('Failed to search hotels. Please try again.');
+      console.error('Error searching listings:', err);
+      setError('Failed to search listings. Please try again.');
     } finally {
-      setLoading(prev => ({ ...prev, hotels: false }));
+      setLoading(prev => ({ ...prev, listings: false }));
     }
   };
 
@@ -118,8 +169,8 @@ export default function SearchForm({ onSearch }) {
           {error}
         </div>
       )}
-      
-      <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-6 lg:gap-4 lg:items-end">
+
+      <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-8 lg:gap-4 lg:items-center ">
         {/* Country Selection */}
         <div className="lg:col-span-1">
           <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
@@ -134,43 +185,119 @@ export default function SearchForm({ onSearch }) {
               onChange={handleInputChange}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none bg-white"
               required
-              disabled={loading.countries}
+              disabled={loading.cities}
             >
               <option value="">
-                {loading.countries ? 'Loading...' : 'Select Country'}
+                {loading.cities ? 'Loading...' : 'Select Country'}
               </option>
-              {countries.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.description.content}
+              {countries.map((country, index) => (
+                <option key={index} value={country}>
+                  {country}
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Destination Selection */}
+        {/* State Selection - Only show when country is selected */}
+        {searchData.country && (
+          <div className="lg:col-span-1">
+            <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
+              State
+            </label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <select
+                id="state"
+                name="state"
+                value={searchData.state}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none bg-white"
+              >
+                <option value="">All States</option>
+                {states.map((state, index) => (
+                  <option key={index} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
+        {/* City Selection - Only show when country is selected */}
+        {searchData.country && (
+          <div className="lg:col-span-1">
+            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+              City
+            </label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <select
+                id="city"
+                name="city"
+                value={searchData.city}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none bg-white"
+              >
+                <option value="">All Cities</option>
+                {filteredCities.map((city, index) => (
+                  <option key={index} value={city.city}>
+                    {city.city}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
+
+        {/* Property Type */}
         <div className="lg:col-span-1">
-          <label htmlFor="destination" className="block text-sm font-medium text-gray-700 mb-2">
-            Destination *
+          <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-2">
+            Property Type
           </label>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <select
+            id="propertyType"
+            name="propertyType"
+            value={searchData.propertyType}
+            onChange={handleInputChange}
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+          >
+            <option value="">Any Type</option>
+            <option value="APARTMENT">Apartment</option>
+            <option value="HOUSE">House</option>
+            <option value="VILLA">Villa</option>
+            <option value="CONDO">Condo</option>
+          </select>
+        </div>
+
+        {/* Bedrooms & Bathrooms */}
+        <div className="lg:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Rooms
+          </label>
+          <div className="grid grid-cols-2 gap-1">
             <select
-              id="destination"
-              name="destination"
-              value={searchData.destination}
+              name="numberOfBedrooms"
+              value={searchData.numberOfBedrooms}
               onChange={handleInputChange}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none bg-white"
-              required
-              disabled={loading.destinations || !searchData.country}
+              className="w-full px-2 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
             >
-              <option value="">
-                {loading.destinations ? 'Loading...' : searchData.country ? 'Select Destination' : 'Select country first'}
-              </option>
-              {destinations.map((destination) => (
-                <option key={destination.code} value={destination.code}>
-                  {destination.name.content}
-                </option>
+              <option value="0">Any BR</option>
+              {[1, 2, 3, 4, 5].map(num => (
+                <option key={num} value={num}>{num} BR</option>
+              ))}
+            </select>
+            <select
+              name="numberOfBathrooms"
+              value={searchData.numberOfBathrooms}
+              onChange={handleInputChange}
+              className="w-full px-2 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
+            >
+              <option value="0">Any BA</option>
+              {[1, 2, 3, 4].map(num => (
+                <option key={num} value={num}>{num} BA</option>
               ))}
             </select>
           </div>
@@ -214,58 +341,14 @@ export default function SearchForm({ onSearch }) {
           </div>
         </div>
 
-        {/* Guests */}
-        <div className="lg:col-span-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Guests & Rooms
-          </label>
-          <div className="grid grid-cols-1 gap-2">
-            <div className="relative">
-              <Users className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
-              <select
-                name="adults"
-                value={searchData.adults}
-                onChange={handleInputChange}
-                className="w-full pl-8 pr-2 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-sm"
-              >
-                {[1, 2, 3, 4, 5, 6].map(num => (
-                  <option key={num} value={num}>{num} Adults</option>
-                ))}
-              </select>
-            </div>
-            <div className="grid grid-cols-2 gap-1">
-              <select
-                name="children"
-                value={searchData.children}
-                onChange={handleInputChange}
-                className="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-xs"
-              >
-                {[0, 1, 2, 3, 4].map(num => (
-                  <option key={num} value={num}>{num} Kids</option>
-                ))}
-              </select>
-              <select
-                name="rooms"
-                value={searchData.rooms}
-                onChange={handleInputChange}
-                className="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-xs"
-              >
-                {[1, 2, 3, 4, 5].map(num => (
-                  <option key={num} value={num}>{num} Room{num > 1 ? 's' : ''}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
         {/* Search Button */}
         <div className="lg:col-span-1 flex-shrink-0">
           <button
             type="submit"
-            disabled={loading.hotels || !searchData.country || !searchData.destination}
+            disabled={loading.listings || !searchData.country}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 disabled:hover:scale-100"
           >
-            {loading.hotels ? (
+            {loading.listings ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                 <span>Searching...</span>

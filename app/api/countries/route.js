@@ -1,47 +1,78 @@
-import crypto from 'crypto';
 import { NextResponse } from 'next/server';
+import { getGuestyToken } from '../../../lib/auth.js';
 
-const API_KEY = 'c9fb197970150c2c6cd3c8819e746f13';
-const SECRET = '65970ef37a';
-const ENDPOINT = 'https://api.test.hotelbeds.com';
+const GUESTY_API_BASE = process.env.GUESTY_API_BASE;
 
-// Generate signature for HotelBeds API
-function generateSignature() {
-  const timestamp = Math.floor(Date.now() / 1000);
-  const assemble = API_KEY + SECRET + timestamp;
-  const signature = crypto.createHash('sha256').update(assemble).digest('hex');
-  return { signature, timestamp };
-}
-
-export async function GET() {
+export async function GET(request) {
   try {
-    const { signature, timestamp } = generateSignature();
+    const { searchParams } = new URL(request.url);
+    const limit = searchParams.get('limit') || '100';
+    const searchText = searchParams.get('searchText') || '';
+    
+    // Get fresh token
+    const token = await getGuestyToken();
     
     const headers = {
-      'Api-key': API_KEY,
-      'X-Signature': signature,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'accept': 'application/json; charset=utf-8',
+      'authorization': `Bearer ${token}`,
     };
 
-    const url = `${ENDPOINT}/hotel-content-api/1.0/locations/countries?fields=all&language=ENG&from=1&to=203`;
+    let url = `${GUESTY_API_BASE}/listings/cities?limit=${limit}`;
+    if (searchText) {
+      url += `&searchText=${encodeURIComponent(searchText)}`;
+    }
+    
+    console.log('Fetching cities from Guesty API:', url);
     
     const response = await fetch(url, {
       method: 'GET',
       headers
     });
 
+    console.log('Cities API Response status:', response.status);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Cities API Error response:', errorText);
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
     }
 
     const data = await response.json();
+    console.log('Cities API Response data:', data);
     
-    return NextResponse.json(data);
+    // Transform the data to group by countries for the dropdown
+    const cities = data.results || data || [];
+    const countries = {};
+    
+    cities.forEach(city => {
+      const countryName = city.country || 'Unknown';
+      if (!countries[countryName]) {
+        countries[countryName] = {
+          code: countryName.replace(/\s+/g, '').toUpperCase().slice(0, 2), // Generate a simple code
+          name: countryName,
+          cities: []
+        };
+      }
+      countries[countryName].cities.push({
+        name: city.city,
+        state: city.state,
+        fullLocation: `${city.city}, ${city.state || ''}, ${countryName}`.replace(/, ,/, ',')
+      });
+    });
+    
+    // Convert to array format for countries dropdown
+    const countriesArray = Object.values(countries);
+    
+    return NextResponse.json({
+      // countries: countriesArray, // For backward compatibility
+      // results: countriesArray,
+      total: countriesArray.length,
+      cities: cities // Also return raw cities for direct use
+    });
   } catch (error) {
-    console.error('API request failed:', error);
+    console.error('Cities API request failed:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch countries' }, 
+      { error: 'Failed to fetch cities', details: error.message }, 
       { status: 500 }
     );
   }
