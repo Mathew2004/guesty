@@ -90,6 +90,9 @@ export async function GET(request) {
             prices: listing.prices || null,
             images: listing.pictures?.map(pic => pic.original) || [],
             amenities: listing.amenities || [],
+            minOccupancy:  guests || 2,
+            checkin: checkin || '',
+            checkout: checkout || '',
             houseRules: {
               petsAllowed: listing.petsAllowed,
               smokingAllowed: listing.smokingAllowed,

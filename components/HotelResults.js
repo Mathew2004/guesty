@@ -159,7 +159,7 @@ const HotelCard = ({ hotel }) => {
             
             <Link 
               href={hotel.source === 'guesty' 
-                ? `https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy}`
+                ? `https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`
                 : '#'
               }
               target='_blank'
