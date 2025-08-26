@@ -31,6 +31,12 @@ export default function Navbar() {
               <Link href="/hotels" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Hotels
               </Link>
+              <Link href="/guesty-search" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Guesty Search
+              </Link>
+              <Link href="/guesty-test" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Test Widget
+              </Link>
               <Link href="/destinations" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Destinations
               </Link>
@@ -85,6 +91,20 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Hotels
+              </Link>
+              <Link
+                href="/guesty-search"
+                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Guesty Search
+              </Link>
+              <Link
+                href="/guesty-test"
+                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Test Widget
               </Link>
               <Link
                 href="/destinations"

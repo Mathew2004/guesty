@@ -1,0 +1,500 @@
+[
+  {
+    "city": "Albacete",
+    "code": "ABC",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Lanzarote",
+    "code": "ACE",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa del Sol",
+    "code": "AGP",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Alicante - Costa Blanca",
+    "code": "ALC",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Pyrenees - Aragon",
+    "code": "ARA",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Avila",
+    "code": "AVA",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Barcelona",
+    "code": "BCN",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Benidorm - Costa Blanca",
+    "code": "BEN",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Vizcaya - Bilbao",
+    "code": "BIO",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Badajoz",
+    "code": "BJZ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Burgos",
+    "code": "BRG",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Cadiz / Jerez",
+    "code": "CAD",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Castellon",
+    "code": "CAS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa de Azahar",
+    "code": "CAZ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Cuenca",
+    "code": "CCA",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Ceuta",
+    "code": "CEU",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Ciudad Real",
+    "code": "CRE",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Caceres",
+    "code": "CRS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa Tropical",
+    "code": "CTR",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa de Valencia",
+    "code": "CVA",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Guipuzcoa - San Sebastian",
+    "code": "EAS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Formentera",
+    "code": "FOR",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Fuerteventura",
+    "code": "FUE",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Girona",
+    "code": "GRO",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Granada",
+    "code": "GRX",
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "Guadalajara",
+    "code": "GUJ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Huelva",
+    "code": "HUE",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Huesca",
+    "code": "HUS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Ibiza",
+    "code": "IBZ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Jaen",
+    "code": "JEN",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Almeria Coast-Almeria",
+    "code": "LEI",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Leon",
+    "code": "LEO",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Lerida",
+    "code": "LER",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Lugo",
+    "code": "LGO",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa Brava & Costa Barcelona-Maresme",
+    "code": "LLM",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "La Manga - Costa Calida",
+    "code": "LMN",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "La Rioja",
+    "code": "LOG",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Gran Canaria",
+    "code": "LPA",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa de la Luz (Huelva)",
+    "code": "LUS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Costa de la Luz (Cadiz)",
+    "code": "LUZ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Madrid",
+    "code": "MAD",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Menorca",
+    "code": "MAH",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Malaga",
+    "code": "MAL",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Murcia",
+    "code": "MJV",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Melilla",
+    "code": "MLN",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Cordoba",
+    "code": "ODB",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Ourense",
+    "code": "ORE",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Asturias",
+    "code": "OVD",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Palencia",
+    "code": "PAL",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Pyrenees - Catalan",
+    "code": "PIR",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Majorca",
+    "code": "PMI",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Navarra",
+    "code": "PNA",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Pyrenees - Navarra",
+    "code": "PNR",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "La Gomera",
+    "code": "QGZ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Salou Area / Costa Dorada",
+    "code": "SAL",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "A Coruña",
+    "code": "SCQ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Cantabria",
+    "code": "SDR",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Segovia",
+    "code": "SEG",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Salamanca",
+    "code": "SLM",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Soria",
+    "code": "SOR",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "La Palma",
+    "code": "SPC",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Sierra Nevada",
+    "code": "SRN",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Sitges Area - Costa del Garraf",
+    "code": "STS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Seville",
+    "code": "SVQ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Teruel",
+    "code": "TER",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Tenerife",
+    "code": "TFS",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Toledo",
+    "code": "TOL",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "El Hierro",
+    "code": "VDE",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Pontevedra",
+    "code": "VGO",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Alava",
+    "code": "VIT",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Valencia",
+    "code": "VLC",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Valladolid",
+    "code": "VLL",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Zamora",
+    "code": "ZAM",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Zaragoza",
+    "code": "ZAZ",
+    "state": null,
+    "country": "ES"
+  },
+  {
+    "city": "Barbate",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "Chiclana de la Frontera",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "Conil de la Frontera",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "Cádiz",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "El Palmar de Vejer",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "El Puerto de Santa María",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "Jerez de la Frontera",
+    "code": null,
+    "state": "Andalucía",
+    "country": "Spain"
+  },
+  {
+    "city": "Vejer de la Frontera",
+    "code": null,
+    "state": "Andalusia",
+    "country": "Spain"
+  },
+  {
+    "city": "Vielha",
+    "code": null,
+    "state": "Cataluña",
+    "country": "Spain"
+  }
+]

@@ -31,7 +31,7 @@ export default function SearchResults({ hotels, searchData }) {
           {hotels.map((hotel) => (
             <Link 
               key={hotel.code} 
-              href={`/listing/${hotel.code}`}
+              href={`https://travidu.guestybookings.com/es/properties/${hotel.code}`}
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group block"
             >
               {/* Property Image */}

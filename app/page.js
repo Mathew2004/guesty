@@ -24,10 +24,6 @@ export default function Home() {
       {/* Search Form */}
       <SearchForm onSearch={handleSearch} />
       
-      {/* Search Results */}
-      {searchResults && (
-        <SearchResults hotels={searchResults} searchData={searchData} />
-      )}
 
       {/* Featured Hotels Section - Only show if no search results */}
       {!searchResults && <FeaturedHotels />}
