@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Users, Star, Wifi, Car, Coffee, Pool, Dumbbell } from 'lucide-react';
+import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell } from 'lucide-react';
 import Link from 'next/link';
 
 const HotelCard = ({ hotel }) => {
