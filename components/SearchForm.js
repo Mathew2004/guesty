@@ -170,7 +170,7 @@ export default function SearchForm({ onSearch }) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-8 lg:gap-4 lg:items-center ">
+      <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-5 lg:gap-4 lg:items-end">
         {/* Country Selection */}
         <div className="lg:col-span-1">
           <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
@@ -273,7 +273,7 @@ export default function SearchForm({ onSearch }) {
         </div>
 
         {/* Bedrooms & Bathrooms */}
-        <div className="lg:col-span-1">
+        {/* <div className="lg:col-span-1">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Rooms
           </label>
@@ -301,7 +301,7 @@ export default function SearchForm({ onSearch }) {
               ))}
             </select>
           </div>
-        </div>
+        </div> */}
 
         {/* Check-in Date */}
         <div className="lg:col-span-1">
