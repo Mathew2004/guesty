@@ -144,7 +144,7 @@ const HotelCard = ({ hotel }) => {
               {hotel.prices && hotel.prices.basePrice ? (
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-900">
-                    {hotel.prices.currency} {hotel.prices.basePrice}
+                    € {hotel.prices.basePrice}
                   </div>
                   <div className="text-sm text-gray-500">Total</div>
                 </div>
