@@ -97,12 +97,12 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
     <>
       {/* Search Form positioned at bottom of image slider */}
       <div className="relative -mt-16 z-20 max-w-6xl mx-auto px-4">
+        {error && (
+          <div className="mb-4 mx-4 pt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
         <div className="bg-white rounded-lg md:rounded-full shadow-lg border border-gray-200">
-          {error && (
-            <div className="mb-4 mx-4 pt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-              {error}
-            </div>
-          )}
 
           {/* Desktop Layout - Horizontal */}
           <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-0 p-2">
