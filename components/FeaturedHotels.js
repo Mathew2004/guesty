@@ -5,43 +5,43 @@ import { Star, MapPin, Wifi, Car, Utensils, Dumbbell } from 'lucide-react';
 const featuredHotels = [
   {
     id: 1,
-    name: 'Grand Plaza Hotel',
-    location: 'New York, NY',
+    name: 'Hotel Gran Plaza',
+    location: 'Nueva York, NY',
     image: 'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg',
     rating: 4.8,
     price: 299,
-    amenities: ['Free WiFi', 'Parking', 'Restaurant', 'Gym'],
-    description: 'Luxury hotel in the heart of Manhattan with stunning city views and world-class amenities.'
+    amenities: ['WiFi Gratis', 'Estacionamiento', 'Restaurante', 'Gimnasio'],
+    description: 'Hotel de lujo en el corazón de Manhattan con vistas impresionantes de la ciudad y comodidades de clase mundial.'
   },
   {
     id: 2,
-    name: 'Ocean View Resort',
+    name: 'Resort Vista al Océano',
     location: 'Miami, FL',
     image: 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg',
     rating: 4.9,
     price: 450,
-    amenities: ['Free WiFi', 'Beach Access', 'Restaurant', 'Spa'],
-    description: 'Beachfront resort with pristine white sand beaches and crystal clear waters.'
+    amenities: ['WiFi Gratis', 'Acceso a Playa', 'Restaurante', 'Spa'],
+    description: 'Resort frente al mar con playas de arena blanca prístina y aguas cristalinas.'
   },
   {
     id: 3,
-    name: 'Mountain Lodge',
+    name: 'Lodge de Montaña',
     location: 'Aspen, CO',
     image: 'https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg',
     rating: 4.7,
     price: 380,
-    amenities: ['Free WiFi', 'Ski Access', 'Restaurant', 'Spa'],
-    description: 'Cozy mountain retreat perfect for skiing and alpine adventures.'
+    amenities: ['WiFi Gratis', 'Acceso a Esquí', 'Restaurante', 'Spa'],
+    description: 'Refugio acogedor en la montaña perfecto para esquí y aventuras alpinas.'
   }
 ];
 
 const amenityIcons = {
-  'Free WiFi': Wifi,
-  'Parking': Car,
-  'Restaurant': Utensils,
-  'Gym': Dumbbell,
-  'Beach Access': MapPin,
-  'Ski Access': MapPin,
+  'WiFi Gratis': Wifi,
+  'Estacionamiento': Car,
+  'Restaurante': Utensils,
+  'Gimnasio': Dumbbell,
+  'Acceso a Playa': MapPin,
+  'Acceso a Esquí': MapPin,
   'Spa': Utensils
 };
 
@@ -51,10 +51,10 @@ export default function FeaturedHotels() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Featured Hotels
+            Hoteles Destacados
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our handpicked selection of luxury accommodations worldwide
+            Descubre nuestra selección cuidadosa de alojamientos de lujo en todo el mundo
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export default function FeaturedHotels() {
                   })}
                   {hotel.amenities.length > 3 && (
                     <span className="text-xs text-gray-500 px-2 py-1">
-                      +{hotel.amenities.length - 3} more
+                      +{hotel.amenities.length - 3} más
                     </span>
                   )}
                 </div>
@@ -113,10 +113,10 @@ export default function FeaturedHotels() {
                 <div className="flex items-center justify-between">
                   <div className="text-2xl font-bold text-blue-600">
                     ${hotel.price}
-                    <span className="text-sm text-gray-500 font-normal">/night</span>
+                    <span className="text-sm text-gray-500 font-normal">/noche</span>
                   </div>
                   <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors duration-300">
-                    View Details
+                    Ver Detalles
                   </button>
                 </div>
               </div>

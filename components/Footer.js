@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-amber-400">Guestyz</h3>
             <p className="text-gray-300">
-              Your gateway to luxury accommodations worldwide. Experience the finest hotels and resorts with our premium booking service.
+              Tu puerta de entrada a alojamientos de lujo en todo el mundo. Experimenta los mejores hoteles y resorts con nuestro servicio de reservas premium.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
@@ -27,29 +27,29 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Quick Links</h4>
+            <h4 className="text-lg font-semibold">Enlaces Rápidos</h4>
             <ul className="space-y-2">
-              <li><Link href="/hotels" className="text-gray-300 hover:text-amber-400 transition-colors">Hotels</Link></li>
-              <li><Link href="/destinations" className="text-gray-300 hover:text-amber-400 transition-colors">Destinations</Link></li>
-              <li><Link href="/deals" className="text-gray-300 hover:text-amber-400 transition-colors">Special Deals</Link></li>
-              <li><Link href="/about" className="text-gray-300 hover:text-amber-400 transition-colors">About Us</Link></li>
+              <li><Link href="/hotels" className="text-gray-300 hover:text-amber-400 transition-colors">Hoteles</Link></li>
+              <li><Link href="/destinations" className="text-gray-300 hover:text-amber-400 transition-colors">Destinos</Link></li>
+              <li><Link href="/deals" className="text-gray-300 hover:text-amber-400 transition-colors">Ofertas Especiales</Link></li>
+              <li><Link href="/about" className="text-gray-300 hover:text-amber-400 transition-colors">Acerca de</Link></li>
             </ul>
           </div>
 
           {/* Support */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Support</h4>
+            <h4 className="text-lg font-semibold">Soporte</h4>
             <ul className="space-y-2">
-              <li><Link href="/help" className="text-gray-300 hover:text-amber-400 transition-colors">Help Center</Link></li>
-              <li><Link href="/contact" className="text-gray-300 hover:text-amber-400 transition-colors">Contact Us</Link></li>
-              <li><Link href="/booking-policy" className="text-gray-300 hover:text-amber-400 transition-colors">Booking Policy</Link></li>
-              <li><Link href="/privacy" className="text-gray-300 hover:text-amber-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/help" className="text-gray-300 hover:text-amber-400 transition-colors">Centro de Ayuda</Link></li>
+              <li><Link href="/contact" className="text-gray-300 hover:text-amber-400 transition-colors">Contáctanos</Link></li>
+              <li><Link href="/booking-policy" className="text-gray-300 hover:text-amber-400 transition-colors">Política de Reservas</Link></li>
+              <li><Link href="/privacy" className="text-gray-300 hover:text-amber-400 transition-colors">Política de Privacidad</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Contact Info</h4>
+            <h4 className="text-lg font-semibold">Información de Contacto</h4>
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-gray-300">
                 <Phone size={16} />
@@ -69,7 +69,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © 2024 Guestyz. All rights reserved. | Terms of Service | Privacy Policy
+            © 2024 Guestyz. Todos los derechos reservados. | Términos de Servicio | Política de Privacidad
           </p>
         </div>
       </div>

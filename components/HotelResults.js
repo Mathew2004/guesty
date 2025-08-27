@@ -61,8 +61,8 @@ const HotelCard = ({ hotel }) => {
               }}
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-500">
-              <span>No Image Available</span>
+            <div className="flex items-center bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+              <span>No hay imagen disponible</span>
             </div>
           )}
           
@@ -105,17 +105,17 @@ const HotelCard = ({ hotel }) => {
                 <>
                   {hotel.bedrooms > 0 && (
                     <div className="flex items-center">
-                      <span className="font-medium">• Bed & Breakfast</span>
+                      <span className="font-medium">• Desayuno incluido</span>
                     </div>
                   )}
                   {hotel.maxGuests && (
                     <div className="flex items-center">
                       <Users size={14} className="mr-1" />
-                      <span>• {hotel.maxGuests} Guests</span>
+                      <span>• {hotel.maxGuests} Huéspedes</span>
                     </div>
                   )}
-                  {hotel.bedrooms > 0 && <span>• {hotel.bedrooms} Bedrooms</span>}
-                  {hotel.bathrooms > 0 && <span>• {hotel.bathrooms} Bathrooms</span>}
+                  {hotel.bedrooms > 0 && <span>• {hotel.bedrooms} Habitaciones</span>}
+                  {hotel.bathrooms > 0 && <span>• {hotel.bathrooms} Baños</span>}
                 </>
               )}
             </div>
@@ -131,7 +131,7 @@ const HotelCard = ({ hotel }) => {
                 ))}
                 {hotel.amenities.length > 3 && (
                   <span className="text-xs text-gray-500 px-3 py-1">
-                    +{hotel.amenities.length - 3} more
+                    +{hotel.amenities.length - 3} más
                   </span>
                 )}
               </div>
@@ -144,7 +144,7 @@ const HotelCard = ({ hotel }) => {
               {hotel.prices && hotel.prices.basePrice ? (
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-900">
-                    ${hotel.prices.basePrice}
+                    {hotel.prices.currency} {hotel.prices.basePrice}
                   </div>
                   <div className="text-sm text-gray-500">Total</div>
                 </div>
@@ -164,7 +164,7 @@ const HotelCard = ({ hotel }) => {
               }
               target='_blank'
               className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md transition-colors duration-200 font-medium ml-4">
-              Book now
+              Reservar ahora
             </Link>
           </div>
         </div>
@@ -178,7 +178,7 @@ const HotelResults = ({ results, loading, error }) => {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <span className="ml-3 text-lg text-gray-600">Searching hotels...</span>
+        <span className="ml-3 text-lg text-gray-600">Buscando hoteles...</span>
       </div>
     );
   }
@@ -186,7 +186,7 @@ const HotelResults = ({ results, loading, error }) => {
   if (error) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-        <p className="text-red-800 font-medium">Search Error</p>
+        <p className="text-red-800 font-medium">Error de búsqueda</p>
         <p className="text-red-600 text-sm mt-1">{error}</p>
       </div>
     );
@@ -195,8 +195,8 @@ const HotelResults = ({ results, loading, error }) => {
   if (!results || !results.hotels || results.hotels.length === 0) {
     return (
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-        <p className="text-gray-800 font-medium">No hotels found</p>
-        <p className="text-gray-600 text-sm mt-1">Try adjusting your search criteria</p>
+        <p className="text-gray-800 font-medium">No se encontraron hoteles</p>
+        <p className="text-gray-600 text-sm mt-1">Intenta ajustar tus criterios de búsqueda</p>
       </div>
     );
   }
@@ -210,16 +210,16 @@ const HotelResults = ({ results, loading, error }) => {
       {/* Results Summary */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Search Results ({results.total} hotels found)
+          Resultados de búsqueda ({results.total} hoteles encontrados)
         </h2>
         <div className="flex space-x-4 text-sm text-gray-600">
           <span className="flex items-center">
             <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-            Guesty Properties: {results.guestyCount}
+            Propiedades Guesty: {results.guestyCount}
           </span>
           <span className="flex items-center">
             <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-            Hotelbeds Hotels: {results.hotelbedsCount}
+            Hoteles Hotelbeds: {results.hotelbedsCount}
           </span>
         </div>
       </div>
@@ -229,7 +229,7 @@ const HotelResults = ({ results, loading, error }) => {
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
             <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-            Guesty Properties ({guestyHotels.length})
+            Propiedades Guesty ({guestyHotels.length})
           </h3>
           <div className="space-y-4">
             {guestyHotels.map((hotel, index) => (
@@ -244,7 +244,7 @@ const HotelResults = ({ results, loading, error }) => {
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
             <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-            Hotelbeds Hotels ({hotelbedsHotels.length})
+            Hoteles Hotelbeds ({hotelbedsHotels.length})
           </h3>
           <div className="space-y-4">
             {hotelbedsHotels.map((hotel, index) => (
@@ -257,7 +257,7 @@ const HotelResults = ({ results, loading, error }) => {
       {/* API Errors (for debugging) */}
       {(results.errors?.guesty || results.errors?.hotelbeds) && (
         <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <h4 className="font-medium text-yellow-800 mb-2">API Status:</h4>
+          <h4 className="font-medium text-yellow-800 mb-2">Estado de la API:</h4>
           {results.errors.guesty && (
             <p className="text-sm text-yellow-700">Guesty API: {results.errors.guesty}</p>
           )}

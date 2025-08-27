@@ -26,19 +26,19 @@ export default function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <Link href="/" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Home
+                Inicio
               </Link>
               <Link href="/hotels" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Hotels
+                Hoteles
               </Link>
               <Link href="/destinations" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Destinations
+                Destinos
               </Link>
               <Link href="/about" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                About
+                Acerca de
               </Link>
               <Link href="/contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Contact
+                Contacto
               </Link>
               
             </div>
@@ -54,7 +54,7 @@ export default function Navbar() {
               href="/book"
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              Book Now
+              Reservar Ahora
             </Link>
           </div>
 
@@ -78,49 +78,49 @@ export default function Navbar() {
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Home
+                Inicio
               </Link>
               <Link
                 href="/hotels"
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Hotels
+                Hoteles
               </Link>
               <Link
                 href="/guesty-search"
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Guesty Search
+                Búsqueda Guesty
               </Link>
               <Link
                 href="/guesty-test"
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Test Widget
+                Widget de Prueba
               </Link>
               <Link
                 href="/destinations"
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Destinations
+                Destinos
               </Link>
               <Link
                 href="/about"
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                About
+                Acerca de
               </Link>
               <Link
                 href="/contact"
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Contact
+                Contacto
               </Link>
               <div className="border-t border-gray-200 pt-4 pb-3">
                 <div className="flex items-center space-x-2 px-3 text-sm text-gray-600 mb-3">
@@ -132,7 +132,7 @@ export default function Navbar() {
                   className="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-lg text-base font-medium transition-colors mx-3"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Book Now
+                  Reservar Ahora
                 </Link>
               </div>
             </div>

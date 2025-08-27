@@ -5,9 +5,10 @@ import { Search, MapPin, ChevronDown } from 'lucide-react';
 import cities from '../cities.json';
 import { useFetch } from '../hooks/useFetch';
 import HotelResults from './HotelResults';
-import DatePicker from './DatePicker';
+import DateRangePicker from './DateRangePicker';
+import SearchableDropdown from './SearchableDropdown';
 
-export default function SearchForm({ onSearch }) {
+export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, error, setError }) {
   const [searchData, setSearchData] = useState({
     location: {},
     checkIn: '',
@@ -15,38 +16,33 @@ export default function SearchForm({ onSearch }) {
     guests: 2
   });
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState(null);
+  // const [searchResults, setSearchResults] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setSearchData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-    if (name === 'location') {
-      // Find the selected city object
-      const selectedCity = cities.find((city, index) => index.toString() === value);
-      setSearchData(prev => ({
-        ...prev,
-        [name]: selectedCity || {}
-      }));
-    } else {
-      setSearchData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+  const handleLocationChange = (selectedCity) => {
+    setSearchData(prev => ({
+      ...prev,
+      location: selectedCity
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!searchData.location || !searchData.location.city) {
-      setError('Please select a location');
+      setError('Por favor selecciona una ubicación');
       return;
     }
 
     // if (!searchData.checkIn || !searchData.checkOut) {
-    //   setError('Please select check-in and check-out dates');
+    //   setError('Por favor selecciona las fechas de entrada y salida');
     //   return;
     // }
 
@@ -77,13 +73,18 @@ export default function SearchForm({ onSearch }) {
       }
 
       const res = await response.json();
-      console.log('Search results:', res);
+
+      // Scroll to the results section
+      const resultsSection = document.getElementById('results');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth' });
+      }
 
       // Store the results to display them
       setSearchResults(res);
     } catch (err) {
       console.error('Error searching:', err);
-      setError('Failed to search. Please try again.');
+      setError('Error en la búsqueda. Por favor intenta nuevamente.');
     } finally {
       setLoading(false);
     }
@@ -107,51 +108,26 @@ export default function SearchForm({ onSearch }) {
           <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-0 p-2">
             {/* Location Dropdown */}
             <div className="flex-1 relative">
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
-                <select
-                  name="location"
-                  value={cities.findIndex(city => city === searchData.location)}
-                  onChange={handleInputChange}
-                  className="w-full pl-12 pr-4 py-4 border-0 bg-transparent focus:outline-none appearance-none text-gray-700 font-medium cursor-pointer"
-                  required
-                >
-                  <option value="">New Orleans</option>
-                  {cities.map((city, index) => (
-                    <option key={index} value={index}>
-                      {city.city}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-              </div>
-            </div>
-
-            {/* Separator */}
-            <div className="w-px h-10 bg-gray-300 mx-2"></div>
-
-            {/* Check-in Date */}
-            <div className="flex-1">
-              <DatePicker
-                value={searchData.checkIn}
-                onChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
-                placeholder="Check in"
-                minDate={today}
-                className="w-full px-4 py-4 border-0 bg-transparent focus:outline-none text-gray-700 font-medium"
+              <SearchableDropdown
+                options={cities}
+                value={searchData.location}
+                onChange={handleLocationChange}
+                placeholder="Nueva Orleans"
+                transparent={true}
               />
             </div>
 
             {/* Separator */}
             <div className="w-px h-10 bg-gray-300 mx-2"></div>
 
-            {/* Check-out Date */}
-            <div className="flex-1">
-              <DatePicker
-                value={searchData.checkOut}
-                onChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
-                placeholder="Check out"
-                minDate={searchData.checkIn || today}
-                className="w-full px-4 py-4 border-0 bg-transparent focus:outline-none text-gray-700 font-medium"
+            {/* Date Range Picker */}
+            <div className="flex-2">
+              <DateRangePicker
+                checkIn={searchData.checkIn}
+                checkOut={searchData.checkOut}
+                onCheckInChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
+                onCheckOutChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
+                transparent={true}
               />
             </div>
 
@@ -168,7 +144,7 @@ export default function SearchForm({ onSearch }) {
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                   <option key={num} value={num}>
-                    {num} Guest{num !== 1 ? 's' : ''}
+                    {num} Huésped{num !== 1 ? 'es' : ''}
                   </option>
                 ))}
               </select>
@@ -184,12 +160,12 @@ export default function SearchForm({ onSearch }) {
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>SEARCH</span>
+                  <span>BUSCAR</span>
                 </>
               ) : (
                 <>
                   <Search size={18} />
-                  <span>SEARCH</span>
+                  <span>BUSCAR</span>
                 </>
               )}
             </button>
@@ -199,54 +175,31 @@ export default function SearchForm({ onSearch }) {
           <form onSubmit={handleSubmit} className="md:hidden p-4 space-y-4">
             {/* Location Dropdown */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Destination</label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
-                <select
-                  name="location"
-                  value={cities.findIndex(city => city === searchData.location)}
-                  onChange={handleInputChange}
-                  className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none text-gray-700 font-medium cursor-pointer bg-white"
-                  required
-                >
-                  <option value="">Select destination</option>
-                  {cities.map((city, index) => (
-                    <option key={index} value={index}>
-                      {city.city}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
-              </div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Destino</label>
+              <SearchableDropdown
+                options={cities}
+                value={searchData.location}
+                onChange={handleLocationChange}
+                placeholder="Seleccionar destino"
+                className=""
+              />
             </div>
 
-            {/* Check-in and Check-out Dates */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Check-in</label>
-                <DatePicker
-                  value={searchData.checkIn}
-                  onChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
-                  placeholder="Check in"
-                  minDate={today}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-700 font-medium"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Check-out</label>
-                <DatePicker
-                  value={searchData.checkOut}
-                  onChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
-                  placeholder="Check out"
-                  minDate={searchData.checkIn || today}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-700 font-medium"
-                />
-              </div>
+            {/* Date Range Picker */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Entrada y Salida</label>
+              <DateRangePicker
+                checkIn={searchData.checkIn}
+                checkOut={searchData.checkOut}
+                onCheckInChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
+                onCheckOutChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
+                transparent={false}
+              />
             </div>
 
             {/* Guests Dropdown */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Guests</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Huéspedes</label>
               <div className="relative">
                 <select
                   name="guests"
@@ -256,7 +209,7 @@ export default function SearchForm({ onSearch }) {
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
-                      {num} Guest{num !== 1 ? 's' : ''}
+                      {num} Huésped{num !== 1 ? 'es' : ''}
                     </option>
                   ))}
                 </select>
@@ -273,12 +226,12 @@ export default function SearchForm({ onSearch }) {
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>SEARCHING...</span>
+                  <span>BUSCANDO...</span>
                 </>
               ) : (
                 <>
                   <Search size={18} />
-                  <span>SEARCH HOTELS</span>
+                  <span>BUSCAR HOTELES</span>
                 </>
               )}
             </button>
@@ -286,16 +239,6 @@ export default function SearchForm({ onSearch }) {
         </div>
       </div>
 
-      {/* Results Section */}
-      {searchResults && (
-        <div className="bg-gray-50 mt-8">
-          <HotelResults
-            results={searchResults}
-            loading={loading}
-            error={error}
-          />
-        </div>
-      )}
     </>
   );
 }

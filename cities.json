@@ -445,25 +445,25 @@
   },
   {
     "city": "Barbate",
-    "code": null,
+    "code": "LUZ",
     "state": "Andalucía",
     "country": "Spain"
   },
   {
     "city": "Chiclana de la Frontera",
-    "code": null,
+    "code": "LUZ",
     "state": "Andalucía",
     "country": "Spain"
   },
   {
     "city": "Conil de la Frontera",
-    "code": null,
+    "code": "LUZ",
     "state": "Andalucía",
     "country": "Spain"
   },
   {
     "city": "Cádiz",
-    "code": null,
+    "code": "CAD",
     "state": "Andalucía",
     "country": "Spain"
   },
@@ -475,25 +475,25 @@
   },
   {
     "city": "El Puerto de Santa María",
-    "code": null,
+    "code": "LUZ",
     "state": "Andalucía",
     "country": "Spain"
   },
   {
     "city": "Jerez de la Frontera",
-    "code": null,
+    "code": "CAD",
     "state": "Andalucía",
     "country": "Spain"
   },
   {
     "city": "Vejer de la Frontera",
-    "code": null,
+    "code": "CAD",
     "state": "Andalusia",
     "country": "Spain"
   },
   {
     "city": "Vielha",
-    "code": null,
+    "code": "PIR",
     "state": "Cataluña",
     "country": "Spain"
   }

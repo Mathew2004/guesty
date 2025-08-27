@@ -39,7 +39,7 @@ export async function GET(request) {
         // Get fresh token
         const token = await getGuestyToken();
 
-        let guestyUrl = `${GUESTY_API_BASE}/listings?limit=20&country=Spain`;
+        let guestyUrl = `${GUESTY_API_BASE}/listings?limit=30&country=Spain`;
         if (city) guestyUrl += `&city=${encodeURIComponent(city)}`;
         if (checkin) guestyUrl += `&checkIn=${checkin}`;
         if (checkout) guestyUrl += `&checkOut=${checkout}`;
@@ -53,6 +53,8 @@ export async function GET(request) {
           },
           timeout: 10000
         });
+
+        console.log(guestyResponse);
 
         if (guestyResponse.ok) {
           const guestyData = await guestyResponse.json();
@@ -130,7 +132,7 @@ export async function GET(request) {
           params: {
             fields: 'all',
             destinationCode: destinationCode || city,
-            language: 'ENG',
+            language: 'CAS',
             from: 1,
             to: 30,
             useSecondaryLanguage: false
