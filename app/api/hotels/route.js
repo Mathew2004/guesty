@@ -54,8 +54,6 @@ export async function GET(request) {
           timeout: 10000
         });
 
-        console.log(guestyResponse);
-
         if (guestyResponse.ok) {
           const guestyData = await guestyResponse.json();
           let guestyListings = [];
