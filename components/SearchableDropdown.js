@@ -129,7 +129,7 @@ const SearchableDropdown = ({
   }, [isOpen]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative " ref={dropdownRef}>
       <div className={`relative ${className}`}>
         <Icon className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} />
         

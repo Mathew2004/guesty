@@ -31,7 +31,7 @@ const slides = [
   },
 ];
 
-export default function ImageSlider({ setSearchResults, loading, setLoading, error, setError }) {
+export default function ImageSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function ImageSlider({ setSearchResults, loading, setLoading, err
       ))}
 
       <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center z-49">
-        <SearchForm setSearchResults={setSearchResults} loading={loading} setLoading={setLoading} error={error} setError={setError} />
+        <SearchForm />
       </div>
 
       {/* Navigation Arrows */}

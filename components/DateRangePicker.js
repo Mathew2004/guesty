@@ -497,7 +497,8 @@ const DateRangePicker = ({
           readOnly
           placeholder="Check-in   -   Check-out"
           className={`cursor-pointer ${transparent ? 'pl-12 pr-10 py-4 border-0 bg-transparent focus:outline-none' : 'pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white'} text-gray-700 font-medium w-full`}
-        />
+          required
+       />
       </div>
 
       {/* Mobile Fullscreen Modal */}

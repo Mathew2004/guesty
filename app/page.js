@@ -1,49 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import ImageSlider from '@/components/ImageSlider';
-import SearchForm from '@/components/SearchForm';
 import FeaturedHotels from '@/components/FeaturedHotels';
-import SearchResults from '@/components/SearchResults';
-import HotelResults from '@/components/HotelResults';
 
 export default function Home() {
-  const [searchResults, setSearchResults] = useState(null);
-  const [searchData, setSearchData] = useState(null);
-
-  // const [searchResults, setSearchResults] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleSearch = (results) => {
-    console.log('Search results:', results);
-    setSearchResults(results.listings || []); // Changed from hotels to listings
-    setSearchData(results);
-  };
-
   return (
     <div className="min-h-screen">
       {/* Hero Section with Image Slider */}
       <div className="relative mb-8">
-        <ImageSlider setSearchResults={setSearchResults} loading={loading} setLoading={setLoading} error={error} setError={setError} />
+        <ImageSlider />
       </div>
 
-      {/* Search Form */}
-      {/* <SearchForm onSearch={handleSearch} /> */}
-
-      {/* Results Section */}
-      {searchResults && (
-        <div className="bg-gray-50 mt-8" id="results">
-          <HotelResults
-            results={searchResults}
-            loading={loading}
-            error={error}
-          />
-        </div>
-      )}
-
-      {/* Featured Hotels Section - Only show if no search results */}
-      {/* {!searchResults && <FeaturedHotels />} */}
+      {/* Featured Hotels Section */}
+      <FeaturedHotels />
 
       {/* Additional Sections */}
       <section className="py-16 bg-white">
