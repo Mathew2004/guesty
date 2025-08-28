@@ -7,7 +7,7 @@ import cities from '../cities.json';
 import DateRangePicker from './DateRangePicker';
 import SearchableDropdown from './SearchableDropdown';
 
-export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, error, setError, compact = false, initialValues = {} }) {
+export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, compact = false, initialValues = {} }) {
   const router = useRouter();
   const [searchData, setSearchData] = useState({
     location: initialValues.location || {},
@@ -15,6 +15,8 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
     checkOut: initialValues.checkOut || '',
     guests: initialValues.guests || 2
   });
+
+  const [error, setError] = useState(null);
 
   const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
 
@@ -106,7 +108,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
           <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-0 p-2">
             {/* Location Dropdown */}
             <div className="flex-1 relative">
-              <h4 className="text-md font-bold text-gray-700 pl-4">Location</h4>
+              <h4 className="text-md font-bold text-gray-700 pl-4">Ubicación</h4>
               <SearchableDropdown
                 options={cities}
                 value={searchData.location}
@@ -136,7 +138,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
             {/* Guests Dropdown */}
             <div className="flex-1 relative guests-dropdown">
-              <h4 className="text-md font-bold text-gray-700 pl-4">Guests</h4>
+              <h4 className="text-md font-bold text-gray-700 pl-4">Huéspedes</h4>
               <div className="relative">
                 <div
                   className={`w-full px-4 py-4 border-0 ${compact ? 'bg-white' : 'bg-transparent'} focus:outline-none text-gray-700 font-medium cursor-pointer flex items-center justify-between`}
@@ -149,8 +151,8 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                 {guestsDropdownOpen && (
                   <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 mt-1">
                     <div className="p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">Huéspedes</span>
+                      <div className="flex items-center justify-center">
+                        {/* <span className="font-medium">Huéspede</span> */}
                         <div className="flex items-center space-x-3">
                           <button
                             type="button"
