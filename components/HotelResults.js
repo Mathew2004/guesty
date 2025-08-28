@@ -304,12 +304,7 @@ const HotelCard = ({ hotel }) => {
                   Reservar ahora
                 </Link>
               ) : (
-                <button 
-                  className="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-md transition-colors duration-200 font-medium"
-                  onClick={() => alert('Contactar agencia para reservar este hotel de Hotelbeds')}
-                >
-                  Ver disponibilidad
-                </button>
+                null
               )}
             </div>
           </div>
