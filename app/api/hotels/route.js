@@ -90,7 +90,7 @@ export async function GET(request) {
             prices: listing.prices || null,
             images: listing.pictures?.map(pic => pic.original) || [],
             amenities: listing.amenities || [],
-            minOccupancy:  guests || 2,
+            minOccupancy: guests || 2,
             checkin: checkin || '',
             checkout: checkout || '',
             houseRules: {
@@ -120,50 +120,138 @@ export async function GET(request) {
 
         console.log('Hotelbeds signature generated', signature);
 
-        const hotelbedsResponse = await axios.get("https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels", {
-          headers: {
-            "Api-key": process.env.HOTELBEDS_API_KEY,
-            "X-Signature": signature,
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-          },
-          params: {
-            fields: 'all',
-            destinationCode: destinationCode || city,
-            language: 'CAS',
-            from: 1,
-            to: 30,
-            useSecondaryLanguage: false
-          },
-          timeout: 10000
-        });
+        // const hotelbedsResponse = await axios.get("https://api.test.hotelbeds.com/hotel-api/1.0/hotels", {
+        //   headers: {
+        //     "Api-key": process.env.HOTELBEDS_API_KEY,
+        //     "X-Signature": signature,
+        //     "Accept": "application/json",
+        //     "Content-Type": "application/json"
+        //   },
+        //   params: {
+        //     fields: 'all',
+        //     destinationCode: destinationCode || city,
+        //     language: 'CAS',
+        //     from: 1,
+        //     to: 30,
+        //     useSecondaryLanguage: false
+        //   },
+        //   timeout: 10000
+        // });
 
-        const hotelbedsHotels = hotelbedsResponse.data.hotels || [];
-        console.log(`✅ Found ${hotelbedsHotels.length} hotels from Hotelbeds`);
+        const hotelsResponse = await axios.get(
+          `https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels?destinationCode=${destinationCode}&language=CAS`,
+          {
+            headers: {
+              "Api-key": process.env.HOTELBEDS_API_KEY,
+              "X-Signature": signature,
+              "Accept": "application/json"
+            }
+          }
+        );
 
-        // Transform Hotelbeds results
-        results.push(...hotelbedsHotels.map(hotel => ({
-          id: hotel.code || hotel.hotelCode,
-          source: "hotelbeds",
-          priority: 2,
-          code: hotel.code || hotel.hotelCode,
-          name: hotel.name?.content || hotel.name || 'Unnamed Hotel',
-          description: hotel.description?.content || hotel.description || 'No description available',
-          city: hotel.city?.content || city || 'Unknown City',
-          country: hotel.country?.content || 'Unknown',
-          address: hotel.address?.content || 'Address not available',
-          coordinates: hotel.coordinates ? {
-            longitude: hotel.coordinates.longitude,
-            latitude: hotel.coordinates.latitude
-          } : null,
-          accommodationType: hotel.accommodationType?.content || 'HOTEL',
-          category: hotel.categoryCode || 'Standard',
-          rating: hotel.ranking,
-          images: hotel.images?.map(img => `https://photos.hotelbeds.com/giata/${img.path}`) || [],
-          amenities: hotel.facilities?.map(f => f.facilityName) || [],
-          chainCode: hotel.chain?.chainCode,
-          chainName: hotel.chain?.content
-        })));
+        // Example: extract first 30 hotel codes
+        const hotelCodes = hotelsResponse.data.hotels.map(h => h.code).slice(0, 30);
+
+        const hotelbedsResponse = await axios.post(
+          "https://api.test.hotelbeds.com/hotel-api/1.0/hotels",
+          {
+            stay: {
+              checkIn: checkin,   // e.g. "2025-09-01"
+              checkOut: checkout  // e.g. "2025-09-05"
+            },
+            occupancies: [
+              {
+                rooms: 1,
+                adults: guests || 1,
+                children: 0
+              }
+            ],
+            hotels: {
+              hotel: hotelCodes   // array of hotel codes from step 1
+            },
+            language: "CAS"
+          },
+          {
+            headers: {
+              "Api-key": process.env.HOTELBEDS_API_KEY,
+              "X-Signature": signature,
+              "Accept": "application/json",
+              "Content-Type": "application/json"
+            },
+            timeout: 10000
+          }
+        );
+
+        // 1) Get Content API hotels (metadata)
+        const contentHotels = hotelsResponse.data.hotels || [];
+        const contentMap = new Map(contentHotels.map(h => [h.code, h]));
+
+        // 2) Get Availability API hotels (prices & rooms)
+        const hotelbedsHotels = hotelbedsResponse.data.hotels.hotels || [];
+
+        // 3) Merge and push results
+        results.push(
+          ...hotelbedsHotels.map(hotel => {
+            const content = contentMap.get(hotel.code) || {};
+
+            return {
+              id: hotel.code,
+              source: "hotelbeds",
+              priority: 2,
+
+              // Identification
+              code: hotel.code,
+              name: content.name?.content || hotel.name?.content || "Unnamed Hotel",
+
+              // Availability info
+              currency: hotel.currency,
+              minRate: hotel.minRate,
+              maxRate: hotel.maxRate,
+              rooms: hotel.rooms?.map(room => ({
+                code: room.code,
+                name: room.name?.content,
+                rates: room.rates?.map(rate => ({
+                  rateKey: rate.rateKey,
+                  net: rate.net,
+                  sellingRate: rate.sellingRate,
+                  rateType: rate.rateType,
+                  boardCode: rate.boardCode,
+                  boardName: rate.boardName,
+                  paymentType: rate.paymentType,
+                  cancellationPolicies: rate.cancellationPolicies?.map(c => ({
+                    amount: c.amount,
+                    from: c.from
+                  }))
+                }))
+              })) || [],
+
+              // Content info
+              description: content.description?.content || "No description available",
+              city: content.city?.content || "Unknown City",
+              country: content.country?.content || "Unknown",
+              address: content.address?.content || "Address not available",
+              coordinates: content.coordinates
+                ? {
+                  longitude: content.coordinates.longitude,
+                  latitude: content.coordinates.latitude
+                }
+                : null,
+              accommodationType: content.accommodationType?.content || "HOTEL",
+              category: content.categoryCode || "Standard",
+              rating: hotel.ranking || null,
+              images:
+                content.images?.map(
+                  img => `https://photos.hotelbeds.com/giata/${img.path}`
+                ) || [],
+              amenities: content.facilities?.map(f => f.facilityName) || [],
+              chainCode: content.chain?.chainCode || null,
+              chainName: content.chain?.content || null
+            };
+          })
+        );
+
+
+
       } else {
         console.log('⚠️ Hotelbeds API credentials not configured');
       }
