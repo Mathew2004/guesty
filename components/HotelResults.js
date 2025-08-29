@@ -49,7 +49,7 @@ const HotelCard = ({ hotel }) => {
             </div>
             {hotel.maxRate && hotel.maxRate !== hotel.minRate && (
               <div className="text-xs text-gray-400">
-                hasta {hotel.currency} {hotel.maxRate}
+                hasta € {hotel.maxRate}
               </div>
             )}
           </div>
