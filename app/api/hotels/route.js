@@ -6,7 +6,7 @@ import crypto from 'crypto';
 const GUESTY_API_BASE = process.env.GUESTY_API_BASE;
 
 // Helper function for Hotelbeds signature
-export function generateHotelbedsSignature() {
+function generateHotelbedsSignature() {
   const apiKey = process.env.HOTELBEDS_API_KEY;
   const secret = process.env.HOTELBEDS_SECRET;
   const timestamp = Math.floor(Date.now() / 1000);

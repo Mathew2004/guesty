@@ -4,6 +4,7 @@ import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Cale
 import Link from 'next/link';
 import { useState } from 'react';
 import Pagination from './Pagination';
+import { Skeleton } from "@/components/ui/skeleton";
 
 const HotelCard = ({ hotel }) => {
   const [showMap, setShowMap] = useState(false);
@@ -82,7 +83,7 @@ const HotelCard = ({ hotel }) => {
         );
       }
     }
-    
+
     return (
       <div className="text-left">
         <div className="flex flex-col">
@@ -122,7 +123,7 @@ const HotelCard = ({ hotel }) => {
           <Bed size={16} className="mr-2" />
           Ver {hotel.rooms.length} habitación{hotel.rooms.length !== 1 ? 'es' : ''} disponible{hotel.rooms.length !== 1 ? 's' : ''}
         </button>
-        
+
         {showRooms && (
           <div className="space-y-3">
             {hotel.rooms.slice(0, 3).map((room, index) => (
@@ -176,7 +177,7 @@ const HotelCard = ({ hotel }) => {
           <Map size={16} className="mr-2" />
           {showMap ? 'Ocultar mapa' : 'Ver en mapa'}
         </button>
-        
+
         {showMap && hotel.coordinates && (
           <div className="mt-4 rounded-xl overflow-hidden shadow-lg">
             <iframe
@@ -213,11 +214,11 @@ const HotelCard = ({ hotel }) => {
     if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.interactive-element')) {
       return;
     }
-    
+
     const redirectUrl = getRedirectUrl();
     if (redirectUrl) {
       if (hotel.source === 'hotelbeds') {
-        window.location.href = redirectUrl;
+        window.open(redirectUrl, '_blank');
       } else {
         window.open(redirectUrl, '_blank');
       }
@@ -225,7 +226,7 @@ const HotelCard = ({ hotel }) => {
   };
 
   return (
-    <div 
+    <div
       className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-500 cursor-pointer flex flex-col h-full"
       onClick={handleCardClick}
       role="button"
@@ -258,7 +259,7 @@ const HotelCard = ({ hotel }) => {
             </div>
           </div>
         )}
-        
+
         {/* Image indicators for multiple images */}
         {hotel.images && hotel.images.length > 1 && (
           <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2">
@@ -302,7 +303,7 @@ const HotelCard = ({ hotel }) => {
         <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors duration-300">
           {hotel.name}
         </h3>
-        
+
         {/* Location */}
         <div className="flex items-center text-gray-600 mb-3">
           <MapPin size={14} className="text-gray-400 mr-1 flex-shrink-0" />
@@ -339,10 +340,10 @@ const HotelCard = ({ hotel }) => {
           <div className="flex-1">
             {renderPricing()}
           </div>
-          
+
           <div className="ml-3 interactive-element">
             {hotel.source === 'guesty' ? (
-              <Link 
+              <Link
                 href={`https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
                 target='_blank'
                 className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
@@ -351,7 +352,7 @@ const HotelCard = ({ hotel }) => {
                 <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
               </Link>
             ) : hotel.source === 'booking' && hotel.hotel_link ? (
-              <Link 
+              <Link
                 href={hotel.hotel_link}
                 target='_blank'
                 className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
@@ -373,12 +374,41 @@ const HotelCard = ({ hotel }) => {
   );
 };
 
+const HotelCardSkeleton = () => (
+  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full">
+    <Skeleton className="h-48 w-full" />
+    <div className="p-4 flex-1 flex flex-col">
+      <Skeleton className="h-5 w-3/4 mb-2" />
+      <Skeleton className="h-4 w-1/2 mb-3" />
+      <div className="flex flex-wrap gap-2 mb-4">
+        <Skeleton className="h-6 w-24 rounded-full" />
+        <Skeleton className="h-6 w-28 rounded-full" />
+      </div>
+      <div className="flex-1"></div>
+      <div className="flex justify-between items-end mt-auto">
+        <div className="flex-1">
+          <Skeleton className="h-4 w-12 mb-1" />
+          <Skeleton className="h-6 w-20" />
+        </div>
+        <Skeleton className="h-9 w-24 rounded-lg" />
+      </div>
+    </div>
+  </div>
+);
+
 const HotelResults = ({ results, loading, error, onPageChange }) => {
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <span className="ml-3 text-lg text-gray-600">Buscando hoteles...</span>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mb-8 bg-white/90 rounded-2xl border border-gray-100 p-4 md:p-6">
+          <Skeleton className="h-6 w-48 mb-2" />
+          <Skeleton className="h-5 w-36" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(9)].map((_, index) => (
+            <HotelCardSkeleton key={index} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -409,8 +439,8 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Results Summary */}
-      <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 p-4 md:p-6">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="mb-8 bg-white/90 rounded-2xl border border-gray-100 p-4 md:p-6">
+        <div className="flex flex-wrap justify-between items-center gap-3">
           <div className="flex-shrink-0">
             <h2 className="text-sm md:text-xl font-bold text-gray-900">
               Resultados de búsqueda
@@ -419,33 +449,36 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
               {results.total} hoteles encontrados
             </p>
           </div>
-          
-          {results.guestyCount > 0 && (
-            <div className="flex items-center bg-blue-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-blue-100">
-              <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
-              <span className="text-xs md:text-sm font-semibold text-blue-700">
-                Guesty: {results.guestyCount}
-              </span>
-            </div>
-          )}
-          
-          {results.bookingCount > 0 && (
-            <div className="flex items-center bg-purple-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-purple-100">
-              <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
-              <span className="text-xs md:text-sm font-semibold text-purple-700">
-                Booking.com: {results.bookingCount}
-              </span>
-            </div>
-          )}
-          
-          {results.hotelbedsCount > 0 && (
-            <div className="flex items-center bg-green-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-green-100">
-              <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-green-500 to-green-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
-              <span className="text-xs md:text-sm font-semibold text-green-700">
-                Hotelbeds: {results.hotelbedsCount}
-              </span>
-            </div>
-          )}
+
+          <div className='flex flex-wrap gap-2'> 
+
+            {results.guestyCount > 0 && (
+              <div className="flex items-center bg-blue-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-blue-100">
+                <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
+                <span className="text-xs md:text-sm font-semibold text-blue-700">
+                  Guesty: {results.guestyCount}
+                </span>
+              </div>
+            )}
+
+            {results.bookingCount > 0 && (
+              <div className="flex items-center bg-purple-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-purple-100">
+                <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
+                <span className="text-xs md:text-sm font-semibold text-purple-700">
+                  Booking.com: {results.bookingCount}
+                </span>
+              </div>
+            )}
+
+            {results.hotelbedsCount > 0 && (
+              <div className="flex items-center bg-green-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-green-100">
+                <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-green-500 to-green-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
+                <span className="text-xs md:text-sm font-semibold text-green-700">
+                  Hotelbeds: {results.hotelbedsCount}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

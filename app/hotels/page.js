@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
@@ -28,6 +27,7 @@ import {
 import { BookingForm } from "@/components/BookingForm";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function HotelDetails() {
   const [hotel, setHotel] = useState(null);
@@ -79,7 +79,64 @@ export default function HotelDetails() {
     }
   };
 
-  if (loading) return <div className="container mx-auto p-4 text-center">Cargando detalles del hotel...</div>;
+  if (loading) {
+    return (
+      <div className="container mx-auto p-4">
+        {/* Shimmer for Image Carousel */}
+        <Skeleton className="h-[500px] w-full rounded-lg mb-8" />
+  
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column Shimmer */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Basic Info Shimmer */}
+            <Card className="p-6">
+              <Skeleton className="h-8 w-3/4 mb-4" />
+              <Skeleton className="h-4 w-1/2 mb-4" />
+              <div className="flex gap-4">
+                <Skeleton className="h-8 w-24 rounded-full" />
+                <Skeleton className="h-8 w-24 rounded-full" />
+              </div>
+            </Card>
+  
+            {/* Description Shimmer */}
+            <Card className="p-6">
+              <Skeleton className="h-6 w-1/3 mb-4" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full mt-2" />
+              <Skeleton className="h-4 w-5/6 mt-2" />
+            </Card>
+  
+            {/* Contact Info Shimmer */}
+            <Card className="p-6">
+              <Skeleton className="h-6 w-1/3 mb-4" />
+              <div className="space-y-3">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+              </div>
+            </Card>
+          </div>
+  
+          {/* Right Column Shimmer */}
+          <div className="lg:col-span-1">
+            <Card className="p-6 sticky top-8">
+              <Skeleton className="h-6 w-1/2 mb-4" />
+              <div className="space-y-4">
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-6 w-full" />
+              </div>
+              <div className="mt-6 space-y-3">
+                <Skeleton className="h-4 w-1/3 mb-2" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <Skeleton className="h-10 w-full mt-6" />
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (error) {
     let errorMessage = error;
     if (typeof error === 'object' && error !== null) {
