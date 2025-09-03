@@ -51,17 +51,22 @@ const HotelCard = ({ hotel }) => {
       if (hotel.minRate && hotel.currency) {
         return (
           <div className="text-left">
-            <div className="flex flex-col">
-              <span className="text-xs text-gray-500 mb-1">desde</span>
-              <div className="flex items-baseline">
-                <span className="text-lg font-bold text-gray-900">
-                  €{hotel.minRate}
-                </span>
-                <span className="text-xs text-gray-500 ml-1">
-                  /noche
-                </span>
-              </div>
+            <div className="flex items-baseline mb-1">
+              <span className="text-xl md:text-3xl font-bold text-gray-900 mr-1">
+                € {hotel.minRate}
+              </span>
+              <span className="text-xs md:text-sm text-gray-500 font-medium">
+                /noche
+              </span>
             </div>
+            <div className="text-xs md:text-sm text-gray-500">
+              desde
+            </div>
+            {hotel.maxRate && hotel.maxRate !== hotel.minRate && (
+              <div className="text-xs text-gray-400 mt-1 bg-gray-50 px-2 py-1 rounded-lg inline-block">
+                hasta € {hotel.maxRate}
+              </div>
+            )}
           </div>
         );
       }
@@ -70,13 +75,13 @@ const HotelCard = ({ hotel }) => {
       if (hotel.prices && hotel.prices.basePrice) {
         return (
           <div className="text-left">
-            <div className="flex flex-col">
-              <span className="text-xs text-green-600 font-medium mb-1">Precio total</span>
-              <div className="flex items-baseline">
-                <span className="text-lg font-bold text-gray-900">
-                  €{hotel.prices.basePrice}
-                </span>
-              </div>
+            <div className="flex items-baseline mb-1">
+              <span className="text-xl md:text-3xl font-bold text-gray-900 mr-2">
+                € {hotel.prices.basePrice}
+              </span>
+            </div>
+            <div className="text-xs md:text-sm font-medium bg-green-50 text-green-600 px-2 py-1 rounded-lg inline-block">
+              Precio total
             </div>
           </div>
         );
@@ -85,9 +90,9 @@ const HotelCard = ({ hotel }) => {
     
     return (
       <div className="text-left">
-        <div className="flex flex-col">
-          <span className="text-xs text-blue-600 font-medium mb-1">Consultar</span>
-          <span className="text-sm font-bold text-gray-900">Precio</span>
+        <div className="text-xs md:text-lg font-bold text-gray-900 mb-1">Consultar precio</div>
+        <div className="text-xs md:text-sm bg-blue-50 text-blue-600 px-2 py-1 rounded-lg inline-block">
+          Contactar para detalles
         </div>
       </div>
     );
@@ -220,7 +225,7 @@ const HotelCard = ({ hotel }) => {
 
   return (
     <div 
-      className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-500 cursor-pointer flex flex-col h-full"
+      className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 mb-6 hover:-translate-y-1 cursor-pointer"
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
@@ -231,135 +236,209 @@ const HotelCard = ({ hotel }) => {
         }
       }}
     >
-      {/* Image Section */}
-      <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-        {hotel.images && hotel.images.length > 0 ? (
-          <img
-            src={hotel.images[0]}
-            alt={hotel.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/320x192?text=No+Image';
-            }}
-          />
-        ) : (
-          <div className="flex items-center justify-center h-full bg-gradient-to-br from-gray-50 to-gray-100">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-2 mx-auto">
-                <MapPin className="w-6 h-6 text-gray-400" />
+      <div className="flex flex-col md:flex-row">
+        {/* Image Section - Left Side */}
+        <div className="relative md:w-80 h-64 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 flex-shrink-0 overflow-hidden">
+          {hotel.images && hotel.images.length > 0 ? (
+            <img
+              src={hotel.images[0]}
+              alt={hotel.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/320x224?text=No+Image';
+              }}
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full bg-gradient-to-br from-gray-50 to-gray-100">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-2 mx-auto">
+                  <MapPin className="w-8 h-8 text-gray-400" />
+                </div>
+                <span className="text-gray-500 text-sm">No hay imagen disponible</span>
               </div>
-              <span className="text-gray-500 text-xs">No hay imagen</span>
             </div>
+          )}
+          
+          {/* Source Badge */}
+          <div className="absolute top-4 right-4">
+            {getSourceBadge(hotel.source)}
           </div>
-        )}
-        
-        {/* Image indicators for multiple images */}
-        {hotel.images && hotel.images.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2">
-            <div className="flex space-x-1">
-              {hotel.images.slice(0, 5).map((_, index) => (
-                <div key={index} className="w-2 h-2 bg-white/60 rounded-full"></div>
-              ))}
-              {hotel.images.length > 5 && (
-                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+
+          {/* Rating Badge on Image */}
+          {hotel.rating && (
+            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 flex items-center shadow-sm">
+              <Star className="w-4 h-4 text-yellow-500 fill-current mr-1" />
+              <span className="text-sm font-semibold text-gray-800">{hotel.rating}</span>
+            </div>
+          )}
+
+          {/* Clickable indicator */}
+          {getRedirectUrl() && (
+            <div className="absolute bottom-4 left-4 bg-blue-500/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </div>
+          )}
+        </div>
+
+        {/* Content Section - Right Side */}
+        <div className="flex-1 p-4 md:p-8 flex flex-col justify-between bg-gradient-to-br from-white to-gray-50/30">
+          <div>
+            {/* Header with Title */}
+            <div className="mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                {hotel.name}
+              </h3>
+              
+              {/* Stars Row */}
+              <div className="flex items-center mb-3">
+                <div className="flex items-center mr-3">
+                  {renderStars(hotel.rating || 5)}
+                </div>
+                {hotel.rating && (
+                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                    {hotel.rating}/5
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Location */}
+            <div className="flex items-center text-gray-600 mb-4 bg-gray-50 rounded-lg p-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                <MapPin size={16} className="text-blue-600" />
+              </div>
+              <span className="text-sm font-medium">{hotel.city ? `${hotel.city},` : ''} {hotel.country ? hotel.country : ''} {hotel.address ? hotel.address : ''}</span>
+            </div>
+
+            {/* Description */}
+            <p className="text-gray-600 text-sm mb-6 line-clamp-3 leading-relaxed">
+              {hotel.description}
+            </p>
+
+            {/* Property Details Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+              {hotel.source === 'guesty' && (
+                <>
+                  {hotel.bedrooms > 0 && (
+                    <div className="flex items-center bg-green-50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                        <Coffee size={16} className="text-green-600" />
+                      </div>
+                      <span className="text-sm font-medium text-green-700">Desayuno incluido</span>
+                    </div>
+                  )}
+                  {hotel.maxGuests && (
+                    <div className="flex items-center bg-blue-50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                        <Users size={16} className="text-blue-600" />
+                      </div>
+                      <span className="text-sm font-medium text-blue-700">{hotel.maxGuests} Huéspedes</span>
+                    </div>
+                  )}
+                  {hotel.bedrooms > 0 && (
+                    <div className="flex items-center bg-purple-50 rounded-lg p-3">
+                      <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                        <Bed size={16} className="text-purple-600" />
+                      </div>
+                      <span className="text-sm font-medium text-purple-700">{hotel.bedrooms} Habitaciones</span>
+                    </div>
+                  )}
+                </>
+              )}
+              {hotel.source === 'hotelbeds' && (
+                <>
+                  <div className="flex items-center bg-blue-50 rounded-lg p-3">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-sm font-bold text-blue-600">H</span>
+                    </div>
+                    <span className="text-sm font-medium text-blue-700">{hotel.accommodationType || 'Hotel'}</span>
+                  </div>
+                  <div className="flex items-center bg-green-50 rounded-lg p-3">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                      <Star size={16} className="text-green-600" />
+                    </div>
+                    <span className="text-sm font-medium text-green-700">Categoría: {hotel.category}</span>
+                  </div>
+                  {hotel.chainName && (
+                    <div className="flex items-center bg-gray-50 rounded-lg p-3 md:col-span-2">
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-sm font-bold text-gray-600">C</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">{hotel.chainName}</span>
+                    </div>
+                  )}
+                </>
               )}
             </div>
-          </div>
-        )}
 
-        {/* Source Badge */}
-        <div className="absolute top-3 right-3">
-          {getSourceBadge(hotel.source)}
-        </div>
-
-        {/* Rating Badge */}
-        {hotel.rating && (
-          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 flex items-center shadow-sm">
-            <Star className="w-3 h-3 text-yellow-500 fill-current mr-1" />
-            <span className="text-xs font-semibold text-gray-800">{hotel.rating}</span>
-          </div>
-        )}
-
-        {/* Clickable indicator */}
-        {getRedirectUrl() && (
-          <div className="absolute bottom-3 right-3 bg-blue-500/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </div>
-        )}
-      </div>
-
-      {/* Content Section */}
-      <div className="p-4 flex-1 flex flex-col">
-        {/* Hotel Name */}
-        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-          {hotel.name}
-        </h3>
-        
-        {/* Location */}
-        <div className="flex items-center text-gray-600 mb-3">
-          <MapPin size={14} className="text-gray-400 mr-1 flex-shrink-0" />
-          <span className="text-sm truncate">{hotel.city ? `${hotel.city},` : ''} {hotel.country ? hotel.country : ''}</span>
-        </div>
-
-        {/* Property Details */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {hotel.maxGuests && (
-            <div className="flex items-center bg-blue-50 rounded-full px-2 py-1">
-              <Users size={12} className="text-blue-600 mr-1" />
-              <span className="text-xs font-medium text-blue-700">{hotel.maxGuests} Huéspedes</span>
-            </div>
-          )}
-          {hotel.bedrooms > 0 && (
-            <div className="flex items-center bg-purple-50 rounded-full px-2 py-1">
-              <Bed size={12} className="text-purple-600 mr-1" />
-              <span className="text-xs font-medium text-purple-700">{hotel.bedrooms} Habitaciones</span>
-            </div>
-          )}
-          {hotel.bathrooms > 0 && (
-            <div className="flex items-center bg-green-50 rounded-full px-2 py-1">
-              <Coffee size={12} className="text-green-600 mr-1" />
-              <span className="text-xs font-medium text-green-700">{hotel.bathrooms} Baños</span>
-            </div>
-          )}
-        </div>
-
-        {/* Spacer to push pricing to bottom */}
-        <div className="flex-1"></div>
-
-        {/* Bottom Section with Price and Button */}
-        <div className="flex justify-between items-end mt-auto">
-          <div className="flex-1">
-            {renderPricing()}
-          </div>
-          
-          <div className="ml-3 interactive-element">
-            {hotel.source === 'guesty' ? (
-              <Link 
-                href={`https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
-                target='_blank'
-                className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
-              >
-                <span className="relative z-10">Reservar</span>
-                <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              </Link>
-            ) : hotel.source === 'booking' && hotel.hotel_link ? (
-              <Link 
-                href={hotel.hotel_link}
-                target='_blank'
-                className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
-              >
-                <span className="relative z-10">Reservar</span>
-                <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              </Link>
-            ) : getRedirectUrl() ? (
-              <div className="text-center">
-                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg font-normal">
-                  Ver detalles
-                </span>
+            {/* Amenities */}
+            {hotel.amenities && hotel.amenities.length > 0 && (
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-gray-700 mb-3">Comodidades</h4>
+                <div className="flex flex-wrap gap-2">
+                  {hotel.amenities.slice(0, 4).map((amenity, index) => (
+                    <div key={index} className="flex items-center bg-white border border-gray-200 hover:border-blue-300 text-gray-700 px-3 py-2 rounded-full text-xs font-medium transition-colors duration-200">
+                      {getAmenityIcon(amenity)}
+                      <span className="ml-2">{typeof amenity === 'string' ? amenity : amenity?.facilityName || 'Amenidad'}</span>
+                    </div>
+                  ))}
+                  {hotel.amenities.length > 4 && (
+                    <div className="flex items-center justify-center bg-gray-100 text-gray-500 px-3 py-2 rounded-full text-xs font-medium min-w-[60px]">
+                      +{hotel.amenities.length - 4} más
+                    </div>
+                  )}
+                </div>
               </div>
-            ) : null}
+            )}
+
+            {/* Hotelbeds-specific features */}
+            {hotel.source === 'hotelbeds' && (
+              <div className="flex space-x-4">
+                <div className="interactive-element">
+                  {renderMapSection()}
+                </div>
+                <div className="interactive-element">
+                  {renderRoomsSection()}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Section with Price and Button */}
+          <div className="flex flex-wrap md:flex-row md:justify-between md:items-end border-t border-gray-100 space-y-3 md:space-y-0">
+            <div className="flex-1">
+              {renderPricing()}
+            </div>
+            
+            <div className="ml-2 md:ml-6 interactive-element">
+              {hotel.source === 'guesty' ? (
+                <Link 
+                  href={`https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
+                  target='_blank'
+                  className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-1 px-2 text-xs font-normal rounded-md md:py-3 md:px-8 md:rounded-xl md:font-semibold md:text-base transition-all duration-300 shadow-sm md:shadow-lg hover:shadow-md md:hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5 inline-block">
+                  <span className="relative z-10 whitespace-nowrap">Reservar</span>
+                  <div className="absolute inset-0 bg-white rounded-md md:rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </Link>
+              ) : hotel.source === 'booking' && hotel.hotel_link ? (
+                <Link 
+                  href={hotel.hotel_link}
+                  target='_blank'
+                  className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-1 px-2 text-xs font-normal rounded-md md:py-3 md:px-8 md:rounded-xl md:font-semibold md:text-base transition-all duration-300 shadow-sm md:shadow-lg hover:shadow-md md:hover:shadow-xl hover:shadow-purple-500/25 transform hover:-translate-y-0.5 inline-block">
+                  <span className="relative z-10 whitespace-nowrap">Reservar</span>
+                  <div className="absolute inset-0 bg-white rounded-md md:rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </Link>
+              ) : getRedirectUrl() ? (
+                <div className="text-center">
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md font-normal">
+                    Ver detalles
+                  </span>
+                </div>
+              ) : (
+                null
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -450,7 +529,7 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
             <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
             Propiedades Guesty ({guestyHotels.length})
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-4">
             {guestyHotels.map((hotel, index) => (
               <HotelCard key={`guesty-${hotel.id}-${index}`} hotel={hotel} />
             ))}
@@ -465,7 +544,7 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
             <div className="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
             Hoteles Booking.com ({bookingHotels.length})
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-4">
             {bookingHotels.map((hotel, index) => (
               <HotelCard key={`booking-${hotel.hotel_id}-${index}`} hotel={hotel} />
             ))}
@@ -480,7 +559,7 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
             <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
             Hoteles Hotelbeds ({hotelbedsHotels.length})
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-4">
             {hotelbedsHotels.map((hotel, index) => (
               <HotelCard key={`hotelbeds-${hotel.id}-${index}`} hotel={hotel} />
             ))}
