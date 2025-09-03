@@ -143,9 +143,9 @@ export default function SearchResults() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
       {/* Desktop Sticky Header with Search Form */}
-      <div className="hidden md:block sticky top-0 z-50 bg-white shadow-sm">
+      <div className="hidden md:block sticky top-0 z-50 bg-white/95 backdrop-blur-lg shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-4">
           {/* Compact Search Form */}
           <SearchForm 
@@ -160,40 +160,46 @@ export default function SearchResults() {
       </div>
 
       {/* Mobile Sticky Search Bar */}
-      <div className="md:hidden sticky top-0 z-50 bg-white shadow-md">
-        <div className="px-4 py-3">
+      <div className="md:hidden sticky top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-100">
+        <div className="px-4 py-4">
 
           {/* Mobile Search Values */}
           <div 
-            className="bg-gray-50 rounded-lg p-3 border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
+            className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-100 cursor-pointer hover:from-blue-100 hover:to-purple-100 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             onClick={() => setShowMobileModal(true)}
           >
             <div className="flex items-center justify-between space-x-3">
               {/* Destination */}
-              <div className="flex items-center space-x-2 min-w-0 flex-1">
-                <MapPin size={14} className="text-gray-400 flex-shrink-0" />
+              <div className="flex items-center space-x-3 min-w-0 flex-1">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <MapPin size={16} className="text-blue-600" />
+                </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-medium text-gray-900 truncate">
+                  <p className="text-xs font-bold text-blue-800 truncate">
                     {getMobileDisplayValues().location}
                   </p>
                 </div>
               </div>
               
               {/* Dates */}
-              <div className="flex items-center space-x-2 min-w-0">
-                <Calendar size={14} className="text-gray-400 flex-shrink-0" />
+              <div className="flex items-center space-x-3 min-w-0">
+                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Calendar size={16} className="text-purple-600" />
+                </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-medium text-gray-900 whitespace-nowrap">
+                  <p className="text-xs font-bold text-purple-800 whitespace-nowrap">
                     {getMobileDisplayValues().dates}
                   </p>
                 </div>
               </div>
               
               {/* Guests */}
-              <div className="flex items-center space-x-2 flex-shrink-0">
-                <Users size={14} className="text-gray-400" />
+              <div className="flex items-center space-x-3 flex-shrink-0">
+                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <Users size={16} className="text-green-600" />
+                </div>
                 <div>
-                  <p className="text-xs font-medium text-gray-900 whitespace-nowrap">
+                  <p className="text-xs font-bold text-green-800 whitespace-nowrap">
                     {getMobileDisplayValues().guests}
                   </p>
                 </div>
@@ -232,27 +238,43 @@ export default function SearchResults() {
       {/* No Results State */}
       {!loading && results && (!results.hotels || results.hotels.length === 0) && (
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-white/20">
+            <div className="w-20 h-20 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search size={40} className="text-blue-600" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               No se encontraron hoteles
             </h2>
-            <p className="text-gray-600 mb-6">
-              No pudimos encontrar hoteles que coincidan con tus criterios de búsqueda en <strong>{city}</strong>.
+            <p className="text-gray-600 mb-8 text-lg">
+              No pudimos encontrar hoteles que coincidan con tus criterios de búsqueda en <strong className="text-blue-600">{city}</strong>.
             </p>
-            <div className="space-y-3 text-left max-w-md mx-auto">
-              <p className="text-sm text-gray-600">Intenta:</p>
-              <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
-                <li>Cambiar las fechas de tu viaje</li>
-                <li>Reducir el número de huéspedes</li>
-                <li>Buscar en una ciudad cercana</li>
-                <li>Probar diferentes criterios de búsqueda</li>
-              </ul>
+            <div className="bg-blue-50/50 rounded-2xl p-6 mb-8">
+              <p className="text-sm font-semibold text-gray-700 mb-4">Sugerencias para mejorar tu búsqueda:</p>
+              <div className="grid md:grid-cols-2 gap-3 text-left">
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Cambiar las fechas de tu viaje</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Reducir el número de huéspedes</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Buscar en una ciudad cercana</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                  <span className="text-sm text-gray-600">Probar diferentes criterios</span>
+                </div>
+              </div>
             </div>
             <Link 
               href="/"
-              className="inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+              className="group relative inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-xl hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1"
             >
-              Nueva búsqueda
+              <span className="relative z-10">Nueva búsqueda</span>
+              <div className="absolute inset-0 bg-white rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
             </Link>
           </div>
         </div>

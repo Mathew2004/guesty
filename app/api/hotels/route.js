@@ -30,6 +30,7 @@ export async function GET(request) {
     const results = [];
     let guestyError = null;
     let hotelbedsError = null;
+    let bookingError = null;
 
     // --- 1. Search Guesty API (First Priority) ---
     try {
@@ -111,7 +112,56 @@ export async function GET(request) {
       console.error('❌ Guesty API error:', guestyError);
     }
 
-    // --- 2. Search Hotelbeds API (Second Priority) ---
+    // --- 2. Search Booking.com API (Second Priority) ---
+    try {
+
+      const options = {
+        method: 'GET',
+        url: 'https://booking-com-api4.p.rapidapi.com/list-hotels/',
+        params: {
+          city_name: city,
+          page_number: '1',
+          items_per_page: '25'
+        },
+        headers: {
+          'x-rapidapi-key': '29afa57339msh2bad14f20e8b316p166cfdjsnfc4dd245d41f',
+          'x-rapidapi-host': 'booking-com-api4.p.rapidapi.com'
+        }
+      };
+
+      const bookingResponse = await axios.request(options);
+      console.log(bookingResponse.data.data);
+      if (bookingResponse.data && bookingResponse.data.data.length > 0) {
+        const bookingHotels = bookingResponse.data.data.map(hotel => ({
+          id: `booking-${hotel.id || hotel.hotel_id}`,
+          name: hotel.venue_name || hotel.name || 'Hotel sin nombre',
+          address: hotel.address || '',
+          city: city || '',
+          description: hotel.venue_description || hotel.description || '',
+          images: hotel.images ||  [hotel.primary_image],
+          price: hotel.rooms_data && hotel.rooms_data[0] ? hotel.rooms_data[0].price : null,
+          rating: hotel.rating || null,
+          reviews_count: hotel.reviews_count || 0,
+          reviews_score: hotel.reviews_score || 0,
+          source: 'booking',
+          priority: 2,
+          hotel_link: hotel.hotel_link || '',
+          rooms_data: hotel.rooms_data || [],
+          location: {
+            lat: hotel.latitude || null,
+            lng: hotel.longitude || null
+          }
+        }));
+        results.push(...bookingHotels);
+        console.log(`Found ${bookingHotels.length} hotels from Booking.com`);
+      }
+
+    } catch (error) {
+      bookingError = error.message;
+      console.error('Booking.com API error:', error);
+    }
+
+    // --- 3. Search Hotelbeds API (Third Priority) ---
     try {
       console.log('🔍 Searching Hotelbeds API...');
 
@@ -197,7 +247,7 @@ export async function GET(request) {
             return {
               id: hotel.code,
               source: "hotelbeds",
-              priority: 2,
+              priority: 3,
 
               // Identification
               code: hotel.code,
@@ -260,21 +310,23 @@ export async function GET(request) {
       console.error('❌ Hotelbeds API error:', hotelbedsError);
     }
 
-    // Sort results by priority (Guesty first, then Hotelbeds)
+    // Sort results by priority (Guesty first, then Booking.com, then Hotelbeds)
     results.sort((a, b) => a.priority - b.priority);
 
-    console.log(`🏨 Total hotels found: ${results.length} (Guesty: ${results.filter(r => r.source === 'guesty').length}, Hotelbeds: ${results.filter(r => r.source === 'hotelbeds').length})`);
+    console.log(`🏨 Total hotels found: ${results.length} (Guesty: ${results.filter(r => r.source === 'guesty').length}, Booking.com: ${results.filter(r => r.source === 'booking').length}, Hotelbeds: ${results.filter(r => r.source === 'hotelbeds').length})`);
 
-    // Return combined results with Guesty first, then Hotelbeds
+    // Return combined results with Guesty first, then Booking.com, then Hotelbeds
     return NextResponse.json({
       success: true,
       total: results.length,
       guestyCount: results.filter(r => r.source === 'guesty').length,
+      bookingCount: results.filter(r => r.source === 'booking').length,
       hotelbedsCount: results.filter(r => r.source === 'hotelbeds').length,
       hotels: results,
       searchParams: { city, checkin, checkout, guests },
       errors: {
         guesty: guestyError,
+        booking: bookingError,
         hotelbeds: hotelbedsError
       }
     });
