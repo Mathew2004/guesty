@@ -318,7 +318,7 @@ const HotelCard = ({ hotel }) => {
             </p>
 
             {/* Property Details Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               {hotel.source === 'guesty' && (
                 <>
                   {hotel.bedrooms > 0 && (
@@ -395,7 +395,7 @@ const HotelCard = ({ hotel }) => {
 
             {/* Hotelbeds-specific features */}
             {hotel.source === 'hotelbeds' && (
-              <div className="space-y-4">
+              <div className="flex space-x-4">
                 <div className="interactive-element">
                   {renderMapSection()}
                 </div>
@@ -407,7 +407,7 @@ const HotelCard = ({ hotel }) => {
           </div>
 
           {/* Bottom Section with Price and Button */}
-          <div className="flex flex-wrap md:flex-row md:justify-between md:items-end mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-100 space-y-3 md:space-y-0">
+          <div className="flex flex-wrap md:flex-row md:justify-between md:items-end border-t border-gray-100 space-y-3 md:space-y-0">
             <div className="flex-1">
               {renderPricing()}
             </div>
