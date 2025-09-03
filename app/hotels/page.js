@@ -1,388 +1,244 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { searchHotels } from '../../lib/hotelbedsApi';
-import SearchResults from '../../components/SearchResults';
-import { Search, Filter, MapPin, Home, Bed, Bath, Users, X, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import {
+  Bed,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  CreditCard,
+  Mail,
+  MapPin,
+  Phone,
+  Star,
+  Users,
+  Wifi,
+  Globe
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { BookingForm } from "@/components/BookingForm";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-export default function HotelsPage() {
-  const [hotels, setHotels] = useState([]);
+export default function HotelDetails() {
+  const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
-  const [stats, setStats] = useState(null);
-  
-  // Filter states
-  const [filters, setFilters] = useState({
-    city: '',
-    country: '',
-    state: '',
-    propertyType: '',
-    minBedrooms: '',
-    maxBedrooms: '',
-    minBathrooms: '',
-    maxBathrooms: '',
-    minOccupancy: '',
-    listingType: '',
-    searchText: ''
-  });
+  const [error, setError] = useState(null);
+  const searchParams = useSearchParams();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
-  // Property types from Guesty API
-const propertyTypes = [
-    'APARTMENT',
-    'HOUSE',
-    'CONDO',
-    'VILLA',
-    'STUDIO',
-    'LOFT',
-    'TOWNHOUSE',
-    'CABIN',
-    'COTTAGE',
-];
-
-  const listingTypes = [
-    'ENTIRE_PLACE',
-    'PRIVATE_ROOM',
-    'SHARED_ROOM'
-  ];
-
-  // Load all hotels on component mount
   useEffect(() => {
-    loadHotels();
-    loadStats();
-  }, []);
+    const fetchHotelDetails = async () => {
+      try {
+        const hotelCode = searchParams.get("code");
+        const checkin = searchParams.get("checkin") || "2025-09-01";
+        const checkout = searchParams.get("checkout") || "2025-09-05";
+        const guests = searchParams.get("guests") || 1;
 
-  const loadStats = async () => {
-    try {
-      const response = await fetch('/api/hotel-stats');
-      if (response.ok) {
-        const statsData = await response.json();
-        setStats(statsData);
-      }
-    } catch (err) {
-      console.error('Error loading stats:', err);
-    }
-  };
-
-  const loadHotels = async (searchFilters = {}) => {
-    setLoading(true);
-    setError('');
-    
-    try {
-      const searchParams = {
-        limit: '50',
-        ...searchFilters
-      };
-
-      console.log('Searching hotels with params:', searchParams);
-      const response = await searchHotels(searchParams);
-      
-      if (response && response.hotels) {
-        setHotels(response.hotels);
-        console.log(`Loaded ${response.hotels.length} hotels`);
-      } else {
-        setHotels([]);
-        setError('No hotels found');
-      }
-    } catch (err) {
-      console.error('Error loading hotels:', err);
-      setError(`Failed to load hotels: ${err.message}`);
-      setHotels([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleFilterChange = (key, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [key]: value
-    }));
-  };
-
-  const applyFilters = () => {
-    const activeFilters = {};
-    
-    // Only include non-empty filters
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value && value.trim() !== '') {
-        if (key === 'minBedrooms') {
-          activeFilters.numberOfBedrooms = value;
-        } else if (key === 'minBathrooms') {
-          activeFilters.numberOfBathrooms = value;
-        } else {
-          activeFilters[key] = value;
+        if (!hotelCode) {
+          throw new Error("Hotel code is required");
         }
+
+        const response = await axios.post("/api/hotels/details", {
+          hotelCode,
+          checkin,
+          checkout,
+          guests: parseInt(guests)
+        });
+
+        setHotel(response.data);
+      } catch (err) {
+        setError(err.response?.data?.details || err.message);
+      } finally {
+        setLoading(false);
       }
-    });
+    };
 
-    console.log('Applying filters:', activeFilters);
-    loadHotels(activeFilters);
-    setShowFilters(false);
+    fetchHotelDetails();
+  }, [searchParams]);
+
+  const nextImage = () => {
+    if (hotel && hotel.images) {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % hotel.images.length);
+    }
   };
 
-  const clearFilters = () => {
-    setFilters({
-      city: '',
-      country: '',
-      state: '',
-      propertyType: '',
-      minBedrooms: '',
-      maxBedrooms: '',
-      minBathrooms: '',
-      maxBathrooms: '',
-      minOccupancy: '',
-      listingType: '',
-      searchText: ''
-    });
-    loadHotels();
+  const prevImage = () => {
+    if (hotel && hotel.images) {
+      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + hotel.images.length) % hotel.images.length);
+    }
   };
 
-  const activeFilterCount = Object.values(filters).filter(value => value && value.trim() !== '').length;
+  if (loading) return <div className="container mx-auto p-4 text-center">Cargando detalles del hotel...</div>;
+  if (error) {
+    let errorMessage = error;
+    if (typeof error === 'object' && error !== null) {
+      errorMessage = error.error || JSON.stringify(error);
+    }
+    return <div className="container mx-auto p-4 text-red-500 text-center">Error: {errorMessage}</div>;
+  }
+  if (!hotel) return <div className="container mx-auto p-4 text-center">No se encontraron detalles del hotel.</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                <Home className="mr-3 text-blue-600" />
-                All Properties
-              </h1>
-              <div className="mt-1 flex items-center space-x-4 text-sm text-gray-600">
-                <span>{hotels.length} properties available</span>
-                {stats && (
-                  <>
-                    <span>•</span>
-                    <span>{stats.topCountries.length} countries</span>
-                    <span>•</span>
-                    <span>{stats.topCities.length} cities</span>
-                    <span>•</span>
-                    <span>Avg {stats.averageBedrooms} bed, {stats.averageBathrooms} bath</span>
-                  </>
-                )}
-              </div>
-            </div>
-            
-            {/* Search and Filter Controls */}
-            <div className="flex items-center space-x-4">
-              {/* Search Input */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search properties..."
-                  value={filters.searchText}
-                  onChange={(e) => handleFilterChange('searchText', e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && applyFilters()}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
-                />
-              </div>
-
-              {/* Filter Toggle */}
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors relative"
-              >
-                <Filter className="w-4 h-4 mr-2" />
-                Filters
-                {activeFilterCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {activeFilterCount}
-                  </span>
-                )}
-                <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="container mx-auto p-4">
+      {/* Image Carousel */}
+      <div className="relative w-full h-[500px] rounded-lg overflow-hidden shadow-lg mb-8">
+        {hotel.images && hotel.images.length > 0 ? (
+          <>
+            <Image
+              src={hotel.images[currentImageIndex]}
+              alt={`${hotel.name} - Imagen ${currentImageIndex + 1}`}
+              fill
+              className="object-cover transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-black/20"></div>
+            <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white">
+              <ChevronLeft />
+            </button>
+            <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white">
+              <ChevronRight />
+            </button>
+          </>
+        ) : (
+          <div className="h-full bg-gray-200 flex items-center justify-center">No hay imágenes disponibles</div>
+        )}
       </div>
 
-      {/* Filter Panel */}
-      {showFilters && (
-        <div className="bg-white border-b shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {/* Location Filters */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Country
-                </label>
-                <input
-                  type="text"
-                  value={filters.country}
-                  onChange={(e) => handleFilterChange('country', e.target.value)}
-                  placeholder="e.g., United States"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column - Details */}
+        <div className="lg:col-span-2">
+          {/* Basic Info */}
+          <Card className="p-6 mb-6">
+            <h1 className="text-4xl font-bold mb-2">{hotel.name}</h1>
+            <div className="flex items-center text-gray-600 mb-4">
+              <MapPin size={16} className="mr-2" />
+              <span>{hotel.address}, {hotel.city}, {hotel.country}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                <Bed size={16} className="mr-2" /> {hotel.accommodationType}
+              </span>
+              {hotel.rating && (
+                <span className="flex items-center bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
+                  <Star size={16} className="mr-2" /> {hotel.rating} Estrellas
+                </span>
+              )}
+            </div>
+          </Card>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  State/Region
-                </label>
-                <input
-                  type="text"
-                  value={filters.state}
-                  onChange={(e) => handleFilterChange('state', e.target.value)}
-                  placeholder="e.g., California"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+          {/* Description */}
+          <Card className="p-6 mb-6">
+            <h2 className="text-2xl font-semibold mb-4">Sobre este hotel</h2>
+            <p className="text-gray-700 leading-relaxed">{hotel.description}</p>
+          </Card>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  City
-                </label>
-                <input
-                  type="text"
-                  value={filters.city}
-                  onChange={(e) => handleFilterChange('city', e.target.value)}
-                  placeholder="e.g., San Francisco"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+          {/* Amenities */}
+          {/* {hotel.amenities && hotel.amenities.length > 0 && (
+            <Card className="p-6 mb-6">
+              <h2 className="text-2xl font-semibold mb-4">Servicios</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {hotel.amenities.map((amenity, index) => (
+                  <div key={index} className="flex items-center">
+                    <Wifi size={16} className="mr-2 text-blue-500" />
+                    <span>{amenity}</span>
+                  </div>
+                ))}
               </div>
+            </Card>
+          )} */}
 
-              {/* Property Type */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Property Type
-                </label>
-                <select
-                  value={filters.propertyType}
-                  onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">All Types</option>
-                  {propertyTypes.map(type => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
+          {/* Contact Info */}
+          <Card className="p-6">
+            <h2 className="text-2xl font-semibold mb-4">Información de contacto</h2>
+            <div className="space-y-3">
+              {hotel.email && (
+                <div className="flex items-center">
+                  <Mail size={16} className="mr-2 text-gray-500" />
+                  <a href={`mailto:${hotel.email}`} className="text-blue-600 hover:underline">{hotel.email}</a>
+                </div>
+              )}
+              {hotel.web && (
+                <div className="flex items-center">
+                  <Globe size={16} className="mr-2 text-gray-500" />
+                  <a href={hotel.web} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{hotel.web}</a>
+                </div>
+              )}
+              {hotel.phones && hotel.phones.map((phone, index) => (
+                <div key={index} className="flex items-center">
+                  <Phone size={16} className="mr-2 text-gray-500" />
+                  <span>{phone.phoneNumber} ({phone.phoneType})</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        {/* Right Column - Booking */}
+        <div className="lg:col-span-1">
+          <Card className="p-6 sticky top-8">
+            <h2 className="text-2xl font-semibold mb-4">Detalles de la reserva</h2>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Precio desde:</span>
+                <span className="text-2xl font-bold text-green-600">{hotel.currency} {hotel.minRate}</span>
               </div>
-
-              {/* Listing Type */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Listing Type
-                </label>
-                <select
-                  value={filters.listingType}
-                  onChange={(e) => handleFilterChange('listingType', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">All Types</option>
-                  <option value="ENTIRE_PLACE">Entire Place</option>
-                  <option value="PRIVATE_ROOM">Private Room</option>
-                  <option value="SHARED_ROOM">Shared Room</option>
-                </select>
-              </div>
-
-              {/* Bedrooms */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <Bed className="inline w-4 h-4 mr-1" />
-                  Min Bedrooms
-                </label>
-                <select
-                  value={filters.minBedrooms}
-                  onChange={(e) => handleFilterChange('minBedrooms', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Any</option>
-                  {[1, 2, 3, 4, 5, 6].map(num => (
-                    <option key={num} value={num}>{num}+ Bedroom{num > 1 ? 's' : ''}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Bathrooms */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <Bath className="inline w-4 h-4 mr-1" />
-                  Min Bathrooms
-                </label>
-                <select
-                  value={filters.minBathrooms}
-                  onChange={(e) => handleFilterChange('minBathrooms', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Any</option>
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <option key={num} value={num}>{num}+ Bathroom{num > 1 ? 's' : ''}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Max Occupancy */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <Users className="inline w-4 h-4 mr-1" />
-                  Min Guests
-                </label>
-                <select
-                  value={filters.minOccupancy}
-                  onChange={(e) => handleFilterChange('minOccupancy', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Any</option>
-                  {[1, 2, 3, 4, 5, 6, 8, 10].map(num => (
-                    <option key={num} value={num}>{num}+ Guest{num > 1 ? 's' : ''}</option>
-                  ))}
-                </select>
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Precio máximo:</span>
+                <span className="text-lg font-semibold">{hotel.currency} {hotel.maxRate}</span>
               </div>
             </div>
 
-            {/* Filter Actions */}
-            <div className="flex items-center justify-between mt-6 pt-4 border-t">
-              <button
-                onClick={clearFilters}
-                className="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
-              >
-                <X className="w-4 h-4 mr-1" />
-                Clear All
-              </button>
-              
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={applyFilters}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Apply Filters
-                </button>
-              </div>
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-2">Habitaciones disponibles</h3>
+              {hotel.rooms && hotel.rooms.length > 0 ? (
+                <div className="space-y-3 max-h-60 overflow-y-auto">
+                  {hotel.rooms.map((room, index) => (
+                    <div key={index} className="border rounded-lg p-3">
+                      <h4 className="font-medium">{room.name}</h4>
+                      {room.rates && room.rates.map((rate, rateIndex) => (
+                        <div key={rateIndex} className="mt-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>{rate.boardName}</span>
+                            <span className="font-bold">{hotel.currency} {rate.net}</span>
+                          </div>
+                          <div className="text-gray-500 text-xs mt-1">Pago: {rate.paymentType}</div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No hay habitaciones disponibles para las fechas seleccionadas.</p>
+              )}
             </div>
-          </div>
-        </div>
-      )}
+            
+            <Button className="w-full mt-6" onClick={() => setIsBookingOpen(true)}>Reservar ahora</Button>
 
-      {/* Loading State */}
-      {loading && (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Solicitud de reserva</DialogTitle>
+                </DialogHeader>
+                <BookingForm 
+                  hotel={hotel} 
+                  searchParams={searchParams} 
+                  onBookingSuccess={() => setIsBookingOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
+          </Card>
         </div>
-      )}
-
-      {/* Error State */}
-      {error && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-700">{error}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Results */}
-      {!loading && !error && (
-        <SearchResults hotels={hotels} searchData={{}} />
-      )}
+      </div>
     </div>
   );
 }

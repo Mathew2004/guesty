@@ -6,7 +6,7 @@ import crypto from 'crypto';
 const GUESTY_API_BASE = process.env.GUESTY_API_BASE;
 
 // Helper function for Hotelbeds signature
-function generateHotelbedsSignature() {
+export function generateHotelbedsSignature() {
   const apiKey = process.env.HOTELBEDS_API_KEY;
   const secret = process.env.HOTELBEDS_SECRET;
   const timestamp = Math.floor(Date.now() / 1000);
@@ -313,7 +313,10 @@ export async function GET(request) {
                 ) || [],
               amenities: content.facilities?.map(f => f.facilityName) || [],
               chainCode: content.chain?.chainCode || null,
-              chainName: content.chain?.content || null
+              chainName: content.chain?.content || null,
+              checkin: checkin,
+              checkout: checkout,
+              guests: guests
             };
           })
         );

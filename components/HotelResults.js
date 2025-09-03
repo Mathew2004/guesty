@@ -201,6 +201,8 @@ const HotelCard = ({ hotel }) => {
       return `https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`;
     } else if (hotel.source === 'booking' && hotel.hotel_link) {
       return hotel.hotel_link;
+    } else if (hotel.source === 'hotelbeds') {
+      return `/hotels?code=${hotel.code}&checkin=${hotel.checkin || ''}&checkout=${hotel.checkout || ''}&guests=${hotel.guests || '2'}`;
     }
     return null;
   };
@@ -214,7 +216,11 @@ const HotelCard = ({ hotel }) => {
     
     const redirectUrl = getRedirectUrl();
     if (redirectUrl) {
-      window.open(redirectUrl, '_blank');
+      if (hotel.source === 'hotelbeds') {
+        window.location.href = redirectUrl;
+      } else {
+        window.open(redirectUrl, '_blank');
+      }
     }
   };
 
