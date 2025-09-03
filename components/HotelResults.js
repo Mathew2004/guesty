@@ -3,6 +3,7 @@
 import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Calendar, Bed } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import Pagination from './Pagination';
 
 const HotelCard = ({ hotel }) => {
   const [showMap, setShowMap] = useState(false);
@@ -445,7 +446,7 @@ const HotelCard = ({ hotel }) => {
   );
 };
 
-const HotelResults = ({ results, loading, error }) => {
+const HotelResults = ({ results, loading, error, onPageChange }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -577,6 +578,18 @@ const HotelResults = ({ results, loading, error }) => {
             <p className="text-sm text-yellow-700">Hotelbeds API: {results.errors.hotelbeds}</p>
           )}
         </div>
+      )}
+
+      {/* Pagination */}
+      {results.pagination?.booking && onPageChange && (
+        <Pagination
+          currentPage={results.pagination.booking.currentPage}
+          totalPages={results.pagination.booking.totalPages}
+          totalItems={results.pagination.booking.totalItems}
+          pageSize={results.pagination.booking.pageSize}
+          onPageChange={onPageChange}
+          loading={loading}
+        />
       )}
     </div>
   );

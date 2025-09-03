@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import SearchForm from '@/components/SearchForm';
 import HotelResults from '@/components/HotelResults';
 import MobileSearchModal from '@/components/MobileSearchModal';
-import { ArrowLeft, MapPin, Calendar, Users } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, Users, Search } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SearchResults() {
@@ -15,6 +15,7 @@ export default function SearchResults() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showMobileModal, setShowMobileModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Extract search parameters
   const city = searchParams.get('city');
@@ -23,6 +24,12 @@ export default function SearchResults() {
   const checkin = searchParams.get('checkin');
   const checkout = searchParams.get('checkout');
   const guests = searchParams.get('guests');
+  const pageFromUrl = searchParams.get('page');
+
+  // Update current page when URL changes
+  useEffect(() => {
+    setCurrentPage(parseInt(pageFromUrl) || 1);
+  }, [pageFromUrl]);
 
   // Prepare initial values for SearchForm
   const initialValues = {
@@ -48,7 +55,7 @@ export default function SearchResults() {
       setError(null);
 
       try {
-        const apiUrl = `/api/hotels?city=${encodeURIComponent(city)}&checkin=${checkin || ''}&checkout=${checkout || ''}&guests=${guests || '2'}&destinationCode=${destinationCode || ''}`;
+        const apiUrl = `/api/hotels?city=${encodeURIComponent(city)}&checkin=${checkin || ''}&checkout=${checkout || ''}&guests=${guests || '2'}&destinationCode=${destinationCode || ''}&page=${currentPage}&pageSize=25`;
         
         console.log('Fetching hotels from:', apiUrl);
         
@@ -69,7 +76,7 @@ export default function SearchResults() {
     };
 
     fetchHotels();
-  }, [city, checkin, checkout, guests, destinationCode]);
+  }, [city, checkin, checkout, guests, destinationCode, currentPage]);
 
   // Handle mobile search
   const handleMobileSearch = (searchData) => {
@@ -80,11 +87,34 @@ export default function SearchResults() {
       destinationCode: searchData.location.code || '',
       checkin: searchData.checkIn,
       checkout: searchData.checkOut,
-      guests: searchData.guests.toString()
+      guests: searchData.guests.toString(),
+      page: '1' // Reset to first page on new search
     });
 
-    // Navigate to search results with new parameters
+    // Reset current page and navigate
+    setCurrentPage(1);
     router.push(`/search-results?${newSearchParams.toString()}`);
+  };
+
+  // Handle pagination
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    
+    // Update URL with new page
+    const newSearchParams = new URLSearchParams({
+      city: city,
+      country: country || '',
+      destinationCode: destinationCode || '',
+      checkin: checkin || '',
+      checkout: checkout || '',
+      guests: guests || '2',
+      page: newPage.toString()
+    });
+    
+    router.push(`/search-results?${newSearchParams.toString()}`);
+    
+    // Scroll to top when changing pages
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Format search info for display
@@ -232,6 +262,7 @@ export default function SearchResults() {
           results={results}
           loading={loading}
           error={error}
+          onPageChange={handlePageChange}
         />
       </div>
 
