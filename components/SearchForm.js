@@ -102,70 +102,75 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             {error}
           </div>
         )}
-        <div className={`${compact ? 'bg-white rounded-2xl shadow-xl border border-gray-100 backdrop-blur-sm' : 'bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20'}`}>
+        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20'}`}>
 
           {/* Desktop Layout - Horizontal */}
-          <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-0 p-3">
+          <form onSubmit={handleSubmit} className={`hidden md:flex items-center gap-1 ${compact ? 'p-2' : 'p-3'}`}>
             {/* Location Dropdown */}
             <div className="flex-1 relative group">
-              <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Ubicación</h4>
+              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Ubicación</h4>}
               <SearchableDropdown
                 options={cities}
                 value={searchData.location}
                 onChange={handleLocationChange}
-                placeholder="Nueva Orleans"
+                placeholder={compact ? "Destino" : "Nueva Orleans"}
                 transparent={!compact}
+                compact={compact}
               />
             </div>
 
             {/* Separator */}
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-4"></div>
+            {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>}
 
             {/* Date Range Picker */}
-            <div className="flex-2 px-4 py-2 justify-end group">
-              <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Check In - Check Out</h4>
+            <div className="flex-2 px-2 justify-end group">
+              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Check In - Check Out</h4>}
               <DateRangePicker
                 checkIn={searchData.checkIn}
                 checkOut={searchData.checkOut}
                 onCheckInChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
                 onCheckOutChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
                 transparent={!compact}
+                compact={compact}
+                placeholder={compact ? "Selecciona fechas" : ""}
               />
             </div>
 
             {/* Separator */}
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-4"></div>
+            {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>}
 
             {/* Guests Dropdown */}
             <div className="flex-1 relative guests-dropdown group">
-              <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Huéspedes</h4>
+              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Huéspedes</h4>}
               <div className="relative">
                 <div
-                  className={`w-full px-4 py-4 border-0 ${compact ? 'bg-white' : 'bg-transparent'} focus:outline-none text-gray-700 font-medium cursor-pointer flex items-center justify-between hover:bg-blue-50/50 transition-colors rounded-lg`}
+                  className={`w-full ${compact ? 'px-3 py-3 border border-gray-300 rounded-lg bg-white' : 'px-4 py-4 border-0 bg-transparent'} focus:outline-none text-gray-700 font-medium cursor-pointer flex items-center justify-between hover:bg-blue-50/50 transition-colors ${compact ? 'hover:border-blue-300' : 'rounded-lg'}`}
                   onClick={() => setGuestsDropdownOpen(!guestsDropdownOpen)}
                 >
-                  <span className="font-semibold">{searchData.guests} Huésped{searchData.guests !== 1 ? 'es' : ''}</span>
+                  <span className={`${compact ? 'text-gray-500' : 'font-semibold text-sm'}`}>
+                    {compact ? `${searchData.guests} huésped${searchData.guests !== 1 ? 'es' : ''}` : `${searchData.guests} Huésped${searchData.guests !== 1 ? 'es' : ''}`}
+                  </span>
                   <ChevronDown className={`text-gray-400 transition-transform duration-200 ${guestsDropdownOpen ? 'rotate-180 text-blue-500' : ''}`} size={16} />
                 </div>
 
                 {guestsDropdownOpen && (
                   <div className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 mt-2 backdrop-blur-sm">
-                    <div className="p-6">
+                    <div className="p-4">
                       <div className="flex items-center justify-center">
                         <div className="flex items-center space-x-4">
                           <button
                             type="button"
                             onClick={() => searchData.guests > 1 && setSearchData(prev => ({ ...prev, guests: prev.guests - 1 }))}
-                            className="w-10 h-10 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-md hover:shadow-lg"
+                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
                             disabled={searchData.guests <= 1}
                           >
                             -
                           </button>
-                          <span className="w-12 text-center font-bold text-lg text-gray-800">{searchData.guests}</span>
+                          <span className="w-12 text-center font-bold text-base text-gray-800">{searchData.guests}</span>
                           <button
                             type="button"
                             onClick={() => searchData.guests < 10 && setSearchData(prev => ({ ...prev, guests: prev.guests + 1 }))}
-                            className="w-10 h-10 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-md hover:shadow-lg"
+                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
                             disabled={searchData.guests >= 10}
                           >
                             +
@@ -182,21 +187,21 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className={`group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-8 py-4 ${compact ? 'rounded-xl' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center space-x-2 ml-4 shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
+              className={`group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white ${compact ? 'px-4 py-3 ml-2' : 'px-8 py-4 ml-4'} ${compact ? 'rounded-lg' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center ${compact ? 'space-x-1' : 'space-x-2'} shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                  <span className="font-semibold">BUSCANDO...</span>
+                  <div className={`animate-spin rounded-full ${compact ? 'h-4 w-4' : 'h-5 w-5'} border-2 border-white border-t-transparent`}></div>
+                  {!compact && <span className="font-semibold">BUSCANDO...</span>}
                 </>
               ) : (
                 <>
-                  <Search size={20} className="transition-transform group-hover:scale-110" />
-                  <span className="font-semibold">BUSCAR</span>
+                  <Search size={compact ? 16 : 20} className="transition-transform group-hover:scale-110" />
+                  {!compact && <span className="font-semibold">BUSCAR</span>}
                 </>
               )}
               {/* Button glow effect */}
-              <div className="absolute inset-0 bg-white rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              <div className={`absolute inset-0 bg-white ${compact ? 'rounded-lg' : 'rounded-2xl'} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
             </button>
           </form>
 

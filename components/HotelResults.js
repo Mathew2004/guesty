@@ -51,14 +51,14 @@ const HotelCard = ({ hotel }) => {
         return (
           <div className="text-left">
             <div className="flex items-baseline mb-1">
-              <span className="text-3xl font-bold text-gray-900 mr-1">
+              <span className="text-xl md:text-3xl font-bold text-gray-900 mr-1">
                 € {hotel.minRate}
               </span>
-              <span className="text-sm text-gray-500 font-medium">
+              <span className="text-xs md:text-sm text-gray-500 font-medium">
                 /noche
               </span>
             </div>
-            <div className="text-sm text-gray-500">
+            <div className="text-xs md:text-sm text-gray-500">
               desde
             </div>
             {hotel.maxRate && hotel.maxRate !== hotel.minRate && (
@@ -75,11 +75,11 @@ const HotelCard = ({ hotel }) => {
         return (
           <div className="text-left">
             <div className="flex items-baseline mb-1">
-              <span className="text-3xl font-bold text-gray-900 mr-2">
+              <span className="text-xl md:text-3xl font-bold text-gray-900 mr-2">
                 € {hotel.prices.basePrice}
               </span>
             </div>
-            <div className="text-sm font-medium bg-green-50 text-green-600 px-2 py-1 rounded-lg inline-block">
+            <div className="text-xs md:text-sm font-medium bg-green-50 text-green-600 px-2 py-1 rounded-lg inline-block">
               Precio total
             </div>
           </div>
@@ -89,8 +89,8 @@ const HotelCard = ({ hotel }) => {
     
     return (
       <div className="text-left">
-        <div className="text-lg font-bold text-gray-900 mb-1">Consultar precio</div>
-        <div className="text-sm bg-blue-50 text-blue-600 px-2 py-1 rounded-lg inline-block">
+        <div className="text-xs md:text-lg font-bold text-gray-900 mb-1">Consultar precio</div>
+        <div className="text-xs md:text-sm bg-blue-50 text-blue-600 px-2 py-1 rounded-lg inline-block">
           Contactar para detalles
         </div>
       </div>
@@ -282,7 +282,7 @@ const HotelCard = ({ hotel }) => {
         </div>
 
         {/* Content Section - Right Side */}
-        <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-br from-white to-gray-50/30">
+        <div className="flex-1 p-4 md:p-8 flex flex-col justify-between bg-gradient-to-br from-white to-gray-50/30">
           <div>
             {/* Header with Title */}
             <div className="mb-4">
@@ -406,32 +406,32 @@ const HotelCard = ({ hotel }) => {
           </div>
 
           {/* Bottom Section with Price and Button */}
-          <div className="flex justify-between items-end mt-6 pt-6 border-t border-gray-100">
+          <div className="flex flex-wrap md:flex-row md:justify-between md:items-end mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-100 space-y-3 md:space-y-0">
             <div className="flex-1">
               {renderPricing()}
             </div>
             
-            <div className="ml-6 interactive-element">
+            <div className="ml-2 md:ml-6 interactive-element">
               {hotel.source === 'guesty' ? (
                 <Link 
                   href={`https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
                   target='_blank'
-                  className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-8 rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5">
-                  <span className="relative z-10">Reservar ahora</span>
-                  <div className="absolute inset-0 bg-white rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                  className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-1 px-2 text-xs font-normal rounded-md md:py-3 md:px-8 md:rounded-xl md:font-semibold md:text-base transition-all duration-300 shadow-sm md:shadow-lg hover:shadow-md md:hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5 inline-block">
+                  <span className="relative z-10 whitespace-nowrap">Reservar</span>
+                  <div className="absolute inset-0 bg-white rounded-md md:rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 </Link>
               ) : hotel.source === 'booking' && hotel.hotel_link ? (
                 <Link 
                   href={hotel.hotel_link}
                   target='_blank'
-                  className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 px-8 rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:-translate-y-0.5">
-                  <span className="relative z-10">Ver en Booking.com</span>
-                  <div className="absolute inset-0 bg-white rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                  className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-1 px-2 text-xs font-normal rounded-md md:py-3 md:px-8 md:rounded-xl md:font-semibold md:text-base transition-all duration-300 shadow-sm md:shadow-lg hover:shadow-md md:hover:shadow-xl hover:shadow-purple-500/25 transform hover:-translate-y-0.5 inline-block">
+                  <span className="relative z-10 whitespace-nowrap">Reservar</span>
+                  <div className="absolute inset-0 bg-white rounded-md md:rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 </Link>
               ) : getRedirectUrl() ? (
                 <div className="text-center">
-                  <span className="text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-lg">
-                    Haz clic en la tarjeta para ver más detalles
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md font-normal">
+                    Ver detalles
                   </span>
                 </div>
               ) : (
@@ -481,23 +481,43 @@ const HotelResults = ({ results, loading, error }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Results Summary */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Resultados de búsqueda ({results.total} hoteles encontrados)
-        </h2>
-        <div className="flex space-x-4 text-sm text-gray-600">
-          <span className="flex items-center">
-            <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-            Propiedades Guesty: {results.guestyCount}
-          </span>
-          <span className="flex items-center">
-            <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
-            Hoteles Booking.com: {results.bookingCount}
-          </span>
-          <span className="flex items-center">
-            <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-            Hoteles Hotelbeds: {results.hotelbedsCount}
-          </span>
+      <div className="mb-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 p-4 md:p-6">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex-shrink-0">
+            <h2 className="text-sm md:text-xl font-bold text-gray-900">
+              Resultados de búsqueda
+            </h2>
+            <p className="text-sm md:text-lg text-gray-600 font-medium">
+              {results.total} hoteles encontrados
+            </p>
+          </div>
+          
+          {results.guestyCount > 0 && (
+            <div className="flex items-center bg-blue-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-blue-100">
+              <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
+              <span className="text-xs md:text-sm font-semibold text-blue-700">
+                Guesty: {results.guestyCount}
+              </span>
+            </div>
+          )}
+          
+          {results.bookingCount > 0 && (
+            <div className="flex items-center bg-purple-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-purple-100">
+              <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
+              <span className="text-xs md:text-sm font-semibold text-purple-700">
+                Booking.com: {results.bookingCount}
+              </span>
+            </div>
+          )}
+          
+          {results.hotelbedsCount > 0 && (
+            <div className="flex items-center bg-green-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-green-100">
+              <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-green-500 to-green-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
+              <span className="text-xs md:text-sm font-semibold text-green-700">
+                Hotelbeds: {results.hotelbedsCount}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
