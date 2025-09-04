@@ -264,7 +264,7 @@ export default function SearchResults() {
             <div className="flex-shrink-0">
               <Dialog open={isFilterOpen} onOpenChange={handleFilterOpenChange}>
                 <DialogTrigger asChild>
-                  <Button variant="outline">
+                  <Button variant="outline" className="rounded-full mt-2">
                     <FilterIcon className="mr-2 h-4 w-4" />
                     Filtrar
                     {selectedAmenities.length > 0 && ` (${selectedAmenities.length})`}
@@ -314,7 +314,7 @@ export default function SearchResults() {
 
           {/* Mobile Search Values */}
           <div
-            className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-100 cursor-pointer hover:from-blue-100 hover:to-purple-100 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-100 cursor-pointer hover:from-blue-100 hover:to-purple-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
             onClick={() => setShowMobileModal(true)}
           >
             <div className="flex items-center justify-between space-x-3">
@@ -362,7 +362,7 @@ export default function SearchResults() {
               <div className="flex-shrink-0">
                 <Dialog open={isFilterOpen} onOpenChange={handleFilterOpenChange}>
                   <DialogTrigger asChild>
-                    <Button variant="outline">
+                    <Button variant="outline" className="rounded-full mt-2">
                       <FilterIcon className="mr-2 h-4 w-4" />
                       Filtrar
                       {selectedAmenities.length > 0 && ` (${selectedAmenities.length})`}
@@ -436,9 +436,9 @@ export default function SearchResults() {
         {filteredHotels.length === 0 && selectedAmenities.length > 0 && !loading && (
           <div className="absolute inset-0 bg-blue-100/20 flex items-center justify-center z-10 margin-4 rounded-2xl p-8 ">
             <div className="text-center text-gray-900">
-              <h2 className="text-2xl font-bold">Didn't find what you were looking for?</h2>
-              <p className="mb-4">Try to change filters</p>
-              <Button onClick={() => setIsFilterOpen(true)}>Change Filters</Button>
+              <h2 className="text-2xl font-bold">¿No encontraste lo que buscabas?</h2>
+              <p className="mb-4">Intenta cambiar los filtros</p>
+              <Button onClick={() => setIsFilterOpen(true)}>Cambiar filtros</Button>
             </div>
           </div>
         )}
