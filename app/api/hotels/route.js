@@ -145,7 +145,7 @@ export async function GET(request) {
 
     //   const bookingResponse = await axios.request(options);
     //   console.log('Booking.com response:', bookingResponse.data);
-      
+
     //   // Extract pagination data
     //   if (bookingResponse.data && bookingResponse.data.pagination_data) {
     //     bookingCount = bookingResponse.data.pagination_data.total_items;
@@ -157,7 +157,7 @@ export async function GET(request) {
     //     };
     //     console.log('Booking.com pagination:', bookingPagination);
     //   }
-      
+
     //   if (bookingResponse.data && bookingResponse.data.data.length > 0) {
     //     const bookingHotels = bookingResponse.data.data.map(hotel => ({
     //       id: `booking-${hotel.id || hotel.hotel_id}`,

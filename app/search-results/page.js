@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { allAmenities } from '@/lib/amenities';
+
 
 export default function SearchResults() {
   const searchParams = useSearchParams();
@@ -22,39 +24,6 @@ export default function SearchResults() {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [tempSelectedAmenities, setTempSelectedAmenities] = useState([]);
-
-  const allAmenities = [
-    "Beach",
-    "Bed linens",
-    "Coffee maker",
-    "Cookware",
-    "Dining table",
-    "Dishes and silverware",
-    "Family/kid friendly",
-    "Free parking on street",
-    "Freezer",
-    "Hair dryer",
-    "Hangers",
-    "Hot water",
-    "Internet",
-    "Iron",
-    "Kitchen",
-    "Luggage dropoff allowed",
-    "Microwave",
-    "Paid parking off premises",
-    "Private entrance",
-    "Refrigerator",
-    "Stove",
-    "TV",
-    "Towels provided",
-    "Village",
-    "Washer",
-    "Wine glasses",
-    "Pets allowed",
-    "Smoking allowed",
-    "Suitable for children (2-12 years)",
-    "Suitable for infants (under 2 years)"
-  ];
 
   const handleApplyFilters = () => {
     setSelectedAmenities(tempSelectedAmenities);
@@ -276,23 +245,23 @@ export default function SearchResults() {
                   </DialogHeader>
                   <div className="grid gap-4 py-4 max-h-96 overflow-y-auto">
                     {allAmenities.map(amenity => (
-                      <div key={amenity} className="flex items-center space-x-2">
+                      <div key={amenity.en} className="flex items-center space-x-2">
                         <Checkbox
-                          id={amenity}
-                          checked={tempSelectedAmenities.includes(amenity)}
+                          id={amenity.en}
+                          checked={tempSelectedAmenities.includes(amenity.en)}
                           onCheckedChange={(checked) => {
                             setTempSelectedAmenities(prev =>
                               checked
-                                ? [...prev, amenity]
-                                : prev.filter(a => a !== amenity)
+                                ? [...prev, amenity.en]
+                                : prev.filter(a => a !== amenity.en)
                             );
                           }}
                         />
                         <label
-                          htmlFor={amenity}
+                          htmlFor={amenity.en}
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
-                          {amenity}
+                          {amenity.es}
                         </label>
                       </div>
                     ))}
@@ -374,23 +343,23 @@ export default function SearchResults() {
                     </DialogHeader>
                     <div className="grid gap-4 py-4 max-h-96 overflow-y-auto">
                       {allAmenities.map(amenity => (
-                        <div key={amenity} className="flex items-center space-x-2">
+                        <div key={amenity.en} className="flex items-center space-x-2">
                           <Checkbox
-                            id={amenity}
-                            checked={tempSelectedAmenities.includes(amenity)}
+                            id={amenity.en}
+                            checked={tempSelectedAmenities.includes(amenity.en)}
                             onCheckedChange={(checked) => {
                               setTempSelectedAmenities(prev =>
                                 checked
-                                  ? [...prev, amenity]
-                                  : prev.filter(a => a !== amenity)
+                                  ? [...prev, amenity.en]
+                                  : prev.filter(a => a !== amenity.en)
                               );
                             }}
                           />
                           <label
-                            htmlFor={amenity}
+                            htmlFor={amenity.en}
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                           >
-                            {amenity}
+                            {amenity.es}
                           </label>
                         </div>
                       ))}

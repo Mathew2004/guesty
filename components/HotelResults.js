@@ -1,3 +1,4 @@
+
 'use client';
 
 import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Calendar, Bed, Tv, UmbrellaIcon, Table, CookingPotIcon } from 'lucide-react';
@@ -8,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from './Pagination';
 import { Skeleton } from "@/components/ui/skeleton";
+import { allAmenities } from '@/lib/amenities';
 
 const HotelCard = ({ hotel, selectedAmenities }) => {
   const [showMap, setShowMap] = useState(false);
@@ -348,10 +350,13 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 const icon = getAmenityIcon(amenity);
                 const isSelected = selectedAmenities?.some(selected => amenity.toLowerCase().includes(selected.toLowerCase()));
                 if (!isSelected && !icon) return null;
+                
+                const amenityName = allAmenities.find(item => item.en.toLowerCase() === amenity.toLowerCase())?.es || amenity;
+
                 return (
                   <div key={index} className={`flex items-center ${isSelected ? 'text-blue-600' : 'text-gray-600'}`}>
                     {icon || ""}
-                    <span className={`text-xs ml-1.5 ${isSelected ? 'font-semibold' : ''}`}>{amenity}</span>
+                    <span className={`text-xs ml-1.5 ${isSelected ? 'font-semibold' : ''}`}>{amenityName}</span>
                   </div>
                 );
               })}
