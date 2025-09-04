@@ -10,8 +10,10 @@ export async function POST(request) {
     console.log("--------------------------");
 
     const body = await request.json();
-    const { name, email, phone, checkin, checkout, guests, hotelName, address } = body;
+    const { name, email, phone, checkin, checkout, guests, hotelName, address, price, link } = body;
+    console.log("Received booking enquiry:", body);
 
+    // console.log(hotel.maxRate, "minPrice", hotel.minPrice, "maxPrice");
     // Create a transporter object using the credentials from .env
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -27,6 +29,7 @@ export async function POST(request) {
     const mailOptions = {
       from: `"Hotel Booking Enquiry" <${process.env.SMTP_FROM_EMAIL}>`,
       to: ['purificationevan04@gmail.com', 'info@trotamundo9.com', 'sojib0321@gmail.com'],
+      // to: ['purificationevan04@gmail.com'],
       subject: `New Hotel Booking Enquiry for ${hotelName}`,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
@@ -49,6 +52,12 @@ export async function POST(request) {
             </div>
             <div style="margin-bottom: 20px;">
               <p style="margin: 0;"><strong>Guests:</strong> ${guests}</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <p style="margin: 0;"><strong>Price:</strong> ${price}</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <p style="margin: 0;"><strong>More Details:</strong> ${link}</p>
             </div>
             
             <hr style="border: none; border-top: 2px solid #e0e0e0; margin: 20px 0;">

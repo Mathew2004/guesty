@@ -27,11 +27,15 @@ const formSchema = z.object({
   guests: z.string(),
   hotelName: z.string(),
   address: z.string(),
+  link: z.string().url(),
+  price: z.string(),
 });
 
 export function BookingForm({ hotel, searchParams, onBookingSuccess }) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+
+  console.log(hotel, "hotel in booking form");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -44,6 +48,8 @@ export function BookingForm({ hotel, searchParams, onBookingSuccess }) {
       guests: searchParams.get("guests") || "1",
       hotelName: hotel.name,
       address: `${hotel.address}, ${hotel.city}`,
+      link: window.location.href,
+      price: `Min Rate : €${hotel.minRate} - MaxRate: €${hotel.maxRate}`,
     },
   });
 
@@ -116,6 +122,8 @@ export function BookingForm({ hotel, searchParams, onBookingSuccess }) {
         <FormField control={form.control} name="checkin" render={({ field }) => <input type="hidden" {...field} />} />
         <FormField control={form.control} name="checkout" render={({ field }) => <input type="hidden" {...field} />} />
         <FormField control={form.control} name="guests" render={({ field }) => <input type="hidden" {...field} />} />
+        <FormField control={form.control} name="price" render={({ field }) => <input type="hidden" {...field} />} />
+        <FormField control={form.control} name="link" render={({ field }) => <input type="hidden" {...field} />} />
 
         <div className="pt-4">
             <p className="font-semibold">{form.getValues('hotelName')}</p>

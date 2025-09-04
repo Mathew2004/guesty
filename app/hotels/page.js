@@ -53,7 +53,7 @@ export default function HotelDetails() {
           hotelCode,
           checkin,
           checkout,
-          guests: parseInt(guests)
+          guests: parseInt(guests),
         });
 
         setHotel(response.data);
