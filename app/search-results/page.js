@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import SearchForm from '@/components/SearchForm';
 import HotelResults from '@/components/HotelResults';
 import MobileSearchModal from '@/components/MobileSearchModal';
-import { ArrowLeft, MapPin, Calendar, Users, Search } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, Users, Search, FilterIcon } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function SearchResults() {
   const searchParams = useSearchParams();
@@ -16,6 +19,58 @@ export default function SearchResults() {
   const [error, setError] = useState(null);
   const [showMobileModal, setShowMobileModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [tempSelectedAmenities, setTempSelectedAmenities] = useState([]);
+
+  const allAmenities = [
+    "Beach",
+    "Bed linens",
+    "Coffee maker",
+    "Cookware",
+    "Dining table",
+    "Dishes and silverware",
+    "Family/kid friendly",
+    "Free parking on street",
+    "Freezer",
+    "Hair dryer",
+    "Hangers",
+    "Hot water",
+    "Internet",
+    "Iron",
+    "Kitchen",
+    "Luggage dropoff allowed",
+    "Microwave",
+    "Paid parking off premises",
+    "Private entrance",
+    "Refrigerator",
+    "Stove",
+    "TV",
+    "Towels provided",
+    "Village",
+    "Washer",
+    "Wine glasses",
+    "Pets allowed",
+    "Smoking allowed",
+    "Suitable for children (2-12 years)",
+    "Suitable for infants (under 2 years)"
+  ];
+
+  const handleApplyFilters = () => {
+    setSelectedAmenities(tempSelectedAmenities);
+    setIsFilterOpen(false);
+  };
+
+  const handleClearFilters = () => {
+    setTempSelectedAmenities([]);
+  };
+
+  const handleFilterOpenChange = (isOpen) => {
+    if (isOpen) {
+      setTempSelectedAmenities(selectedAmenities);
+    }
+    setIsFilterOpen(isOpen);
+  };
 
   // Extract search parameters
   const city = searchParams.get('city');
@@ -43,6 +98,22 @@ export default function SearchResults() {
     guests: parseInt(guests) || 2
   };
 
+  const filteredHotels = useMemo(() => {
+    if (!results || !results.hotels) return [];
+    if (selectedAmenities.length === 0) {
+      return results.hotels;
+    }
+    return results.hotels.filter(hotel =>
+      selectedAmenities.every(selectedAmenity =>
+        hotel.amenities?.some(hotelAmenity => {
+          const hotelAmenityLower = hotelAmenity?.toLowerCase();
+          const selectedAmenityLower = selectedAmenity.toLowerCase();
+          return hotelAmenityLower?.includes(selectedAmenityLower) || selectedAmenityLower.includes(hotelAmenityLower);
+        })
+      )
+    );
+  }, [results, selectedAmenities]);
+
   useEffect(() => {
     const fetchHotels = async () => {
       if (!city) {
@@ -56,9 +127,9 @@ export default function SearchResults() {
 
       try {
         const apiUrl = `/api/hotels?city=${encodeURIComponent(city)}&checkin=${checkin || ''}&checkout=${checkout || ''}&guests=${guests || '2'}&destinationCode=${destinationCode || ''}&page=${currentPage}&pageSize=25`;
-        
+
         console.log('Fetching hotels from:', apiUrl);
-        
+
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
@@ -99,7 +170,7 @@ export default function SearchResults() {
   // Handle pagination
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    
+
     // Update URL with new page
     const newSearchParams = new URLSearchParams({
       city: city,
@@ -110,9 +181,9 @@ export default function SearchResults() {
       guests: guests || '2',
       page: newPage.toString()
     });
-    
+
     router.push(`/search-results?${newSearchParams.toString()}`);
-    
+
     // Scroll to top when changing pages
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -122,22 +193,22 @@ export default function SearchResults() {
     const parts = [];
     if (city) parts.push(city);
     if (country && country !== city) parts.push(country);
-    
+
     let dateInfo = '';
     if (checkin && checkout) {
-      const checkInDate = new Date(checkin).toLocaleDateString('es-ES', { 
-        day: 'numeric', 
-        month: 'short' 
+      const checkInDate = new Date(checkin).toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'short'
       });
-      const checkOutDate = new Date(checkout).toLocaleDateString('es-ES', { 
-        day: 'numeric', 
-        month: 'short' 
+      const checkOutDate = new Date(checkout).toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'short'
       });
       dateInfo = ` • ${checkInDate} - ${checkOutDate}`;
     }
-    
+
     const guestInfo = guests ? ` • ${guests} huésped${guests !== '1' ? 'es' : ''}` : '';
-    
+
     return parts.join(', ') + dateInfo + guestInfo;
   };
 
@@ -148,27 +219,27 @@ export default function SearchResults() {
       // Keep it short for mobile single line
       location = city.length > 12 ? city.substring(0, 10) + '...' : city;
     }
-    
+
     let dates = 'Fechas';
     if (checkin && checkout) {
       const checkInDate = new Date(checkin);
       const checkOutDate = new Date(checkout);
-      
+
       // Shorter date format for mobile
-      const checkInFormatted = checkInDate.toLocaleDateString('es-ES', { 
-        day: 'numeric', 
-        month: 'numeric' 
+      const checkInFormatted = checkInDate.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'numeric'
       });
-      const checkOutFormatted = checkOutDate.toLocaleDateString('es-ES', { 
-        day: 'numeric', 
-        month: 'numeric' 
+      const checkOutFormatted = checkOutDate.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'numeric'
       });
       dates = `${checkInFormatted}-${checkOutFormatted}`;
     }
-    
+
     const guestsCount = parseInt(guests) || 2;
     const guestsText = `${guestsCount} huésped${guestsCount !== 1 ? 'es' : ''}`;
-    
+
     return { location, dates, guests: guestsText };
   };
 
@@ -176,25 +247,73 @@ export default function SearchResults() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
       {/* Desktop Sticky Header with Search Form */}
       <div className="hidden md:block sticky top-0 z-50 bg-white/95 backdrop-blur-lg  border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 py-2">
+        <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-4">
           {/* Compact Search Form */}
-          <SearchForm 
-            compact={true}
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
-            initialValues={initialValues}
-          />
+          <div className="flex-grow">
+            <SearchForm
+              compact={true}
+              loading={loading}
+              setLoading={setLoading}
+              error={error}
+              setError={setError}
+              initialValues={initialValues}
+            />
+          </div>
+          {/* Filter Button */}
+          {allAmenities.length > 0 && (
+            <div className="flex-shrink-0">
+              <Dialog open={isFilterOpen} onOpenChange={handleFilterOpenChange}>
+                <DialogTrigger asChild>
+                  <Button variant="outline">
+                    <FilterIcon className="mr-2 h-4 w-4" />
+                    Filtrar
+                    {selectedAmenities.length > 0 && ` (${selectedAmenities.length})`}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Filtrar por servicios</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4 max-h-96 overflow-y-auto">
+                    {allAmenities.map(amenity => (
+                      <div key={amenity} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={amenity}
+                          checked={tempSelectedAmenities.includes(amenity)}
+                          onCheckedChange={(checked) => {
+                            setTempSelectedAmenities(prev =>
+                              checked
+                                ? [...prev, amenity]
+                                : prev.filter(a => a !== amenity)
+                            );
+                          }}
+                        />
+                        <label
+                          htmlFor={amenity}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {amenity}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  <DialogFooter>
+                    <Button variant="ghost" onClick={handleClearFilters}>Limpiar</Button>
+                    <Button onClick={handleApplyFilters}>Aplicar</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Mobile Sticky Search Bar */}
-      <div className="md:hidden sticky top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-100">
-        <div className="px-4 py-4">
+      <div className="md:hidden sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-100">
+        <div className="px-4 py-2">
 
           {/* Mobile Search Values */}
-          <div 
+          <div
             className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-100 cursor-pointer hover:from-blue-100 hover:to-purple-100 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             onClick={() => setShowMobileModal(true)}
           >
@@ -210,7 +329,7 @@ export default function SearchResults() {
                   </p>
                 </div>
               </div>
-              
+
               {/* Dates */}
               <div className="flex items-center space-x-3 min-w-0">
                 <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -222,7 +341,7 @@ export default function SearchResults() {
                   </p>
                 </div>
               </div>
-              
+
               {/* Guests */}
               <div className="flex items-center space-x-3 flex-shrink-0">
                 <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -236,6 +355,55 @@ export default function SearchResults() {
               </div>
             </div>
           </div>
+
+          <div>
+            {/* Filter Button */}
+            {allAmenities.length > 0 && (
+              <div className="flex-shrink-0">
+                <Dialog open={isFilterOpen} onOpenChange={handleFilterOpenChange}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">
+                      <FilterIcon className="mr-2 h-4 w-4" />
+                      Filtrar
+                      {selectedAmenities.length > 0 && ` (${selectedAmenities.length})`}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Filtrar por servicios</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4 max-h-96 overflow-y-auto">
+                      {allAmenities.map(amenity => (
+                        <div key={amenity} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={amenity}
+                            checked={tempSelectedAmenities.includes(amenity)}
+                            onCheckedChange={(checked) => {
+                              setTempSelectedAmenities(prev =>
+                                checked
+                                  ? [...prev, amenity]
+                                  : prev.filter(a => a !== amenity)
+                              );
+                            }}
+                          />
+                          <label
+                            htmlFor={amenity}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {amenity}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                    <DialogFooter>
+                      <Button variant="ghost" onClick={handleClearFilters}>Limpiar</Button>
+                      <Button onClick={handleApplyFilters}>Aplicar</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -244,10 +412,10 @@ export default function SearchResults() {
         isOpen={showMobileModal}
         onClose={() => setShowMobileModal(false)}
         initialData={{
-          location: city ? { 
-            city, 
-            country, 
-            code: destinationCode 
+          location: city ? {
+            city,
+            country,
+            code: destinationCode
           } : {},
           checkIn: checkin || '',
           checkOut: checkout || '',
@@ -257,13 +425,23 @@ export default function SearchResults() {
       />
 
       {/* Search Results Content */}
-      <div className="pt-8">
-        <HotelResults 
-          results={results}
+      <div className="pt-8 relative">
+        <HotelResults
+          results={{ ...results, hotels: filteredHotels }}
           loading={loading}
           error={error}
           onPageChange={handlePageChange}
+          selectedAmenities={selectedAmenities}
         />
+        {filteredHotels.length === 0 && selectedAmenities.length > 0 && !loading && (
+          <div className="absolute inset-0 bg-blue-100/20 flex items-center justify-center z-10 margin-4 rounded-2xl p-8 ">
+            <div className="text-center text-gray-900">
+              <h2 className="text-2xl font-bold">Didn't find what you were looking for?</h2>
+              <p className="mb-4">Try to change filters</p>
+              <Button onClick={() => setIsFilterOpen(true)}>Change Filters</Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* No Results State */}
@@ -300,7 +478,7 @@ export default function SearchResults() {
                 </div>
               </div>
             </div>
-            <Link 
+            <Link
               href="/"
               className="group relative inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-xl hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1"
             >

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getGuestyToken } from '../../../lib/auth.js';
 import axios from 'axios';
 import crypto from 'crypto';
+import { facilities as hotelbedsFacilities } from '../../../hotelbeds_facilities.js';
 
 const GUESTY_API_BASE = process.env.GUESTY_API_BASE;
 
@@ -14,6 +15,14 @@ function generateHotelbedsSignature() {
 }
 
 export async function GET(request) {
+  const facilityMap = new Map();
+  for (const facility of hotelbedsFacilities) {
+    const key = `${facility.code}-${facility.facilityGroupCode}`;
+    if (!facilityMap.has(key)) {
+      facilityMap.set(key, facility?.description?.content || "");
+    }
+  }
+
   try {
     const { searchParams } = new URL(request.url);
 
@@ -261,6 +270,7 @@ export async function GET(request) {
         results.push(
           ...hotelbedsHotels.map(hotel => {
             const content = contentMap.get(hotel.code) || {};
+            // 
 
             return {
               id: hotel.code,
@@ -311,7 +321,7 @@ export async function GET(request) {
                 content.images?.map(
                   img => `https://photos.hotelbeds.com/giata/${img.path}`
                 ) || [],
-              amenities: content.facilities?.map(f => f.facilityName) || [],
+              amenities: content.facilities?.map(f => facilityMap.get(`${f.facilityCode}-${f.facilityGroupCode}`)).filter(Boolean) || [],
               chainCode: content.chain?.chainCode || null,
               chainName: content.chain?.content || null,
               checkin: checkin,

@@ -1,12 +1,15 @@
 'use client';
 
-import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Calendar, Bed } from 'lucide-react';
+import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Calendar, Bed, Tv, UmbrellaIcon, Table, CookingPotIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from './Pagination';
 import { Skeleton } from "@/components/ui/skeleton";
 
-const HotelCard = ({ hotel }) => {
+const HotelCard = ({ hotel, selectedAmenities }) => {
   const [showMap, setShowMap] = useState(false);
   const [showRooms, setShowRooms] = useState(false);
 
@@ -15,7 +18,7 @@ const HotelCard = ({ hotel }) => {
       return (
         <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-500 text-white shadow-lg">
           <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
-          Guesty
+          Guestyzz
         </span>
       );
     } else if (source === 'hotelbeds') {
@@ -43,6 +46,10 @@ const HotelCard = ({ hotel }) => {
     if (amenityLower.includes('coffee') || amenityLower.includes('kitchen')) return <Coffee size={16} />;
     if (amenityLower.includes('pool') || amenityLower.includes('swimming')) return <MapPin size={16} />; // Using MapPin as Pool replacement
     if (amenityLower.includes('gym') || amenityLower.includes('fitness')) return <Dumbbell size={16} />;
+    if (amenityLower.includes('tv') || amenityLower.includes('cable')) return <Tv size={16} />;
+    if (amenityLower.includes('beach')) return <UmbrellaIcon size={16} />;
+    if (amenityLower.includes('dining')) return <CookingPotIcon size={16} />;
+    
     return null;
   };
 
@@ -67,7 +74,7 @@ const HotelCard = ({ hotel }) => {
         );
       }
     } else if (hotel.source === 'guesty') {
-      // Guesty pricing structure
+      // Guestyzz pricing structure
       if (hotel.prices && hotel.prices.basePrice) {
         return (
           <div className="text-left">
@@ -330,7 +337,27 @@ const HotelCard = ({ hotel }) => {
               <span className="text-xs font-medium text-green-700">{hotel.bathrooms} Baños</span>
             </div>
           )}
+          
         </div>
+
+        {/* Amenities */}
+        {hotel.amenities && hotel.amenities.length > 0 && (
+          <div className="mb-4 pt-4 border-t border-gray-100">
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              {hotel.amenities.map((amenity, index) => {
+                const icon = getAmenityIcon(amenity);
+                const isSelected = selectedAmenities?.some(selected => amenity.toLowerCase().includes(selected.toLowerCase()));
+                if (!isSelected && !icon) return null;
+                return (
+                  <div key={index} className={`flex items-center ${isSelected ? 'text-blue-600' : 'text-gray-600'}`}>
+                    {icon || ""}
+                    <span className={`text-xs ml-1.5 ${isSelected ? 'font-semibold' : ''}`}>{amenity}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Spacer to push pricing to bottom */}
         <div className="flex-1"></div>
@@ -396,7 +423,8 @@ const HotelCardSkeleton = () => (
   </div>
 );
 
-const HotelResults = ({ results, loading, error, onPageChange }) => {
+const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities }) => {
+
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -422,109 +450,75 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
     );
   }
 
-  if (!results || !results.hotels || results.hotels.length === 0) {
-    return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-        <p className="text-gray-800 font-medium">No se encontraron hoteles</p>
-        <p className="text-gray-600 text-sm mt-1">Intenta ajustar tus criterios de búsqueda</p>
-      </div>
-    );
-  }
+  // if (!results || !results.hotels || results.hotels.length === 0) {
+  //   return (
+  //     <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+  //       <p className="text-gray-800 font-medium">No se encontraron hoteles</p>
+  //       <p className="text-gray-600 text-sm mt-1">Intenta ajustar tus criterios de búsqueda</p>
+  //     </div>
+  //   );
+  // }
 
-  // Separate Guesty, Booking.com, and Hotelbeds results
+  // Separate Guestyzz, Booking.com, and Hotelbeds results
   const guestyHotels = results.hotels.filter(hotel => hotel.source === 'guesty');
   const bookingHotels = results.hotels.filter(hotel => hotel.source === 'booking');
   const hotelbedsHotels = results.hotels.filter(hotel => hotel.source === 'hotelbeds');
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Results Summary */}
-      <div className="mb-8 bg-white/90 rounded-2xl border border-gray-100 p-4 md:p-6">
-        <div className="flex flex-wrap justify-between items-center gap-3">
-          <div className="flex-shrink-0">
-            <h2 className="text-sm md:text-xl font-bold text-gray-900">
-              Resultados de búsqueda
-            </h2>
-            <p className="text-sm md:text-lg text-gray-600 font-medium">
-              {results.total} hoteles encontrados
-            </p>
-          </div>
-
-          <div className='flex flex-wrap gap-2'> 
-
-            {results.guestyCount > 0 && (
-              <div className="flex items-center bg-blue-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-blue-100">
-                <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
-                <span className="text-xs md:text-sm font-semibold text-blue-700">
-                  Guesty: {results.guestyCount}
-                </span>
+    <div className="max-w-7xl mx-auto px-4 py-2">
+      {results.hotels.length === 0 && selectedAmenities.length > 0 ? (
+        <div className="grid grid-cols-3 justify-center gap-6">
+          {[...Array(3)].map((_, index) => (
+            <HotelCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : (
+        <>
+          {/* Guestyzz Results Section */}
+          {guestyHotels.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                Propiedades Guestyzz ({guestyHotels.length})
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {guestyHotels.map((hotel, index) => (
+                  <HotelCard key={`guesty-${hotel.id}-${index}`} hotel={hotel} selectedAmenities={selectedAmenities} />
+                ))}
               </div>
-            )}
+            </div>
+          )}
 
-            {results.bookingCount > 0 && (
-              <div className="flex items-center bg-purple-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-purple-100">
-                <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
-                <span className="text-xs md:text-sm font-semibold text-purple-700">
-                  Booking.com: {results.bookingCount}
-                </span>
+          {/* Booking.com Results Section */}
+          {bookingHotels.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
+                Hoteles Booking.com ({bookingHotels.length})
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {bookingHotels.map((hotel, index) => (
+                  <HotelCard key={`booking-${hotel.hotel_id}-${index}`} hotel={hotel} selectedAmenities={selectedAmenities} />
+                ))}
               </div>
-            )}
+            </div>
+          )}
 
-            {results.hotelbedsCount > 0 && (
-              <div className="flex items-center bg-green-50 rounded-full px-2 py-1 md:px-4 md:py-2 border border-green-100">
-                <div className="w-2 h-2 md:w-4 md:h-4 bg-gradient-to-r from-green-500 to-green-600 rounded-full mr-1 md:mr-3 shadow-sm"></div>
-                <span className="text-xs md:text-sm font-semibold text-green-700">
-                  Hotelbeds: {results.hotelbedsCount}
-                </span>
+          {/* Hotelbeds Results Section */}
+          {hotelbedsHotels.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                Hoteles Hotelbeds ({hotelbedsHotels.length})
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {hotelbedsHotels.map((hotel, index) => (
+                  <HotelCard key={`hotelbeds-${hotel.id}-${index}`} hotel={hotel} selectedAmenities={selectedAmenities} />
+                ))}
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Guesty Results Section */}
-      {guestyHotels.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-            <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-            Propiedades Guesty ({guestyHotels.length})
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {guestyHotels.map((hotel, index) => (
-              <HotelCard key={`guesty-${hotel.id}-${index}`} hotel={hotel} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Booking.com Results Section */}
-      {bookingHotels.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-            <div className="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
-            Hoteles Booking.com ({bookingHotels.length})
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {bookingHotels.map((hotel, index) => (
-              <HotelCard key={`booking-${hotel.hotel_id}-${index}`} hotel={hotel} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Hotelbeds Results Section */}
-      {hotelbedsHotels.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-            <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-            Hoteles Hotelbeds ({hotelbedsHotels.length})
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hotelbedsHotels.map((hotel, index) => (
-              <HotelCard key={`hotelbeds-${hotel.id}-${index}`} hotel={hotel} />
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* API Errors (for debugging) */}
@@ -532,7 +526,7 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
         <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
           <h4 className="font-medium text-yellow-800 mb-2">Estado de la API:</h4>
           {results.errors.guesty && (
-            <p className="text-sm text-yellow-700">Guesty API: {results.errors.guesty}</p>
+            <p className="text-sm text-yellow-700">Guestyzz API: {results.errors.guesty}</p>
           )}
           {results.errors.hotelbeds && (
             <p className="text-sm text-yellow-700">Hotelbeds API: {results.errors.hotelbeds}</p>
@@ -541,7 +535,7 @@ const HotelResults = ({ results, loading, error, onPageChange }) => {
       )}
 
       {/* Pagination */}
-      {results.pagination?.booking && onPageChange && (
+      {results.pagination?.booking && onPageChange && selectedAmenities.length === 0 && (
         <Pagination
           currentPage={results.pagination.booking.currentPage}
           totalPages={results.pagination.booking.totalPages}

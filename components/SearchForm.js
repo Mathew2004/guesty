@@ -96,7 +96,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
   return (
     <>
       {/* Search Form */}
-      <div className={`${compact ? 'relative z-20 max-w-6xl mx-auto px-4' : 'relative -mt-16 z-20 max-w-6xl mx-auto px-8 py-3'}`}>
+      <div className={`${compact ? 'relative z-20 max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-20 max-w-6xl mx-auto px-8 py-3'}`}>
         {error && (
           <div className="mb-4 mx-4 pt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             {error}
@@ -206,7 +206,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
           </form>
 
           {/* Mobile Layout - Vertical Grid */}
-          <form onSubmit={handleSubmit} className="md:hidden p-6 space-y-6">
+          <form onSubmit={handleSubmit} className="md:hidden p-6  space-y-6">
             {/* Location Dropdown */}
             <div className="relative group">
               <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-blue-600 transition-colors">
@@ -264,17 +264,17 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
+              className="group relative w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-2.5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-6 w-6 border-3 border-white border-t-transparent"></div>
-                  <span className="text-lg font-bold">BUSCANDO...</span>
+                  <div className="animate-spin rounded-full h-4 w-4 border-3 border-white border-t-transparent"></div>
+                  <span className="text-md font-bold">BUSCANDO...</span>
                 </>
               ) : (
                 <>
                   <Search size={24} className="transition-transform group-hover:scale-110" />
-                  <span className="text-lg font-bold">BUSCAR HOTELES</span>
+                  <span className="text-md font-bold">BUSCAR</span>
                 </>
               )}
               {/* Button glow effect */}
