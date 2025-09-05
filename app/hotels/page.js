@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAmenityIcon } from "@/components/HotelResults";
 import { allAmenities } from "@/lib/amenities";
+import { translate } from "@/hotelbeds_facilities";
 
 export default function HotelDetails() {
   const [hotel, setHotel] = useState(null);
@@ -151,14 +152,14 @@ export default function HotelDetails() {
   return (
     <div className="container mx-auto p-4">
       {/* Image Carousel */}
-      <div className="relative w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg mb-8">
+      <div className="relative w-full h-[250px] md:h-[500px] rounded-lg overflow-hidden shadow-lg mb-8">
         {hotel.images && hotel.images.length > 0 ? (
           <>
             <Image
               src={hotel.images[currentImageIndex]}
               alt={`${hotel.name} - Imagen ${currentImageIndex + 1}`}
               fill
-              className="object-contain transition-transform duration-500"
+              className="md:object-cover object-contain transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-black/20"></div>
             <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full hover:bg-white">
@@ -208,7 +209,7 @@ export default function HotelDetails() {
               <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
                 {hotel.amenities.map((amenity, index) => {
                   const icon = getAmenityIcon(amenity);
-                  const amenityName = allAmenities.find(item => item.en.toLowerCase() === amenity.toLowerCase())?.es || amenity;
+                  const amenityName = translate[amenity] || amenity;
                   if(!icon ) return null;
                   return (
                     <div key={index} className={`flex items-center justify-center bg-gray-100 px-3 py-2 rounded-full text-sm text-gray-700`}>

@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from './Pagination';
 import { Skeleton } from "@/components/ui/skeleton";
 import { allAmenities } from '@/lib/amenities';
+import { translate } from '@/hotelbeds_facilities';
 
 
 export function getAmenityIcon(amenity) {
@@ -353,7 +354,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 const isSelected = selectedAmenities?.some(selected => amenity.toLowerCase().includes(selected.toLowerCase()));
                 if (!isSelected && !icon) return null;
 
-                const amenityName = allAmenities.find(item => item.en.toLowerCase() === amenity.toLowerCase())?.es || amenity;
+                const amenityName = translate[amenity] || amenity;
 
                 return (
                   <div key={index} className={`flex items-center ${isSelected ? 'text-blue-600' : 'text-gray-600'}`}>
