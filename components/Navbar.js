@@ -29,7 +29,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
+          <Link className="flex-shrink-0 flex items-center" href="/">
             <div className="flex items-center space-x-3">
               {/* Pine tree logo placeholder - you can replace with actual logo */}
               <div className="text-2xl">🏔️</div>
@@ -38,7 +38,7 @@ export default function Navbar() {
                 <div className="text-sm text-gray-200 font-medium">Alquileres Vacacionales</div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:block">
