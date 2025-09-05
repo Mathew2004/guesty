@@ -1,5 +1,5 @@
 import SearchForm from "@/components/SearchForm";
 
 export default function WidgetPage() {
-    return <SearchForm />;
+    return <SearchForm isFrame={true} />;
 }

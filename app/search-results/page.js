@@ -256,7 +256,7 @@ export default function SearchResults() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-[#486698]/5">
       {/* Desktop Sticky Header with Search Form */}
       <div className="hidden md:block sticky top-0 z-50 bg-white/95 backdrop-blur-lg  border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-4">
@@ -389,17 +389,17 @@ export default function SearchResults() {
 
           {/* Mobile Search Values */}
           <div
-            className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-100 cursor-pointer hover:from-blue-100 hover:to-purple-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
+            className="bg-gradient-to-r from-[#486698]/5 to-purple-50 rounded-2xl p-4 border border-[#486698]/20 cursor-pointer hover:from-[#486698]/10 hover:to-purple-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
             onClick={() => setShowMobileModal(true)}
           >
             <div className="flex items-center justify-between space-x-3">
               {/* Destination */}
               <div className="flex items-center space-x-3 min-w-0 flex-1">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MapPin size={16} className="text-blue-600" />
+                <div className="w-8 h-8 bg-[#486698]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <MapPin size={16} className="text-[#486698]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold text-blue-800 truncate">
+                  <p className="text-xs font-bold text-[#486698] truncate">
                     {getMobileDisplayValues().location}
                   </p>
                 </div>
@@ -477,7 +477,7 @@ export default function SearchResults() {
           selectedAmenities={selectedAmenities}
         />
         {filteredHotels.length === 0  && !loading && (
-          <div className="mt-20 absolute inset-0 bg-blue-100/20 flex items-center justify-center z-10 margin-4 rounded-2xl p-8 ">
+          <div className="mt-20 absolute inset-0 bg-[#486698]/5 flex items-center justify-center z-10 margin-4 rounded-2xl p-8 ">
             <div className="text-center text-gray-900">
               <h2 className="text-2xl font-bold">¿No encontraste lo que buscabas?</h2>
               <p className="mb-4">Intenta cambiar los filtros</p>
@@ -491,20 +491,20 @@ export default function SearchResults() {
       {!loading && results && (!results.hotels || results.hotels.length === 0) && (
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-white/20">
-            <div className="w-20 h-20 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Search size={40} className="text-blue-600" />
+            <div className="w-20 h-20 bg-gradient-to-r from-[#486698]/10 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search size={40} className="text-[#486698]" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               No se encontraron hoteles
             </h2>
             <p className="text-gray-600 mb-8 text-lg">
-              No pudimos encontrar hoteles que coincidan con tus criterios de búsqueda en <strong className="text-blue-600">{city}</strong>.
+              No pudimos encontrar hoteles que coincidan con tus criterios de búsqueda en <strong className="text-[#486698]">{city}</strong>.
             </p>
-            <div className="bg-blue-50/50 rounded-2xl p-6 mb-8">
+            <div className="bg-[#486698]/5 rounded-2xl p-6 mb-8">
               <p className="text-sm font-semibold text-gray-700 mb-4">Sugerencias para mejorar tu búsqueda:</p>
               <div className="grid md:grid-cols-2 gap-3 text-left">
                 <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-[#486698] rounded-full"></div>
                   <span className="text-sm text-gray-600">Cambiar las fechas de tu viaje</span>
                 </div>
                 <div className="flex items-center space-x-3">
@@ -523,7 +523,7 @@ export default function SearchResults() {
             </div>
             <Link
               href="/"
-              className="group relative inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-xl hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1"
+              className="group relative inline-block bg-gradient-to-r from-[#486698] to-purple-600 hover:from-[#3e5788] hover:to-purple-700 text-white px-8 py-4 rounded-2xl transition-all duration-300 font-bold shadow-xl hover:shadow-2xl hover:shadow-[#486698]/25 transform hover:-translate-y-1"
             >
               <span className="relative z-10">Nueva búsqueda</span>
               <div className="absolute inset-0 bg-white rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>

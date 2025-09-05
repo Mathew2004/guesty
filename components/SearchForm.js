@@ -7,7 +7,7 @@ import cities from '../cities.json';
 import DateRangePicker from './DateRangePicker';
 import SearchableDropdown from './SearchableDropdown';
 
-export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, compact = false, initialValues = {} }) {
+export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, compact = false, initialValues = {}, isFrame = false}) {
   const router = useRouter();
   const [searchData, setSearchData] = useState({
     location: initialValues.location || {},
@@ -87,7 +87,8 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
     });
 
     // Navigate to search results page
-    router.push(`/search-results?${searchParams.toString()}`);
+    if(isFrame) window.open(`/search-results?${searchParams.toString()}`, '_blank');
+    else router.push(`/search-results?${searchParams.toString()}`);
   };
 
   // Get today's date for min attribute
@@ -108,7 +109,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
           <form onSubmit={handleSubmit} className={`hidden md:flex items-center gap-1 ${compact ? 'p-2' : 'p-3'}`}>
             {/* Location Dropdown */}
             <div className="flex-1 relative group">
-              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Ubicación</h4>}
+              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Ubicación</h4>}
               <SearchableDropdown
                 options={cities}
                 value={searchData.location}
@@ -124,7 +125,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
             {/* Date Range Picker */}
             <div className="flex-2 px-2 justify-end group">
-              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Check In - Check Out</h4>}
+              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Check In - Check Out</h4>}
               <DateRangePicker
                 checkIn={searchData.checkIn}
                 checkOut={searchData.checkOut}
@@ -141,16 +142,16 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
             {/* Guests Dropdown */}
             <div className="flex-1 relative guests-dropdown group">
-              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-blue-600 transition-colors">Huéspedes</h4>}
+              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Huéspedes</h4>}
               <div className="relative">
                 <div
-                  className={`w-full ${compact ? 'px-3 py-3 border border-gray-300 rounded-lg bg-white' : 'px-4 py-4 border-0 bg-transparent'} focus:outline-none text-gray-700 font-medium cursor-pointer flex items-center justify-between hover:bg-blue-50/50 transition-colors ${compact ? 'hover:border-blue-300' : 'rounded-lg'}`}
+                  className={`w-full ${compact ? 'px-3 py-3 border border-gray-300 rounded-lg bg-white' : 'px-4 py-4 border-0 bg-transparent'} focus:outline-none text-gray-700 font-medium cursor-pointer flex items-center justify-between hover:bg-[#486698]/5 transition-colors ${compact ? 'hover:border-[#486698]' : 'rounded-lg'}`}
                   onClick={() => setGuestsDropdownOpen(!guestsDropdownOpen)}
                 >
                   <span className={`${compact ? 'text-gray-500' : 'font-semibold text-sm'}`}>
                     {compact ? `${searchData.guests} huésped${searchData.guests !== 1 ? 'es' : ''}` : `${searchData.guests} Huésped${searchData.guests !== 1 ? 'es' : ''}`}
                   </span>
-                  <ChevronDown className={`text-gray-400 transition-transform duration-200 ${guestsDropdownOpen ? 'rotate-180 text-blue-500' : ''}`} size={16} />
+                  <ChevronDown className={`text-gray-400 transition-transform duration-200 ${guestsDropdownOpen ? 'rotate-180 text-[#486698]' : ''}`} size={16} />
                 </div>
 
                 {guestsDropdownOpen && (
@@ -161,7 +162,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                           <button
                             type="button"
                             onClick={() => searchData.guests > 1 && setSearchData(prev => ({ ...prev, guests: prev.guests - 1 }))}
-                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
+                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-[#486698] hover:to-[#3e5788] hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
                             disabled={searchData.guests <= 1}
                           >
                             -
@@ -170,7 +171,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                           <button
                             type="button"
                             onClick={() => searchData.guests < 10 && setSearchData(prev => ({ ...prev, guests: prev.guests + 1 }))}
-                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
+                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-[#486698] hover:to-[#3e5788] hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
                             disabled={searchData.guests >= 10}
                           >
                             +
@@ -187,7 +188,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className={`group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white ${compact ? 'px-4 py-3 ml-2' : 'px-8 py-4 ml-4'} ${compact ? 'rounded-lg' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center ${compact ? 'space-x-1' : 'space-x-2'} shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
+              className={`group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white ${compact ? 'px-4 py-3 ml-2' : 'px-8 py-4 ml-4'} ${compact ? 'rounded-lg' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center ${compact ? 'space-x-1' : 'space-x-2'} shadow-lg hover:shadow-xl hover:shadow-[#486698]/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
             >
               {loading ? (
                 <>
@@ -209,7 +210,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
           <form onSubmit={handleSubmit} className="md:hidden p-6  space-y-6">
             {/* Location Dropdown */}
             <div className="relative group">
-              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-blue-600 transition-colors">
+              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
                 <MapPin size={16} className="inline mr-2" />
                 Destino
               </label>
@@ -218,13 +219,13 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                 value={searchData.location}
                 onChange={handleLocationChange}
                 placeholder="Seleccionar destino"
-                className="rounded-xl shadow-sm border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                className="rounded-xl shadow-sm border-gray-200 focus:border-[#486698] focus:ring-2 focus:ring-[#486698]/20"
               />
             </div>
 
             {/* Date Range Picker */}
             <div className="group">
-              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-blue-600 transition-colors">
+              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
                 <Calendar size={16} className="inline mr-2" />
                 Entrada y Salida
               </label>
@@ -239,7 +240,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
             {/* Guests Dropdown */}
             <div className="relative group">
-              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-blue-600 transition-colors">
+              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
                 <Users size={16} className="inline mr-2" />
                 Huéspedes
               </label>
@@ -248,7 +249,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                   name="guests"
                   value={searchData.guests}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 appearance-none text-gray-700 font-semibold cursor-pointer bg-white shadow-sm hover:shadow-md transition-all duration-200"
+                  className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#486698]/20 focus:border-[#486698] appearance-none text-gray-700 font-semibold cursor-pointer bg-white shadow-sm hover:shadow-md transition-all duration-200"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
@@ -256,7 +257,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-colors group-hover:text-blue-500" size={20} />
+                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-colors group-hover:text-[#486698]" size={20} />
               </div>
             </div>
 
@@ -264,7 +265,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-2.5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
+              className="group relative w-full bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-2.5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-[#486698]/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
             >
               {loading ? (
                 <>

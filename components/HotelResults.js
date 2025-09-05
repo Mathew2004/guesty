@@ -184,7 +184,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
       <div className="bg-gray-50 rounded-xl p-4">
         <button
           onClick={() => setShowMap(!showMap)}
-          className="flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors bg-white rounded-lg px-3 py-2 shadow-sm hover:shadow-md"
+          className="flex items-center text-sm font-semibold text-[#486698] hover:text-[#3e5788] transition-colors bg-white rounded-lg px-3 py-2 shadow-sm hover:shadow-md"
         >
           <Map size={16} className="mr-2" />
           {showMap ? 'Ocultar mapa' : 'Ver en mapa'}
@@ -239,7 +239,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
 
   return (
     <div
-      className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-500 cursor-pointer flex flex-col h-full"
+      className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-[#486698]/10 transition-all duration-500 cursor-pointer flex flex-col h-full"
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
@@ -301,8 +301,8 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
 
         {/* Clickable indicator */}
         {getRedirectUrl() && (
-          <div className="absolute bottom-3 right-3 bg-blue-500/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="absolute bottom-3 right-3 bg-[#486698]/20 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <svg className="w-3 h-3 text-[#486698]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </div>
@@ -312,7 +312,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
       {/* Content Section */}
       <div className="p-4 flex-1 flex flex-col">
         {/* Hotel Name */}
-        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-[#486698] transition-colors duration-300">
           {hotel.name}
         </h3>
 
@@ -325,9 +325,9 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         {/* Property Details */}
         <div className="flex flex-wrap gap-2 mb-4">
           {hotel.maxGuests && (
-            <div className="flex items-center bg-blue-50 rounded-full px-2 py-1">
-              <Users size={12} className="text-blue-600 mr-1" />
-              <span className="text-xs font-medium text-blue-700">{hotel.maxGuests} Huéspedes</span>
+            <div className="flex items-center bg-[#486698]/10 rounded-full px-2 py-1">
+              <Users size={12} className="text-[#486698] mr-1" />
+              <span className="text-xs font-medium text-[#486698]">{hotel.maxGuests} Huéspedes</span>
             </div>
           )}
           {hotel.bedrooms > 0 && (
@@ -357,7 +357,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 const amenityName = translate[amenity] || amenity;
 
                 return (
-                  <div key={index} className={`flex items-center ${isSelected ? 'text-blue-600' : 'text-gray-600'}`}>
+                  <div key={index} className={`flex items-center ${isSelected ? 'text-[#486698]' : 'text-gray-600'}`}>
                     {icon || ""}
                     <span className={`text-xs ml-1.5 ${isSelected ? 'font-semibold' : ''}`}>{amenityName}</span>
                   </div>
@@ -381,7 +381,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               <Link
                 href={`https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
                 target='_blank'
-                className="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
+                className="group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
               >
                 <span className="relative z-10">Reservar</span>
                 <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
@@ -486,7 +486,7 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
           {guestyHotels.length > 0 && (
             <div className="mb-8">
               <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                <div className="w-4 h-4 bg-[#486698] rounded-full mr-2"></div>
                 Propiedades Guestyzz ({guestyHotels.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -24,7 +24,7 @@ export default function Home() {
               </h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-8 h-8 bg-[#486698] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-white font-bold">1</span>
                   </div>
                   <div>
@@ -33,7 +33,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-8 h-8 bg-[#486698] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-white font-bold">2</span>
                   </div>
                   <div>
@@ -42,7 +42,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-8 h-8 bg-[#486698] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <span className="text-white font-bold">3</span>
                   </div>
                   <div>
