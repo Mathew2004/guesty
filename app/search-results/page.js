@@ -476,8 +476,8 @@ export default function SearchResults() {
           onPageChange={handlePageChange}
           selectedAmenities={selectedAmenities}
         />
-        {filteredHotels.length === 0 && selectedAmenities.length > 0 && !loading && (
-          <div className="absolute inset-0 bg-blue-100/20 flex items-center justify-center z-10 margin-4 rounded-2xl p-8 ">
+        {filteredHotels.length === 0  && !loading && (
+          <div className="mt-20 absolute inset-0 bg-blue-100/20 flex items-center justify-center z-10 margin-4 rounded-2xl p-8 ">
             <div className="text-center text-gray-900">
               <h2 className="text-2xl font-bold">¿No encontraste lo que buscabas?</h2>
               <p className="mb-4">Intenta cambiar los filtros</p>
