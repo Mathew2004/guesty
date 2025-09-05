@@ -1,7 +1,7 @@
 
 'use client';
 
-import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Calendar, Bed, Tv, UmbrellaIcon, Table, CookingPotIcon } from 'lucide-react';
+import { MapPin, Users, Star, Wifi, Car, Coffee, Dumbbell, Map, CreditCard, Calendar, Bed, Tv, UmbrellaIcon, Table, CookingPotIcon, WavesIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
@@ -10,6 +10,21 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from './Pagination';
 import { Skeleton } from "@/components/ui/skeleton";
 import { allAmenities } from '@/lib/amenities';
+
+
+export function getAmenityIcon(amenity) {
+  const amenityLower = typeof amenity === 'string' ? amenity.toLowerCase() : '';
+  if (amenityLower.includes('wifi') || amenityLower.includes('internet')) return <Wifi size={16} />;
+  if (amenityLower.includes('parking') || amenityLower.includes('garage')) return <Car size={16} />;
+  if (amenityLower.includes('coffee') || amenityLower.includes('kitchen')) return <Coffee size={16} />;
+  if (amenityLower.includes('pool') || amenityLower.includes('swimming')) return <WavesIcon size={16} />; // Using MapPin as Pool replacement
+  if (amenityLower.includes('gym') || amenityLower.includes('fitness')) return <Dumbbell size={16} />;
+  if (amenityLower.includes('tv') || amenityLower.includes('cable')) return <Tv size={16} />;
+  if (amenityLower.includes('beach')) return <UmbrellaIcon size={16} />;
+  if (amenityLower.includes('dining')) return <CookingPotIcon size={16} />;
+
+  return null;
+};
 
 const HotelCard = ({ hotel, selectedAmenities }) => {
   const [showMap, setShowMap] = useState(false);
@@ -41,19 +56,6 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
     return null;
   };
 
-  const getAmenityIcon = (amenity) => {
-    const amenityLower = typeof amenity === 'string' ? amenity.toLowerCase() : '';
-    if (amenityLower.includes('wifi') || amenityLower.includes('internet')) return <Wifi size={16} />;
-    if (amenityLower.includes('parking') || amenityLower.includes('garage')) return <Car size={16} />;
-    if (amenityLower.includes('coffee') || amenityLower.includes('kitchen')) return <Coffee size={16} />;
-    if (amenityLower.includes('pool') || amenityLower.includes('swimming')) return <MapPin size={16} />; // Using MapPin as Pool replacement
-    if (amenityLower.includes('gym') || amenityLower.includes('fitness')) return <Dumbbell size={16} />;
-    if (amenityLower.includes('tv') || amenityLower.includes('cable')) return <Tv size={16} />;
-    if (amenityLower.includes('beach')) return <UmbrellaIcon size={16} />;
-    if (amenityLower.includes('dining')) return <CookingPotIcon size={16} />;
-    
-    return null;
-  };
 
   const renderPricing = () => {
     if (hotel.source === 'hotelbeds') {
@@ -339,7 +341,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               <span className="text-xs font-medium text-green-700">{hotel.bathrooms} Baños</span>
             </div>
           )}
-          
+
         </div>
 
         {/* Amenities */}
@@ -350,7 +352,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 const icon = getAmenityIcon(amenity);
                 const isSelected = selectedAmenities?.some(selected => amenity.toLowerCase().includes(selected.toLowerCase()));
                 if (!isSelected && !icon) return null;
-                
+
                 const amenityName = allAmenities.find(item => item.en.toLowerCase() === amenity.toLowerCase())?.es || amenity;
 
                 return (
@@ -393,11 +395,11 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
               </Link>
             ) : getRedirectUrl() ? (
-              <div className="text-center">
+              <Link href={getRedirectUrl()} className="text-center">
                 <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg font-normal">
                   Ver detalles
                 </span>
-              </div>
+              </Link>
             ) : null}
           </div>
         </div>

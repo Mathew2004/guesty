@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import crypto from 'crypto';
+import { facilities as hotelbedsFacilities } from '../../../../hotelbeds_facilities.js';
 
 // Helper function to generate the Hotelbeds API signature
 function generateHotelbedsSignature() {
@@ -13,6 +14,14 @@ function generateHotelbedsSignature() {
 export async function POST(request) {
   try {
     const { hotelCode, checkin, checkout, guests } = await request.json();
+
+    const facilityMap = new Map();
+    for (const facility of hotelbedsFacilities) {
+      const key = `${facility.code}-${facility.facilityGroupCode}`;
+      if (!facilityMap.has(key)) {
+        facilityMap.set(key, facility?.description?.content || "");
+      }
+    }
 
     // Validate required parameters
     if (!hotelCode) {
@@ -73,7 +82,7 @@ export async function POST(request) {
       category: content.categoryCode || "Standard",
       rating: availability.ranking || content.categoryCode?.replace(/EST/, '') || null,
       images: content.images?.map(img => `https://photos.hotelbeds.com/giata/${img.path}`) || [],
-      amenities: content.facilities?.map(f => f.facilityName) || [],
+      amenities: content.facilities?.map(f => facilityMap.get(`${f.facilityCode}-${f.facilityGroupCode}`)).filter(Boolean) || [],
       currency: availability.currency,
       minRate: availability.minRate,
       maxRate: availability.maxRate,
@@ -103,7 +112,7 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error fetching hotel details:", error.response?.data || error.message);
     return NextResponse.json(
-      { 
+      {
         error: "Failed to fetch hotel details",
         details: error.response?.data || error.message
       },

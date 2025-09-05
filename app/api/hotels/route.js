@@ -284,9 +284,7 @@ export async function GET(request) {
               currency: hotel.currency,
               minRate: hotel.minRate,
               maxRate: hotel.maxRate,
-              bedrooms: hotel.rooms?.[0]?.characteristic?.bedrooms || null,
-              bathrooms: hotel.rooms?.[0]?.characteristic?.bathrooms || null,
-              beds: hotel.rooms?.[0]?.characteristic?.beds || null,
+              bedrooms: countBedroomsFromRooms(hotel.rooms),
               rooms: hotel.rooms?.map(room => ({
                 code: room.code,
                 name: room.name?.content,
@@ -378,4 +376,20 @@ export async function GET(request) {
       { status: 500 }
     );
   }
+}
+
+function countBedroomsFromRooms(rooms) {
+  if (!rooms || !Array.isArray(rooms)) return 0;
+  
+  let bedroomCount = 0;
+  
+  rooms.forEach(room => {
+    if (room.roomStays && Array.isArray(room.roomStays)) {
+      // Count roomStays that are of type "BED" (bed rooms)
+      const bedRooms = room.roomStays.filter(stay => stay.stayType === "BED");
+      bedroomCount += bedRooms.length;
+    }
+  });
+  
+  return bedroomCount;
 }
