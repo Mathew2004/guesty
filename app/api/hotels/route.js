@@ -284,7 +284,8 @@ export async function GET(request) {
               currency: hotel.currency,
               minRate: hotel.minRate,
               maxRate: hotel.maxRate,
-              bedrooms: countBedroomsFromRooms(hotel.rooms),
+              // bedrooms: countBedroomsFromRooms(hotel.rooms),
+              bedrooms: hotel.rooms.length ,
               rooms: hotel.rooms?.map(room => ({
                 code: room.code,
                 name: room.name?.content,
@@ -385,7 +386,7 @@ function countBedroomsFromRooms(rooms) {
   
   rooms.forEach(room => {
     if (room.roomStays && Array.isArray(room.roomStays)) {
-      // Count roomStays that are of type "BED" (bed rooms)
+      console.log('roomStays:', room.roomStays);
       const bedRooms = room.roomStays.filter(stay => stay.stayType === "BED");
       bedroomCount += bedRooms.length;
     }
