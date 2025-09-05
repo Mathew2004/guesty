@@ -215,7 +215,7 @@ export default function HotelDetails() {
           )} */}
 
           {/* Contact Info */}
-          <Card className="p-6">
+          {/* <Card className="p-6">
             <h2 className="text-2xl font-semibold mb-4">Información de contacto</h2>
             <div className="space-y-3">
               {hotel.email && (
@@ -237,7 +237,7 @@ export default function HotelDetails() {
                 </div>
               ))}
             </div>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Right Column - Booking */}

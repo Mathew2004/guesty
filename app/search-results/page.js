@@ -5,13 +5,14 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import SearchForm from '@/components/SearchForm';
 import HotelResults from '@/components/HotelResults';
 import MobileSearchModal from '@/components/MobileSearchModal';
-import { ArrowLeft, MapPin, Calendar, Users, Search, FilterIcon } from 'lucide-react';
+import { MapPin, Calendar, Users, Search, FilterIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { allAmenities } from '@/lib/amenities';
-
 
 export default function SearchResults() {
   const searchParams = useSearchParams();
@@ -24,19 +25,37 @@ export default function SearchResults() {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [tempSelectedAmenities, setTempSelectedAmenities] = useState([]);
+  const [bedrooms, setBedrooms] = useState(0);
+  const [tempBedrooms, setTempBedrooms] = useState(0);
+  const [bathrooms, setBathrooms] = useState(0);
+  const [tempBathrooms, setTempBathrooms] = useState(0);
+  const [sortByPrice, setSortByPrice] = useState(false);
+  const [tempSortByPrice, setTempSortByPrice] = useState(false);
+
+  const popularAmenities = allAmenities.filter(a => a.type === 'popular');
+  const otherAmenities = allAmenities.filter(a => a.type === 'other');
 
   const handleApplyFilters = () => {
     setSelectedAmenities(tempSelectedAmenities);
+    setBedrooms(tempBedrooms);
+    setBathrooms(tempBathrooms);
+    setSortByPrice(tempSortByPrice);
     setIsFilterOpen(false);
   };
 
   const handleClearFilters = () => {
     setTempSelectedAmenities([]);
+    setTempBedrooms(0);
+    setTempBathrooms(0);
+    setTempSortByPrice(false);
   };
 
   const handleFilterOpenChange = (isOpen) => {
     if (isOpen) {
       setTempSelectedAmenities(selectedAmenities);
+      setTempBedrooms(bedrooms);
+      setTempBathrooms(bathrooms);
+      setTempSortByPrice(sortByPrice);
     }
     setIsFilterOpen(isOpen);
   };
@@ -69,19 +88,43 @@ export default function SearchResults() {
 
   const filteredHotels = useMemo(() => {
     if (!results || !results.hotels) return [];
-    if (selectedAmenities.length === 0) {
-      return results.hotels;
+
+    let hotels = results.hotels;
+
+    // Amenity filtering
+    if (selectedAmenities.length > 0) {
+      hotels = hotels.filter(hotel =>
+        selectedAmenities.every(selectedAmenity =>
+          hotel.amenities?.some(hotelAmenity => {
+            const hotelAmenityLower = hotelAmenity?.toLowerCase();
+            const selectedAmenityLower = selectedAmenity.toLowerCase();
+            return hotelAmenityLower?.includes(selectedAmenityLower) || selectedAmenityLower.includes(hotelAmenityLower);
+          })
+        )
+      );
     }
-    return results.hotels.filter(hotel =>
-      selectedAmenities.every(selectedAmenity =>
-        hotel.amenities?.some(hotelAmenity => {
-          const hotelAmenityLower = hotelAmenity?.toLowerCase();
-          const selectedAmenityLower = selectedAmenity.toLowerCase();
-          return hotelAmenityLower?.includes(selectedAmenityLower) || selectedAmenityLower.includes(hotelAmenityLower);
-        })
-      )
-    );
-  }, [results, selectedAmenities]);
+
+    // Bedroom filtering
+    if (bedrooms > 0) {
+      hotels = hotels.filter(hotel => hotel.bedrooms >= bedrooms);
+    }
+
+    // Bathroom filtering
+    if (bathrooms > 0) {
+      hotels = hotels.filter(hotel => hotel.bathrooms >= bathrooms);
+    }
+
+    // Sorting
+    if (sortByPrice) {
+      hotels = [...hotels].sort((a, b) => {
+        const priceA = a.prices?.basePrice || a.minRate || Infinity;
+        const priceB = b.prices?.basePrice || b.minRate || Infinity;
+        return priceA - priceB;
+      });
+    }
+
+    return hotels;
+  }, [results, selectedAmenities, bedrooms, bathrooms, sortByPrice]);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -233,41 +276,104 @@ export default function SearchResults() {
             <div className="flex-shrink-0">
               <Dialog open={isFilterOpen} onOpenChange={handleFilterOpenChange}>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="rounded-full mt-2">
+                  <Button variant="outline" className="rounded-full">
                     <FilterIcon className="mr-2 h-4 w-4" />
                     Filtrar
-                    {selectedAmenities.length > 0 && ` (${selectedAmenities.length})`}
+                    {(selectedAmenities.length > 0 || bedrooms > 0 || bathrooms > 0) &&
+                      ` (${selectedAmenities.length + (bedrooms > 0 ? 1 : 0) + (bathrooms > 0 ? 1 : 0)})`}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-lg shadow-md border rounded-md ">
                   <DialogHeader>
-                    <DialogTitle>Filtrar por servicios</DialogTitle>
+                    <DialogTitle>Filtros</DialogTitle>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4 max-h-96 overflow-y-auto">
-                    {allAmenities.map(amenity => (
-                      <div key={amenity.en} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={amenity.en}
-                          checked={tempSelectedAmenities.includes(amenity.en)}
-                          onCheckedChange={(checked) => {
-                            setTempSelectedAmenities(prev =>
-                              checked
-                                ? [...prev, amenity.en]
-                                : prev.filter(a => a !== amenity.en)
-                            );
-                          }}
-                        />
-                        <label
-                          htmlFor={amenity.en}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          {amenity.es}
-                        </label>
+                  <div className="grid gap-6 py-4 max-h-96 overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="sort-by-price" className="text-sm font-medium">Ordenar por precio más bajo</label>
+                      <Switch
+                        id="sort-by-price"
+                        checked={tempSortByPrice}
+                        onCheckedChange={setTempSortByPrice}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium">Dormitorios</label>
+                        <Select value={tempBedrooms.toString()} onValueChange={(val) => setTempBedrooms(parseInt(val))}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Cualquiera" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[0, 1, 2, 3, 4, 5].map(num => (
+                              <SelectItem key={num} value={num.toString()}>{num === 0 ? 'Cualquiera' : `${num}+`}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    ))}
+                      <div>
+                        <label className="text-sm font-medium">Baños</label>
+                        <Select value={tempBathrooms.toString()} onValueChange={(val) => setTempBathrooms(parseInt(val))}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Cualquiera" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[0, 1, 2, 3, 4, 5].map(num => (
+                              <SelectItem key={num} value={num.toString()}>{num === 0 ? 'Cualquiera' : `${num}+`}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium mb-2">Servicios populares</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {popularAmenities.map(amenity => (
+                          <div key={amenity.en} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`pop-${amenity.en}`}
+                              checked={tempSelectedAmenities.includes(amenity.en)}
+                              onCheckedChange={(checked) => {
+                                setTempSelectedAmenities(prev =>
+                                  checked
+                                    ? [...prev, amenity.en]
+                                    : prev.filter(a => a !== amenity.en)
+                                );
+                              }}
+                            />
+                            <label htmlFor={`pop-${amenity.en}`} className="text-sm flex items-center gap-2 cursor-pointer">
+                              {amenity.icon} {amenity.es}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium mb-2">Otros servicios</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {otherAmenities.map(amenity => (
+                          <div key={amenity.en} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`other-${amenity.en}`}
+                              checked={tempSelectedAmenities.includes(amenity.en)}
+                              onCheckedChange={(checked) => {
+                                setTempSelectedAmenities(prev =>
+                                  checked
+                                    ? [...prev, amenity.en]
+                                    : prev.filter(a => a !== amenity.en)
+                                );
+                              }}
+                            />
+                            <label htmlFor={`other-${amenity.en}`} className="text-sm flex items-center gap-2 cursor-pointer">
+                              {amenity.icon} {amenity.es}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
+
                   <DialogFooter>
-                    <Button variant="ghost" onClick={handleClearFilters}>Limpiar</Button>
+                    <Button variant="ghost" onClick={handleClearFilters}>Limpiar todo</Button>
                     <Button onClick={handleApplyFilters}>Aplicar</Button>
                   </DialogFooter>
                 </DialogContent>
@@ -337,38 +443,6 @@ export default function SearchResults() {
                       {selectedAmenities.length > 0 && ` (${selectedAmenities.length})`}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Filtrar por servicios</DialogTitle>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4 max-h-96 overflow-y-auto">
-                      {allAmenities.map(amenity => (
-                        <div key={amenity.en} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={amenity.en}
-                            checked={tempSelectedAmenities.includes(amenity.en)}
-                            onCheckedChange={(checked) => {
-                              setTempSelectedAmenities(prev =>
-                                checked
-                                  ? [...prev, amenity.en]
-                                  : prev.filter(a => a !== amenity.en)
-                              );
-                            }}
-                          />
-                          <label
-                            htmlFor={amenity.en}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            {amenity.es}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                    <DialogFooter>
-                      <Button variant="ghost" onClick={handleClearFilters}>Limpiar</Button>
-                      <Button onClick={handleApplyFilters}>Aplicar</Button>
-                    </DialogFooter>
-                  </DialogContent>
                 </Dialog>
               </div>
             )}

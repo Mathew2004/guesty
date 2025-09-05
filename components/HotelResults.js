@@ -316,7 +316,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         {/* Location */}
         <div className="flex items-center text-gray-600 mb-3">
           <MapPin size={14} className="text-gray-400 mr-1 flex-shrink-0" />
-          <span className="text-sm truncate">{hotel.city ? `${hotel.city},` : ''} {hotel.country ? hotel.country : ''}</span>
+          <span className="text-sm truncate">{hotel.address ? `${hotel.address},` : ''} {hotel.city ? `${hotel.city},` : ''} {hotel.country ? hotel.country : ''}</span>
         </div>
 
         {/* Property Details */}

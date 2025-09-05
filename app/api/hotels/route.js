@@ -226,8 +226,7 @@ export async function GET(request) {
           }
         );
 
-        // Example: extract first 30 hotel codes
-        const hotelCodes = hotelsResponse.data.hotels.map(h => h.code).slice(0, 30);
+        const hotelCodes = hotelsResponse.data.hotels.map(h => h.code).slice(0, 100);
 
         const hotelbedsResponse = await axios.post(
           "https://api.test.hotelbeds.com/hotel-api/1.0/hotels",
@@ -285,6 +284,9 @@ export async function GET(request) {
               currency: hotel.currency,
               minRate: hotel.minRate,
               maxRate: hotel.maxRate,
+              bedrooms: hotel.rooms?.[0]?.characteristic?.bedrooms || null,
+              bathrooms: hotel.rooms?.[0]?.characteristic?.bathrooms || null,
+              beds: hotel.rooms?.[0]?.characteristic?.beds || null,
               rooms: hotel.rooms?.map(room => ({
                 code: room.code,
                 name: room.name?.content,
@@ -306,9 +308,9 @@ export async function GET(request) {
               // Content info
               description: content.description?.content || "No description available",
               city: content.city?.content || "Unknown City",
-              country: content.country?.content || "Unknown",
+              country: content.country?.content || "",
               address: content.address?.content || "Address not available",
-              coordinates: content.coordinates
+              coordinates: content.coordinates 
                 ? {
                   longitude: content.coordinates.longitude,
                   latitude: content.coordinates.latitude
