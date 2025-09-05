@@ -284,7 +284,7 @@ export default function HotelDetails() {
             <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Solicitud de reserva</DialogTitle>
+                  <DialogTitle>Quiero mi contraoferta</DialogTitle>
                 </DialogHeader>
                 <BookingForm 
                   hotel={hotel} 
