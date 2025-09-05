@@ -7,7 +7,7 @@ import cities from '../cities.json';
 import DateRangePicker from './DateRangePicker';
 import SearchableDropdown from './SearchableDropdown';
 
-export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, compact = false, initialValues = {}, isFrame = false}) {
+export default function SearchForm({ onSearch, setSearchResults, loading, setLoading, compact = false, initialValues = {}, isFrame = false }) {
   const router = useRouter();
   const [searchData, setSearchData] = useState({
     location: initialValues.location || {},
@@ -71,7 +71,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
       return;
     }
 
-    if(!searchData.checkIn || !searchData.checkOut) {
+    if (!searchData.checkIn || !searchData.checkOut) {
       setError && setError('Por favor selecciona un rango de fechas');
       return;
     }
@@ -87,7 +87,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
     });
 
     // Navigate to search results page
-    if(isFrame) window.open(`/search-results?${searchParams.toString()}`, '_blank');
+    if (isFrame) window.open(`/search-results?${searchParams.toString()}`, '_blank');
     else router.push(`/search-results?${searchParams.toString()}`);
   };
 
@@ -103,13 +103,13 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             {error}
           </div>
         )}
-        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20'}`}>
+        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-white/95 backdrop-blur-lg rounded-lg md:rounded-full shadow-2xl border border-white/20'}`}>
 
           {/* Desktop Layout - Horizontal */}
           <form onSubmit={handleSubmit} className={`hidden md:flex items-center gap-1 ${compact ? 'p-2' : 'p-3'}`}>
             {/* Location Dropdown */}
             <div className="flex-1 relative group">
-              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Ubicación</h4>}
+              {/* {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Ubicación</h4>} */}
               <SearchableDropdown
                 options={cities}
                 value={searchData.location}
@@ -121,11 +121,11 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             </div>
 
             {/* Separator */}
-            {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>}
+            {/* {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>} */}
 
             {/* Date Range Picker */}
             <div className="flex-2 px-2 justify-end group">
-              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Check In - Check Out</h4>}
+              {/* {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Check In - Check Out</h4>} */}
               <DateRangePicker
                 checkIn={searchData.checkIn}
                 checkOut={searchData.checkOut}
@@ -138,49 +138,24 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             </div>
 
             {/* Separator */}
-            {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>}
+            {/* {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>} */}
 
             {/* Guests Dropdown */}
-            <div className="flex-1 relative guests-dropdown group">
-              {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Huéspedes</h4>}
+            <div className="flex-1 relative group">
               <div className="relative">
-                <div
-                  className={`w-full ${compact ? 'px-3 py-3 border border-gray-300 rounded-lg bg-white' : 'px-4 py-4 border-0 bg-transparent'} focus:outline-none text-gray-700 font-medium cursor-pointer flex items-center justify-between hover:bg-[#486698]/5 transition-colors ${compact ? 'hover:border-[#486698]' : 'rounded-lg'}`}
-                  onClick={() => setGuestsDropdownOpen(!guestsDropdownOpen)}
+                <select
+                  name="guests"
+                  value={searchData.guests}
+                  onChange={handleInputChange}
+                  className={`w-full appearance-none cursor-pointer text-gray-700 font-medium focus:outline-none transition-colors ${compact ? 'px-3 py-3 border border-gray-300 rounded-lg bg-white hover:border-[#486698]' : 'px-4 py-4 border-0 bg-transparent rounded-lg hover:bg-[#486698]/5'}`}
                 >
-                  <span className={`${compact ? 'text-gray-500' : 'font-semibold text-sm'}`}>
-                    {compact ? `${searchData.guests} huésped${searchData.guests !== 1 ? 'es' : ''}` : `${searchData.guests} Huésped${searchData.guests !== 1 ? 'es' : ''}`}
-                  </span>
-                  <ChevronDown className={`text-gray-400 transition-transform duration-200 ${guestsDropdownOpen ? 'rotate-180 text-[#486698]' : ''}`} size={16} />
-                </div>
-
-                {guestsDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 mt-2 backdrop-blur-sm">
-                    <div className="p-4">
-                      <div className="flex items-center justify-center">
-                        <div className="flex items-center space-x-4">
-                          <button
-                            type="button"
-                            onClick={() => searchData.guests > 1 && setSearchData(prev => ({ ...prev, guests: prev.guests - 1 }))}
-                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-[#486698] hover:to-[#3e5788] hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
-                            disabled={searchData.guests <= 1}
-                          >
-                            -
-                          </button>
-                          <span className="w-12 text-center font-bold text-base text-gray-800">{searchData.guests}</span>
-                          <button
-                            type="button"
-                            onClick={() => searchData.guests < 10 && setSearchData(prev => ({ ...prev, guests: prev.guests + 1 }))}
-                            className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 hover:from-[#486698] hover:to-[#3e5788] hover:text-white flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold shadow-sm hover:shadow-md"
-                            disabled={searchData.guests >= 10}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                    <option key={num} value={num}>
+                      {num} {num === 1 ? 'huésped' : 'huéspedes'}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-colors group-hover:text-[#486698]" size={20} />
               </div>
             </div>
 
@@ -188,7 +163,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className={`group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white ${compact ? 'px-4 py-3 ml-2' : 'px-8 py-4 ml-4'} ${compact ? 'rounded-lg' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center ${compact ? 'space-x-1' : 'space-x-2'} shadow-lg hover:shadow-xl hover:shadow-[#486698]/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
+              className={` rounded-full group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white ${compact ? 'px-4 py-3 ml-2' : 'px-8 py-4 ml-4'} ${compact ? 'rounded-lg' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center ${compact ? 'space-x-1' : 'space-x-2'} shadow-lg hover:shadow-xl hover:shadow-[#486698]/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
             >
               {loading ? (
                 <>
@@ -253,7 +228,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
-                      {num} Huésped{num !== 1 ? 'es' : ''}
+                      {num} {num === 1 ? 'huésped' : 'huéspedes'}
                     </option>
                   ))}
                 </select>

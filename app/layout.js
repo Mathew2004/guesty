@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Guestyz - Premium Hotel Booking',
-  description: 'Book luxury hotels and resorts worldwide with Guestyz. Experience the finest accommodations with our premium booking service.',
+  title: 'Guest Equity, Inc. - Vacation Rentals',
+  description: 'Explore California vacation rentals. Rest, Reconnect, and Make Core Memories with Guest Equity, Inc.',
 };
 
 export default function RootLayout({ children }) {
@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white">
         <Navbar />
         <main>{children}</main>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
