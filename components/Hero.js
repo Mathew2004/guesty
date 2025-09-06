@@ -34,7 +34,7 @@ export default function Hero() {
     };
 
     return (
-        <div className="relative min-h-[70vh] lg:min-h-[80vh]">
+        <div className="relative h-[35vh] lg:h-[70vh]">
             {/* Background Video */}
             <div className="absolute inset-0">
                 {!videoError ? (
@@ -67,22 +67,22 @@ export default function Hero() {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4 pt-20">
-                <div className={`max-w-4xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            <div className="relative z-10 flex flex-col items-center justify-center pt-16 md:pt-52  text-center px-4">
+                <div className={`max-w-4xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     }`}>
-                    <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+                    <h1 className="text-xl md:text-5xl font-bold text-white mb-2">
                         Explora California
                     </h1>
-                    <p className="text-xl md:text-2xl text-white font-medium opacity-90">
+                    <p className="text-lg md:text-xl text-white font-medium opacity-90">
                         Descansa, Reconecta y Crea Recuerdos Inolvidables
                     </p>
                 </div>
 
                 {/* Search Form */}
-                <div className={`w-full z-[200] relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                {/* <div className={`w-full z-[200] relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     }`}>
                     <SearchForm compact={false} />
-                </div>
+                </div> */}
             </div>
         </div>
     );

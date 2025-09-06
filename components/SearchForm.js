@@ -97,13 +97,13 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
   return (
     <>
       {/* Search Form */}
-      <div className={`${compact ? 'relative z-[150] max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-[150] max-w-6xl mx-auto px-8 py-3'}`}>
+      <div className={`${compact ? 'relative z-[10] max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-[150] max-w-7xl mx-auto px-8 py-1'}`}>
         {error && (
           <div className="mb-4 mx-4 pt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             {error}
           </div>
         )}
-        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-white/95 backdrop-blur-lg rounded-lg md:rounded-full shadow-2xl border border-white/20'}`}>
+        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-white/95 backdrop-blur-lg rounded-xl md:rounded-full shadow-2xl border border-white/20'}`}>
 
           {/* Desktop Layout - Horizontal */}
           <form onSubmit={handleSubmit} className={`hidden md:flex items-center gap-1 ${compact ? 'p-2' : 'p-3'}`}>
@@ -182,13 +182,13 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
           </form>
 
           {/* Mobile Layout - Vertical Grid */}
-          <form onSubmit={handleSubmit} className="md:hidden p-6  space-y-6">
+          <form onSubmit={handleSubmit} className="md:hidden p-6 space-y-6 bg-[#486698] rounded-2xl">
             {/* Location Dropdown */}
             <div className="relative group">
-              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
+              {/* <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
                 <MapPin size={16} className="inline mr-2" />
                 Destino
-              </label>
+              </label> */}
               <SearchableDropdown
                 options={cities}
                 value={searchData.location}
@@ -200,10 +200,10 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
             {/* Date Range Picker */}
             <div className="group">
-              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
+              {/* <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
                 <Calendar size={16} className="inline mr-2" />
                 Entrada y Salida
-              </label>
+              </label> */}
               <DateRangePicker
                 checkIn={searchData.checkIn}
                 checkOut={searchData.checkOut}
@@ -215,10 +215,10 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
             {/* Guests Dropdown */}
             <div className="relative group">
-              <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
+              {/* <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
                 <Users size={16} className="inline mr-2" />
                 Huéspedes
-              </label>
+              </label> */}
               <div className="relative">
                 <select
                   name="guests"
@@ -228,6 +228,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
+                      <Users size={16} className="inline mr-2" />
                       {num} {num === 1 ? 'huésped' : 'huéspedes'}
                     </option>
                   ))}
@@ -240,7 +241,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-2.5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-[#486698]/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
+              className="group relative w-full bg-gradient-to-r from-[#d8c373] to-[#e7d61ee9] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-2.5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-[#486698]/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
             >
               {loading ? (
                 <>
