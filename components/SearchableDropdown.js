@@ -129,7 +129,7 @@ const SearchableDropdown = ({
   }, [isOpen]);
 
   return (
-    <div className="relative " ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <div className={`relative ${className}`}>
         <Icon className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} />
         
@@ -162,7 +162,7 @@ const SearchableDropdown = ({
 
       {isOpen && (
         <div 
-          className={`absolute left-0 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[100] overflow-hidden ${
+          className={`absolute left-0 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[9999] overflow-hidden ${
             dropdownPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'
           }`} 
           style={{ maxHeight: '400px' }}
@@ -215,7 +215,7 @@ const SearchableDropdown = ({
       {/* Backdrop overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[90]" 
+          className="fixed inset-0 z-[9998]" 
           onClick={() => setIsOpen(false)}
         />
       )}

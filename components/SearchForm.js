@@ -97,7 +97,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
   return (
     <>
       {/* Search Form */}
-      <div className={`${compact ? 'relative z-20 max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-20 max-w-6xl mx-auto px-8 py-3'}`}>
+      <div className={`${compact ? 'relative z-[150] max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-[150] max-w-6xl mx-auto px-8 py-3'}`}>
         {error && (
           <div className="mb-4 mx-4 pt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             {error}

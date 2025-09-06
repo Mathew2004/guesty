@@ -264,7 +264,7 @@ const DateRangePicker = ({
 
   // Render mobile fullscreen modal
   const renderMobileModal = () => (
-    <div className="fixed inset-0 z-[200] bg-white">
+    <div className="fixed inset-0 z-[9999] bg-white">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">Seleccionar fechas</h2>
@@ -486,7 +486,7 @@ const DateRangePicker = ({
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div className={`relative ${className}`}>
+      <div className={`relative ${className} `}>
         <Calendar className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} />
         
         <input
@@ -506,7 +506,7 @@ const DateRangePicker = ({
 
       {/* Desktop Dropdown */}
       {isOpen && !isMobile && (
-        <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-2xl border border-gray-200 z-[100] p-6" style={{ width: '640px' }}>
+        <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-2xl border border-gray-200 z-[9999] p-6" style={{ width: '640px' }}>
           {/* Instructions */}
           <div className="mb-4 text-center">
             <p className="text-sm text-gray-600">
@@ -533,7 +533,7 @@ const DateRangePicker = ({
       {/* Desktop Backdrop */}
       {isOpen && !isMobile && (
         <div 
-          className="fixed inset-0 z-[90]" 
+          className="fixed inset-0 z-[9998]" 
           onClick={() => setIsOpen(false)}
         />
       )}

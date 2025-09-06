@@ -11,10 +11,11 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Image Slider */}
-      {/* <div className="relative mb-8">
-        <ImageSlider />
-      </div> */}
-      <Hero />
+      <div className="relative mb-8">
+        {/* <ImageSlider /> */}
+        <Hero />
+      </div>
+      {/* <Hero /> */}
 
 
       {/* About Section */}
