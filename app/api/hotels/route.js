@@ -53,7 +53,7 @@ export async function GET(request) {
         // Get fresh token
         const token = await getGuestyToken();
 
-        let guestyUrl = `${GUESTY_API_BASE}/listings?limit=30&country=Spain`;
+        let guestyUrl = `${GUESTY_API_BASE}/listings?country=Spain`;
         if (city) guestyUrl += `&city=${encodeURIComponent(city)}`;
         if (checkin) guestyUrl += `&checkIn=${checkin}`;
         if (checkout) guestyUrl += `&checkOut=${checkout}`;
