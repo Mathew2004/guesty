@@ -346,13 +346,13 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         </div>
 
         {/* Amenities */}
-        {/* {hotel.amenities && hotel.amenities.length > 0 && (
+        {hotel.amenities && hotel.amenities.length > 0 && (
           <div className="mb-4 pt-4 border-t border-gray-100">
             <div className="flex flex-wrap gap-x-4 gap-y-2">
               {hotel.amenities.map((amenity, index) => {
                 const icon = getAmenityIcon(amenity);
                 const isSelected = selectedAmenities?.some(selected => amenity.toLowerCase().includes(selected.toLowerCase()));
-                if (!isSelected && !icon) return null;
+                if (!isSelected || !icon) return null;
 
                 const amenityName = translate[amenity] || amenity;
 
@@ -365,7 +365,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               })}
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Spacer to push pricing to bottom */}
         <div className="flex-1"></div>
