@@ -71,7 +71,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                   €{hotel.minRate}
                 </span>
                 <span className="text-xs text-gray-500 ml-1">
-                  /noche
+                   por noche
                 </span>
               </div>
             </div>
@@ -84,7 +84,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         return (
           <div className="text-left">
             <div className="flex flex-col">
-              <span className="text-xs text-green-600 font-medium mb-1">Precio/noche</span>
+              <span className="text-xs text-green-600 font-medium mb-1">Precio por noche</span>
               <div className="flex items-baseline">
                 <span className="text-lg font-bold text-gray-900">
                   €{hotel.prices.basePrice}
