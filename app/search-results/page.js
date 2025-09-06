@@ -257,6 +257,7 @@ export default function SearchResults() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-[#486698]/5">
+      
       {/* Desktop Sticky Header with Search Form */}
       <div className="hidden md:block sticky top-0 z-50 bg-white/95 backdrop-blur-lg  border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-4">
