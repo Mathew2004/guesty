@@ -71,7 +71,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                   €{hotel.minRate}
                 </span>
                 <span className="text-xs text-gray-500 ml-1">
-                   por noche
+                  
                 </span>
               </div>
             </div>
