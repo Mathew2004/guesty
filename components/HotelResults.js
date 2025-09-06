@@ -84,7 +84,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         return (
           <div className="text-left">
             <div className="flex flex-col">
-              <span className="text-xs text-green-600 font-medium mb-1">Precio total</span>
+              <span className="text-xs text-green-600 font-medium mb-1">Precio/noche</span>
               <div className="flex items-baseline">
                 <span className="text-lg font-bold text-gray-900">
                   €{hotel.prices.basePrice}
@@ -346,7 +346,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         </div>
 
         {/* Amenities */}
-        {hotel.amenities && hotel.amenities.length > 0 && (
+        {/* {hotel.amenities && hotel.amenities.length > 0 && (
           <div className="mb-4 pt-4 border-t border-gray-100">
             <div className="flex flex-wrap gap-x-4 gap-y-2">
               {hotel.amenities.map((amenity, index) => {
@@ -365,7 +365,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               })}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Spacer to push pricing to bottom */}
         <div className="flex-1"></div>
