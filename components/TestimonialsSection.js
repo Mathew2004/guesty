@@ -78,7 +78,7 @@ export default function TestimonialsSection() {
               }`}
               style={{ transitionDelay: `${index * 200}ms` }}
             >
-              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
+              <div className="bg-[#F2F2F2] p-8 rounded-2xl hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
                 {/* Quote Icon */}
                 <div className="mb-6">
                   <svg className="w-12 h-12 text-[#486698] opacity-20" fill="currentColor" viewBox="0 0 24 24">
@@ -92,14 +92,14 @@ export default function TestimonialsSection() {
                 </blockquote>
 
                 {/* Author */}
-                <div className="border-t pt-4">
+                {/* <div className="border-t pt-4">
                   <div className="font-semibold text-[#486698] mb-1">
                     {testimonial.author}
                   </div>
                   <div className="text-sm text-gray-500">
                     {testimonial.location}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           ))}

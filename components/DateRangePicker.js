@@ -496,7 +496,7 @@ const DateRangePicker = ({
           onClick={handleInputClick}
           readOnly
           placeholder="Check-in   -   Check-out"
-          className="cursor-pointer w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white text-gray-700 font-medium hover:border-gray-400 transition-colors"
+          className="cursor-pointer w-full p-2 md:p-3 border border-gray-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white text-gray-700 font-medium hover:border-gray-400 transition-colors"
           required
        />
       </div>
@@ -506,7 +506,7 @@ const DateRangePicker = ({
 
       {/* Desktop Dropdown */}
       {isOpen && !isMobile && (
-        <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-2xl border border-gray-200 z-[9999] p-6" style={{ width: '640px' }}>
+        <div className="absolute top-full left-0 mt-1 bg-white shadow-2xl border border-gray-200 z-[9999] p-6" style={{ width: '640px' }}>
           {/* Instructions */}
           <div className="mb-4 text-center">
             <p className="text-sm text-gray-600">

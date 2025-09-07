@@ -139,7 +139,7 @@ const SearchableDropdown = ({
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           placeholder={placeholder}
-          className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white text-gray-700 font-medium cursor-pointer hover:border-gray-400 transition-colors"
+          className="w-full p-2 md:p-3 border border-gray-300  focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white text-gray-700 font-medium cursor-pointer hover:border-gray-400 transition-colors"
         />
         
         {/* <div className={`absolute ${transparent ? 'right-2' : 'right-3'} top-1/2 transform -translate-y-1/2 flex items-center space-x-1`}>

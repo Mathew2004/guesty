@@ -177,7 +177,9 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
           {/* Mobile Layout - Vertical Grid */}
           <form
             style={{
-              margin: "40px 50px",
+              margin: "30px 50px",
+              // marginTop: "30px",
+              // paddingBottom: "20px"
             }}
             onSubmit={handleSubmit} className="md:hidden p-2 space-y-2  rounded-full">
             {/* Location Dropdown */}
@@ -209,7 +211,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                 name="guests"
                 value={searchData.guests}
                 onChange={handleInputChange}
-                className="w-full p-2 md:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 appearance-none text-gray-700 font-medium cursor-pointer bg-white hover:border-gray-400 transition-colors"
+                className="w-full p-2 md:p-4 border border-gray-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 appearance-none text-gray-700 font-medium cursor-pointer bg-white hover:border-gray-400 transition-colors"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                   <option key={num} value={num}>
@@ -225,7 +227,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 bg-[#d4b896] hover:bg-[#c9ad85] disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+                className="px-12 bg-[#e8d0b3] hover:bg-[#c9ad85] disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
               >
                 {loading ? (
                   <>
