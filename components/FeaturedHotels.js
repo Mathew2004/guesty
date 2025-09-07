@@ -51,15 +51,14 @@ export default function FeaturedHotels() {
   return (
     <section ref={sectionRef} className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`flex justify-between my-6 transition-all duration-1000 ${
+        <div className={`flex justify-center md:justify-between my-6 transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
-          <h2 className="text-xl lg:text-3xl font-bold text-gray-700 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+          <h2 className="text-xl text-center md:text-left lg:text-3xl font-bold text-[#486698] mb-4" style={{ fontFamily: 'Georgia, serif' }}>
             Propiedades Destacadas
           </h2>
-          <Link href="/properties" className="bg-[#4865984f] py-2 px-4 rounded-lg hover:bg-[#E1D3A4] flex items-center text-[#486698] hover:text-[#29415A] text-md font-medium transition-colors">
+          <Link href="/properties" className="hidden md:block bg-[#d0effa] hover:bg-blue-300 text-sky-600 px-6 py-4 rounded-xl transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
             Reserva tu Estancia
-            <ChevronRight size={16} className="ml-1" />
           </Link>
         </div>
 

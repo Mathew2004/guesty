@@ -32,12 +32,12 @@ export default function AboutSection() {
 
   return (
     <section ref={sectionRef} className="py-16 bg-[#E8F9FF]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className={`transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
           }`}>
-            <h2 className="text-3xl lg:text-5xl font-semibold text-[#486698] mb-6">
+            <h2 className="text-xl lg:text-4xl font-semibold text-[#486698] mb-6">
               Encuentra la Estancia Perfecta
               <br />
               para Cualquier Viaje
@@ -45,11 +45,11 @@ export default function AboutSection() {
             <p className="text-gray-600 text-lg mb-8">
               Alquileres vacacionales en California para cada viaje: escapadas de fin de semana, vacaciones familiares, estancias de trabajo y más. Desde la costa hasta las montañas y parques nacionales, te tenemos cubierto.
             </p>
-            <button className="bg-blue-200 hover:bg-blue-300 text-blue-800 font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
+            <button className="bg-[#d0effa] hover:bg-blue-300 text-sky-600 px-6 py-4 rounded-xl transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
               Reserva tu Estancia
             </button>
           </div>
-          <div className={`relative transition-all duration-1000 delay-300 ${
+          <div className={`relative hidden md:block transition-all duration-1000 delay-300 ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
           }`}>
             <img
