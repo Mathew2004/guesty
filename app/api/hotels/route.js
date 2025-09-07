@@ -126,67 +126,67 @@ export async function GET(request) {
     }
 
     // --- 2. Search Booking.com API (Second Priority) ---
-    // try {
-    //   console.log('🔍 Searching Booking.com API...');
+    try {
+      console.log('🔍 Searching Booking.com API...');
 
-    //   const options = {
-    //     method: 'GET',
-    //     url: 'https://booking-com-api4.p.rapidapi.com/list-hotels/',
-    //     params: {
-    //       city_name: city,
-    //       page_number: page,
-    //       items_per_page: pageSize
-    //     },
-    //     headers: {
-    //       'x-rapidapi-key': '29afa57339msh2bad14f20e8b316p166cfdjsnfc4dd245d41f',
-    //       'x-rapidapi-host': 'booking-com-api4.p.rapidapi.com'
-    //     }
-    //   };
+      const options = {
+        method: 'GET',
+        url: 'https://booking-com-api4.p.rapidapi.com/list-hotels/',
+        params: {
+          city_name: city,
+          page_number: page,
+          items_per_page: 2
+        },
+        headers: {
+          'x-rapidapi-key': '29afa57339msh2bad14f20e8b316p166cfdjsnfc4dd245d41f',
+          'x-rapidapi-host': 'booking-com-api4.p.rapidapi.com'
+        }
+      };
 
-    //   const bookingResponse = await axios.request(options);
-    //   console.log('Booking.com response:', bookingResponse.data);
+      const bookingResponse = await axios.request(options);
+      console.log('Booking.com response:', bookingResponse.data);
 
-    //   // Extract pagination data
-    //   if (bookingResponse.data && bookingResponse.data.pagination_data) {
-    //     bookingCount = bookingResponse.data.pagination_data.total_items;
-    //     bookingPagination = {
-    //       totalPages: bookingResponse.data.pagination_data.total_pages,
-    //       currentPage: bookingResponse.data.pagination_data.current_page,
-    //       totalItems: bookingResponse.data.pagination_data.total_items,
-    //       pageSize: bookingResponse.data.pagination_data.page_size
-    //     };
-    //     console.log('Booking.com pagination:', bookingPagination);
-    //   }
+      // Extract pagination data
+      if (bookingResponse.data && bookingResponse.data.pagination_data) {
+        bookingCount = bookingResponse.data.pagination_data.total_items;
+        bookingPagination = {
+          totalPages: bookingResponse.data.pagination_data.total_pages,
+          currentPage: bookingResponse.data.pagination_data.current_page,
+          totalItems: bookingResponse.data.pagination_data.total_items,
+          pageSize: bookingResponse.data.pagination_data.page_size
+        };
+        console.log('Booking.com pagination:', bookingPagination);
+      }
+      console.log(bookingResponse.data);
+      if (bookingResponse.data && bookingResponse.data.data.length > 0) {
+        const bookingHotels = bookingResponse.data.data.map(hotel => ({
+          id: `booking-${hotel.id || hotel.hotel_id}`,
+          name: hotel.venue_name || hotel.name || 'Hotel sin nombre',
+          address: hotel.address || '',
+          city: city || '',
+          description: hotel.venue_description || hotel.description || '',
+          images: hotel.images ||  [hotel.primary_image],
+          price: hotel.rooms_data && hotel.rooms_data[0] ? hotel.rooms_data[0].price : null,
+          rating: hotel.rating || null,
+          reviews_count: hotel.reviews_count || 0,
+          reviews_score: hotel.reviews_score || 0,
+          source: 'booking',
+          priority: 2,
+          hotel_link: hotel.hotel_link || '',
+          rooms_data: hotel.rooms_data || [],
+          location: {
+            lat: hotel.latitude || null,
+            lng: hotel.longitude || null
+          }
+        }));
+        results.push(...bookingHotels);
+        console.log(`Found ${bookingHotels.length} hotels from Booking.com (Page ${page}/${bookingPagination?.totalPages || '?'})`);
+      }
 
-    //   if (bookingResponse.data && bookingResponse.data.data.length > 0) {
-    //     const bookingHotels = bookingResponse.data.data.map(hotel => ({
-    //       id: `booking-${hotel.id || hotel.hotel_id}`,
-    //       name: hotel.venue_name || hotel.name || 'Hotel sin nombre',
-    //       address: hotel.address || '',
-    //       city: city || '',
-    //       description: hotel.venue_description || hotel.description || '',
-    //       images: hotel.images ||  [hotel.primary_image],
-    //       price: hotel.rooms_data && hotel.rooms_data[0] ? hotel.rooms_data[0].price : null,
-    //       rating: hotel.rating || null,
-    //       reviews_count: hotel.reviews_count || 0,
-    //       reviews_score: hotel.reviews_score || 0,
-    //       source: 'booking',
-    //       priority: 2,
-    //       hotel_link: hotel.hotel_link || '',
-    //       rooms_data: hotel.rooms_data || [],
-    //       location: {
-    //         lat: hotel.latitude || null,
-    //         lng: hotel.longitude || null
-    //       }
-    //     }));
-    //     results.push(...bookingHotels);
-    //     console.log(`Found ${bookingHotels.length} hotels from Booking.com (Page ${page}/${bookingPagination?.totalPages || '?'})`);
-    //   }
-
-    // } catch (error) {
-    //   bookingError = error.message;
-    //   console.error('Booking.com API error:', error);
-    // }
+    } catch (error) {
+      bookingError = error.message;
+      console.error('Booking.com API error:', error);
+    }
 
     // --- 3. Search Hotelbeds API (Third Priority) ---
     try {

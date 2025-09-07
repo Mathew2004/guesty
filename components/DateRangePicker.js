@@ -264,7 +264,7 @@ const DateRangePicker = ({
 
   // Render mobile fullscreen modal
   const renderMobileModal = () => (
-    <div className="fixed inset-0 z-[9999] bg-white">
+    <div className="fixed inset-0 top-24 z-[9999] bg-white">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">Seleccionar fechas</h2>
@@ -487,7 +487,7 @@ const DateRangePicker = ({
   return (
     <div className="relative" ref={dropdownRef}>
       <div className={`relative ${className} `}>
-        <Calendar className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} />
+        {/* <Calendar className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} /> */}
         
         <input
           ref={inputRef}
@@ -496,7 +496,7 @@ const DateRangePicker = ({
           onClick={handleInputClick}
           readOnly
           placeholder="Check-in   -   Check-out"
-          className={`cursor-pointer ${transparent ? 'pl-12 pr-10 py-4 border-0 bg-transparent focus:outline-none' : 'pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white'} text-gray-700 font-medium w-full`}
+          className="cursor-pointer w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white text-gray-700 font-medium hover:border-gray-400 transition-colors"
           required
        />
       </div>

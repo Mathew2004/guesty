@@ -97,143 +97,60 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
   return (
     <>
       {/* Search Form */}
-      <div className={`${compact ? 'relative z-[10] max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-[150] max-w-7xl mx-auto px-8 py-1'}`}>
+      <div className={`${compact ? 'relative z-[10] max-w-6xl mx-auto px-4' : 'relative mt-0 md:-mt-16 z-[150] w-full md:max-w-8xl mx-auto px-0 md:px-8 py-4'}`}>
         {error && (
           <div className="mb-4 mx-4 pt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             {error}
           </div>
         )}
-        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-white/95 backdrop-blur-lg rounded-xl md:rounded-full shadow-2xl border border-white/20'}`}>
+        <div className={`${compact ? 'bg-white rounded-lg' : 'bg-[#29415A] border rounded-full shadow-2xl'}`}>
 
           {/* Desktop Layout - Horizontal */}
-          <form onSubmit={handleSubmit} className={`hidden md:flex items-center gap-1 ${compact ? 'p-2' : 'p-3'}`}>
+          <form
+            style={{
+              margin: "0 200px"
+            }}
+            onSubmit={handleSubmit} className={`hidden md:flex justify-center items-center gap-2 ${compact ? 'p-2' : 'p-4'}`}>
             {/* Location Dropdown */}
             <div className="flex-1 relative group">
-              {/* {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Ubicación</h4>} */}
               <SearchableDropdown
                 options={cities}
                 value={searchData.location}
                 onChange={handleLocationChange}
-                placeholder={compact ? "Destino" : "Nueva Orleans"}
-                transparent={!compact}
+                placeholder={compact ? "Destino" : "Destination"}
+                transparent={false}
                 compact={compact}
               />
             </div>
-
-            {/* Separator */}
-            {/* {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>} */}
-
             {/* Date Range Picker */}
-            <div className="flex-2 px-2 justify-end group">
-              {/* {!compact && <h4 className="text-sm font-bold text-gray-700 pl-4 mb-1 group-hover:text-[#486698] transition-colors">Check In - Check Out</h4>} */}
-              <DateRangePicker
-                checkIn={searchData.checkIn}
-                checkOut={searchData.checkOut}
-                onCheckInChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
-                onCheckOutChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
-                transparent={!compact}
-                compact={compact}
-                placeholder={compact ? "Selecciona fechas" : ""}
-              />
-            </div>
-
-            {/* Separator */}
-            {/* {!compact && <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-200 to-transparent mx-2"></div>} */}
-
-            {/* Guests Dropdown */}
-            <div className="flex-1 relative group">
-              <div className="relative">
-                <select
-                  name="guests"
-                  value={searchData.guests}
-                  onChange={handleInputChange}
-                  className={`w-full appearance-none cursor-pointer text-gray-700 font-medium focus:outline-none transition-colors ${compact ? 'px-3 py-3 border border-gray-300 rounded-lg bg-white hover:border-[#486698]' : 'px-4 py-4 border-0 bg-transparent rounded-lg hover:bg-[#486698]/5'}`}
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                    <option key={num} value={num}>
-                      {num} {num === 1 ? 'huésped' : 'huéspedes'}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-colors group-hover:text-[#486698]" size={20} />
-              </div>
-            </div>
-
-            {/* Search Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className={` rounded-full group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white ${compact ? 'px-4 py-3 ml-2' : 'px-8 py-4 ml-4'} ${compact ? 'rounded-lg' : 'rounded-2xl'} font-bold transition-all duration-300 flex items-center justify-center ${compact ? 'space-x-1' : 'space-x-2'} shadow-lg hover:shadow-xl hover:shadow-[#486698]/25 transform hover:-translate-y-0.5 disabled:transform-none disabled:shadow-md`}
-            >
-              {loading ? (
-                <>
-                  <div className={`animate-spin rounded-full ${compact ? 'h-4 w-4' : 'h-5 w-5'} border-2 border-white border-t-transparent`}></div>
-                  {!compact && <span className="font-semibold">BUSCANDO...</span>}
-                </>
-              ) : (
-                <>
-                  <Search size={compact ? 16 : 20} className="transition-transform group-hover:scale-110" />
-                  {!compact && <span className="font-semibold">BUSCAR</span>}
-                </>
-              )}
-              {/* Button glow effect */}
-              <div className={`absolute inset-0 bg-white ${compact ? 'rounded-lg' : 'rounded-2xl'} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-            </button>
-          </form>
-
-          {/* Mobile Layout - Vertical Grid */}
-          <form onSubmit={handleSubmit} className="md:hidden p-6 space-y-6 bg-[#486698] rounded-2xl">
-            {/* Location Dropdown */}
-            <div className="relative group">
-              {/* <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
-                <MapPin size={16} className="inline mr-2" />
-                Destino
-              </label> */}
-              <SearchableDropdown
-                options={cities}
-                value={searchData.location}
-                onChange={handleLocationChange}
-                placeholder="Seleccionar destino"
-                className="rounded-xl shadow-sm border-gray-200 focus:border-[#486698] focus:ring-2 focus:ring-[#486698]/20"
-              />
-            </div>
-
-            {/* Date Range Picker */}
-            <div className="group">
-              {/* <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
-                <Calendar size={16} className="inline mr-2" />
-                Entrada y Salida
-              </label> */}
+            <div className="flex-1">
               <DateRangePicker
                 checkIn={searchData.checkIn}
                 checkOut={searchData.checkOut}
                 onCheckInChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
                 onCheckOutChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
                 transparent={false}
+                compact={compact}
+                placeholder={compact ? "Selecciona fechas" : "Check in      Check out"}
               />
             </div>
 
             {/* Guests Dropdown */}
-            <div className="relative group">
-              {/* <label className="block text-sm font-bold text-gray-700 mb-3 group-hover:text-[#486698] transition-colors">
-                <Users size={16} className="inline mr-2" />
-                Huéspedes
-              </label> */}
+            <div className="flex-1 relative group">
               <div className="relative">
                 <select
                   name="guests"
                   value={searchData.guests}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#486698]/20 focus:border-[#486698] appearance-none text-gray-700 font-semibold cursor-pointer bg-white shadow-sm hover:shadow-md transition-all duration-200"
+                  className="w-full appearance-none cursor-pointer bg-white text-gray-700 font-medium focus:outline-none transition-colors p-3 border border-gray-300 rounded-lg hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
-                      <Users size={16} className="inline mr-2" />
-                      {num} {num === 1 ? 'huésped' : 'huéspedes'}
+                      {num} {num === 1 ? 'Guest' : 'Guests'}
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none transition-colors group-hover:text-[#486698]" size={20} />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
               </div>
             </div>
 
@@ -241,22 +158,85 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full bg-gradient-to-r from-[#d8c373] to-[#e7d61ee9] hover:from-[#3e5788] hover:to-[#354b77] disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white py-2.5 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl hover:shadow-2xl hover:shadow-[#486698]/25 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-lg"
+              className={`rounded-full group relative bg-gradient-to-r bg-[#e5daaf] hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-8 py-3 font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-3 border-white border-t-transparent"></div>
-                  <span className="text-md font-bold">BUSCANDO...</span>
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                  <span className="font-medium">SEARCH</span>
                 </>
               ) : (
                 <>
-                  <Search size={24} className="transition-transform group-hover:scale-110" />
-                  <span className="text-md font-bold">BUSCAR</span>
+                  {/* <Search size={20} className="transition-transform group-hover:scale-110" /> */}
+                  <span className="font-medium">SEARCH</span>
                 </>
               )}
-              {/* Button glow effect */}
-              <div className="absolute inset-0 bg-white rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
             </button>
+          </form>
+
+          {/* Mobile Layout - Vertical Grid */}
+          <form
+            style={{
+              margin: "40px 50px",
+            }}
+            onSubmit={handleSubmit} className="md:hidden p-2 space-y-2  rounded-full">
+            {/* Location Dropdown */}
+            <div className="relative">
+              <SearchableDropdown
+                options={cities}
+                value={searchData.location}
+                onChange={handleLocationChange}
+                placeholder="Destination"
+                className="w-full"
+              />
+            </div>
+
+            {/* Date Range Picker */}
+            <div>
+              <DateRangePicker
+                checkIn={searchData.checkIn}
+                checkOut={searchData.checkOut}
+                onCheckInChange={(date) => setSearchData(prev => ({ ...prev, checkIn: date }))}
+                onCheckOutChange={(date) => setSearchData(prev => ({ ...prev, checkOut: date }))}
+                transparent={false}
+                placeholder="Check in        Check out"
+              />
+            </div>
+
+            {/* Guests Dropdown */}
+            <div className="relative">
+              <select
+                name="guests"
+                value={searchData.guests}
+                onChange={handleInputChange}
+                className="w-full p-2 md:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 appearance-none text-gray-700 font-medium cursor-pointer bg-white hover:border-gray-400 transition-colors"
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                  <option key={num} value={num}>
+                    {num} {num === 1 ? 'Guest' : 'Guests'}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+            </div>
+
+            {/* Search Button */}
+            <div className='flex justify-center items-center'>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-8 bg-[#d4b896] hover:bg-[#c9ad85] disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+              >
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-black border-t-transparent mr-2"></div>
+                    <span>SEARCHING...</span>
+                  </>
+                ) : (
+                  <span>Search</span>
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

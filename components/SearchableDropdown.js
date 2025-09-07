@@ -130,9 +130,8 @@ const SearchableDropdown = ({
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div className={`relative ${className}`}>
-        <Icon className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} />
-        
+      <div className={`relative flex-end ${className}`}>
+        {/* <Icon className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 ${transparent ? 'left-4' : 'left-3'}`} size={18} /> */}
         <input
           ref={inputRef}
           type="text"
@@ -140,10 +139,10 @@ const SearchableDropdown = ({
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           placeholder={placeholder}
-          className={`w-full ${transparent ? 'pl-12 pr-10 py-4 border-0 bg-transparent focus:outline-none' : 'pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white'} text-gray-700 font-medium cursor-pointer`}
+          className="w-full p-2 md:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white text-gray-700 font-medium cursor-pointer hover:border-gray-400 transition-colors"
         />
         
-        <div className={`absolute ${transparent ? 'right-2' : 'right-3'} top-1/2 transform -translate-y-1/2 flex items-center space-x-1`}>
+        {/* <div className={`absolute ${transparent ? 'right-2' : 'right-3'} top-1/2 transform -translate-y-1/2 flex items-center space-x-1`}>
           {getDisplayText() && !isOpen && (
             <button
               type="button"
@@ -157,7 +156,7 @@ const SearchableDropdown = ({
             className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
             size={16} 
           />
-        </div>
+        </div> */}
       </div>
 
       {isOpen && (
