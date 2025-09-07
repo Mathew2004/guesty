@@ -135,7 +135,7 @@ export async function GET(request) {
         params: {
           city_name: city,
           page_number: page,
-          items_per_page: 2
+          items_per_page: pageSize
         },
         headers: {
           'x-rapidapi-key': '29afa57339msh2bad14f20e8b316p166cfdjsnfc4dd245d41f',
