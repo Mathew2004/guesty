@@ -32,36 +32,36 @@ export default function Navbar() {
           <Link className="flex-shrink-0 flex items-center" href="/">
             <div className="flex items-center space-x-3">
               {/* Pine tree logo placeholder - you can replace with actual logo */}
-              <div className="text-2xl">🏔️</div>
+              {/* <div className="text-2xl">🏔️</div> */}
               <div>
                 <div className="text-lg font-bold text-white">GUESTYZ</div>
-                <div className="text-sm text-gray-200 font-medium">Alquileres Vacacionales</div>
+                {/* <div className="text-sm text-gray-200 font-medium">Alquileres Vacacionales</div> */}
               </div>
             </div>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:block">
+            {/* Desktop Menu */}
+            <div className="hidden md:block">
             <div className="flex items-center space-x-8">
-              <Link href="/properties" className="text-white hover:text-gray-300 font-medium transition-colors">
-                PROPIEDADES
+              <Link href="/properties" className="relative text-white hover:text-gray-300 font-medium transition-colors after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-gray-300 after:scale-x-0 after:transition-transform after:duration-300 after:origin-left hover:after:scale-x-100">
+              PROPIEDADES
               </Link>
-              <Link href="/management" className="text-white hover:text-gray-300 font-medium transition-colors">
-                GESTIÓN
+              <Link href="/management" className="relative text-white hover:text-gray-300 font-medium transition-colors after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-gray-300 after:scale-x-0 after:transition-transform after:duration-300 after:origin-left hover:after:scale-x-100">
+              GESTIÓN
               </Link>
-              <Link href="/testimonials" className="text-white hover:text-gray-300 font-medium transition-colors">
-                TESTIMONIOS
+              <Link href="/testimonials" className="relative text-white hover:text-gray-300 font-medium transition-colors after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-gray-300 after:scale-x-0 after:transition-transform after:duration-300 after:origin-left hover:after:scale-x-100">
+              TESTIMONIOS
               </Link>
-              <Link href="/resources" className="text-white hover:text-gray-300 font-medium transition-colors">
-                RECURSOS
+              <Link href="/resources" className="relative text-white hover:text-gray-300 font-medium transition-colors after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-gray-300 after:scale-x-0 after:transition-transform after:duration-300 after:origin-left hover:after:scale-x-100">
+              RECURSOS
               </Link>
-              <Link href="/contact" className="text-white hover:text-gray-300 font-medium transition-colors">
-                CONTACTO
+              <Link href="/contact" className="relative text-white hover:text-gray-300 font-medium transition-colors after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-gray-300 after:scale-x-0 after:transition-transform after:duration-300 after:origin-left hover:after:scale-x-100">
+              CONTACTO
               </Link>
             </div>
-          </div>
+            </div>
 
-          {/* Phone Number */}
+            {/* Phone Number */}
           <div className="hidden lg:flex items-center space-x-2">
             <Phone size={16} className="text-orange-400" />
             <span className="text-white font-medium">(559) 284-9848</span>

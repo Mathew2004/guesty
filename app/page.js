@@ -7,6 +7,7 @@ import AboutSection from '@/components/AboutSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import CallToAction from '@/components/CallToAction';
 import SearchForm from '@/components/SearchForm';
+import WhatSetsUsApart from '@/components/WhatSetsUsApart';
 
 export default function Home() {
   return (
@@ -32,6 +33,9 @@ export default function Home() {
 
       {/* Featured Hotels Section */}
       <FeaturedHotels />
+
+      {/* What Sets Us Apart Section */}
+      <WhatSetsUsApart />
 
       {/* Testimonials Section */}
       <TestimonialsSection />

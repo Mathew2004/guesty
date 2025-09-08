@@ -45,7 +45,7 @@ export default function AboutSection() {
             <p className="text-gray-600 text-lg mb-8">
               Alquileres vacacionales en California para cada viaje: escapadas de fin de semana, vacaciones familiares, estancias de trabajo y más. Desde la costa hasta las montañas y parques nacionales, te tenemos cubierto.
             </p>
-            <button className="bg-[#d0effa] hover:bg-blue-300 text-sky-600 px-6 py-4 rounded-xl transition-all duration-300 hover:shadow-md transform hover:-translate-y-1">
+            <button className="bg-[#d0effa] hover:bg-[#f6f0cc] text-sky-600 px-6 py-4 rounded-xl transition-all duration-300 ">
               Reserva tu Estancia
             </button>
           </div>

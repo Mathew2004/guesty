@@ -902,6 +902,16 @@
     "label": "Vejer de la Frontera, Andalucía, Spain"
   },
   {
+    "city": "London",
+    "code": null,
+    "country": "United Kingdom",
+    "dest_id": "-2601889",
+    "dest_type": "city",
+    "longitude": -0.13493559,
+    "latitude": 51.507282,
+    "label": "London, Greater London, United Kingdom"
+  },
+  {
     "city": "Vielha",
     "code": null,
     "state": "Cataluña",

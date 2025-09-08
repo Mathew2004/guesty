@@ -36,7 +36,7 @@ export async function GET(request) {
     const checkout = searchParams.get('checkout') || searchParams.get('checkOut');
     const guests = parseInt(searchParams.get('guests') || searchParams.get('minOccupancy') || '2');
     const destinationCode = searchParams.get('destinationCode');
-    const destId = searchParams.get('dest_id') ;
+    const destId = searchParams.get('dest_id');
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('pageSize') || '25');
     const country = "Spain";
@@ -191,37 +191,41 @@ export async function GET(request) {
             city: hotel.city || hotel.city_trans || city || '',
             country: hotel.country_trans || 'Unknown',
             description: hotel.hotel_name_trans || hotel.hotel_name || '',
-            
+
             // Images
             images: [
               hotel.max_1440_photo_url,
               hotel.max_photo_url,
               hotel.main_photo_url
             ].filter(Boolean),
-            
+
             // Pricing
-            price: hotel.composite_price_breakdown?.all_inclusive_amount?.value || 
-                   hotel.min_total_price || 
-                   null,
-            currency: hotel.composite_price_breakdown?.all_inclusive_amount?.currency || 
-                     hotel.currency_code || 
-                     'EUR',
+            price: hotel.composite_price_breakdown?.all_inclusive_amount?.value ||
+              hotel.min_total_price ||
+              null,
+            currency: hotel.composite_price_breakdown?.all_inclusive_amount?.currency ||
+              hotel.currency_code ||
+              'EUR',
             priceBreakdown: hotel.composite_price_breakdown,
-            
+
             // Ratings and reviews
             rating: hotel.class || null,
             reviews_count: hotel.review_nr || 0,
             reviews_score: hotel.review_score || 0,
             reviews_score_word: hotel.review_score_word || '',
-            
+
             // Property details
             accommodationType: hotel.accommodation_type_name || 'Hotel',
             accommodationTypeId: hotel.accommodation_type || null,
-            bedrooms: hotel.unit_configuration_label ? 
-                     extractBedroomsFromLabel(hotel.unit_configuration_label) : 0,
+            bedrooms: hotel.unit_configuration_label ?
+              extractBedroomsFromLabel(hotel.unit_configuration_label) : 0,
+            bathrooms: hotel.unit_configuration_label ?
+              extractBathroomsFromLabel(hotel.unit_configuration_label) : 0,
+
             beds: extractBedsFromLabel(hotel.unit_configuration_label) || 1,
             maxGuests: guests,
-            
+            unit_configuration_label: hotel.unit_configuration_label || '',
+
             // Location
             location: {
               lat: hotel.latitude || null,
@@ -231,34 +235,34 @@ export async function GET(request) {
               latitude: hotel.latitude,
               longitude: hotel.longitude
             } : null,
-            
+
             // Distance and location info
             distance_to_center: hotel.distance_to_cc || hotel.distance || null,
             distance_formatted: hotel.distance_to_cc_formatted || null,
             district: hotel.district || '',
-            
+
             // Booking details
             hotel_link: hotel.url || '',
             is_free_cancellable: hotel.is_free_cancellable === 1,
             is_genius_deal: hotel.is_genius_deal === 1,
             is_mobile_deal: hotel.is_mobile_deal === 1,
-            
+
             // Additional info
-            facilities: hotel.hotel_facilities ? 
-                       hotel.hotel_facilities.split(',').map(f => f.trim()) : [],
+            facilities: hotel.hotel_facilities ?
+              hotel.hotel_facilities.split(',').map(f => f.trim()) : [],
             badges: hotel.badges || [],
-            amenities: hotel.hotel_facilities ? 
-                      hotel.hotel_facilities.split(',').slice(0, 10) : [], // Limit amenities
-            
+            amenities: hotel.hotel_facilities ?
+              hotel.hotel_facilities.split(',').slice(0, 10) : [], // Limit amenities
+
             // Checkin/checkout
             checkin: hotel.checkin || { from: '', until: '' },
             checkout: hotel.checkout || { from: '', until: '' },
-            
+
             // Source and priority
             source: 'booking',
             priority: 2,
             dest_id: destId,
-            
+
             // Search params
             searchParams: {
               checkin,
@@ -380,7 +384,7 @@ export async function GET(request) {
               city: content.city?.content || "Unknown City",
               country: content.country?.content || "",
               address: content.address?.content || "Address not available",
-              coordinates: content.coordinates 
+              coordinates: content.coordinates
                 ? {
                   longitude: content.coordinates.longitude,
                   latitude: content.coordinates.latitude
@@ -422,6 +426,7 @@ export async function GET(request) {
       guestyCount: results.filter(r => r.source === 'guesty').length,
       bookingCount: bookingCount,
       hotelbedsCount: results.filter(r => r.source === 'hotelbeds').length,
+      coordinates: results.find(r => r.coordinates)?.coordinates || null,
       hotels: results,
       pagination: {
         ...(bookingPagination && { booking: bookingPagination })
@@ -448,29 +453,45 @@ export async function GET(request) {
 }
 
 // Helper function to extract bedroom count from unit configuration label
+
+function extractBathroomsFromLabel(label) {
+  if (!label) return 0;
+
+  const bathroomMatch = label.match(/(\d+)\s*bathroom/i);
+  if (bathroomMatch) {
+    return parseInt(bathroomMatch[1]);
+  }
+
+  // Check for studio or apartment types
+  if (label.toLowerCase().includes('studio')) return 0;
+  if (label.toLowerCase().includes('entire apartment')) return 1;
+
+  return 0;
+}
+
 function extractBedroomsFromLabel(label) {
   if (!label) return 0;
-  
+
   const bedroomMatch = label.match(/(\d+)\s*bedroom/i);
   if (bedroomMatch) {
     return parseInt(bedroomMatch[1]);
   }
-  
+
   // Check for studio or apartment types
   if (label.toLowerCase().includes('studio')) return 0;
   if (label.toLowerCase().includes('entire apartment')) return 1;
-  
+
   return 0;
 }
 
 // Helper function to extract bed count from unit configuration label
 function extractBedsFromLabel(label) {
   if (!label) return 1;
-  
+
   const bedMatch = label.match(/(\d+)\s*bed/i);
   if (bedMatch) {
     return parseInt(bedMatch[1]);
   }
-  
+
   return 1;
 }

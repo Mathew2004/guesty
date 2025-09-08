@@ -140,7 +140,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
               />
             </div>
 
-            {/* Guests Dropdown */}
+            {/* huéspeds Dropdown */}
             <div className="flex-1 relative group">
               <div className="relative">
                 <select
@@ -151,7 +151,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                     <option key={num} value={num}>
-                      {num} {num === 1 ? 'Guest' : 'Guests'}
+                      {num} {num === 1 ? 'huésped' : 'huéspeds'}
                     </option>
                   ))}
                 </select>
@@ -163,17 +163,17 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className={`rounded-full group relative ${compact ? 'bg-[#2d4374]' : 'bg-[#e0d29a]'} disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-8 py-3 font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
+              className={`group relative ${compact ? 'bg-[#40588a]' : 'rounded-full bg-[#e0d29a]'} disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-8 py-3 font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
             >
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                  <span className="font-medium">SEARCH</span>
+                  <span className="font-medium">Buscar</span>
                 </>
               ) : (
                 <>
                   {/* <Search size={20} className="transition-transform group-hover:scale-110" /> */}
-                  <span className="font-medium">SEARCH</span>
+                  <span className="font-medium">Buscar</span>
                 </>
               )}
             </button>
@@ -212,7 +212,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
               />
             </div>
 
-            {/* Guests Dropdown */}
+            {/* huéspeds Dropdown */}
             <div className="relative">
               <select
                 name="guests"
@@ -222,7 +222,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                   <option key={num} value={num}>
-                    {num} {num === 1 ? 'Guest' : 'Guests'}
+                    {num} {num === 1 ? 'huésped' : 'huéspeds'}
                   </option>
                 ))}
               </select>
@@ -234,15 +234,15 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
               <button
                 type="submit"
                 disabled={loading}
-                className={`px-12 ${compact ? 'bg-[#2d4374]' : 'bg-[#e8d0b3] hover:bg-[#c9ad85]'} disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
+                className={`px-12 ${compact ? 'bg-[#2d4374] text-white w-full' : 'bg-[#e8d0b3] hover:bg-[#c9ad85] rounded-full '} disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
               >
                 {loading ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-black border-t-transparent mr-2"></div>
-                    <span>SEARCHING...</span>
+                    <span>BUSCANDO...</span>
                   </>
                 ) : (
-                  <span>Search</span>
+                  <span>Buscar</span>
                 )}
               </button>
             </div>
