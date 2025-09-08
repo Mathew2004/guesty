@@ -35,7 +35,7 @@ const WhatSetsUsApart = () => {
 
 return (
     <section className="py-12 sm:py-16 lg:py-20" style={{ fontFamily: '"Playfair Display", serif' }}>
-        <div className="max-w-8xl mx-auto px-4 flex justify-center space-x-2 space-y-16">
+        <div className="max-w-8xl mx-auto px-4 flex md:flex-row flex-col justify-center space-x-2 md:space-y-16">
             <div className="text-center mb-12 sm:mb-16">
                 <h2 className="text-2xl sm:text-4xl font-semibold text-[#486698] mb-4">
                     What Sets Us Apart
