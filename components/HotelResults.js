@@ -264,7 +264,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
   // Get redirect URL based on hotel source
   const getRedirectUrl = () => {
     if (hotel.source === 'guesty') {
-      return `https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`;
+      return `https://guestyz.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`;
     } else if (hotel.source === 'booking' && hotel.hotel_link) {
         return `${hotel.hotel_link}?checkin=${hotel.searchParams?.checkin || ''}&checkout=${hotel.searchParams?.checkout || ''}`;
     } else if (hotel.source === 'hotelbeds') {
