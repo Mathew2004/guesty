@@ -432,7 +432,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
           <div className="ml-3 interactive-element">
             {hotel.source === 'guesty' ? (
               <Link
-                href={`https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
+                href={`https://guestyz.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`}
                 target='_blank'
                 className="group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
               >
