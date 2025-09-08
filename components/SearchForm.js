@@ -110,9 +110,11 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
           {/* Desktop Layout - Horizontal */}
           <form
-            style={{
-              margin: "0 200px"
-            }}
+            style={
+              compact ? {} : {
+                margin: "0 200px"
+              }
+            }
             onSubmit={handleSubmit} className={`hidden md:flex justify-center items-center gap-2 ${compact ? 'p-2' : 'p-4'}`}>
             {/* Location Dropdown */}
             <div className="flex-1 relative group">
@@ -161,7 +163,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
             <button
               type="submit"
               disabled={loading}
-              className={`rounded-full group relative bg-gradient-to-r bg-[#e5daaf] hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-8 py-3 font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
+              className={`rounded-full group relative ${compact ? 'bg-[#2d4374]' : 'bg-[#e0d29a]'} disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white px-8 py-3 font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
             >
               {loading ? (
                 <>
@@ -232,7 +234,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
               <button
                 type="submit"
                 disabled={loading}
-                className="px-12 bg-[#e8d0b3] hover:bg-[#c9ad85] disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+                className={`px-12 ${compact ? 'bg-[#2d4374]' : 'bg-[#e8d0b3] hover:bg-[#c9ad85]'} disabled:bg-gray-400 disabled:cursor-not-allowed text-black py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none`}
               >
                 {loading ? (
                   <>
