@@ -71,7 +71,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                   €{hotel.minRate}
                 </span>
                 <span className="text-xs text-gray-500 ml-1">
-                  
+
                 </span>
               </div>
             </div>
@@ -90,21 +90,23 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                   €{hotel.prices.basePrice}
                 </span>
               </div>
+
+              <p className="text-xs text-gray-500">pueden aplicarse cargos adicionales</p>
             </div>
           </div>
         );
       }
-    } else if(hotel.source == 'booking') {
+    } else if (hotel.source == 'booking') {
       if (hotel.price && hotel.currency) {
         const hasDiscount = hotel.priceBreakdown?.strikethrough_amount?.value > hotel.price;
         const perNightPrice = hotel.priceBreakdown?.gross_amount_per_night?.value;
         const originalPrice = hotel.priceBreakdown?.strikethrough_amount?.value;
-        
+
         return (
           <div className="text-left">
             <div className="flex flex-col">
               <span className="text-xs text-purple-600 font-medium mb-1">Precio total</span>
-              
+
               {/* Show discount if available */}
               {hasDiscount && originalPrice && (
                 <div className="flex items-center mb-1">
@@ -118,21 +120,21 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                   )}
                 </div>
               )}
-              
+
               {/* Main price */}
               <div className="flex items-baseline">
                 <span className="text-lg font-bold text-gray-900">
                   {hotel.currency} {Math.round(hotel.price)}
                 </span>
               </div>
-              
+
               {/* Per night price if available */}
               {perNightPrice && (
                 <span className="text-xs text-gray-500 mt-1">
                   {hotel.currency} {Math.round(perNightPrice)} por noche
                 </span>
               )}
-              
+
               {/* Benefits/badges */}
               {hotel.priceBreakdown?.benefits && hotel.priceBreakdown.benefits.length > 0 && (
                 <div className="mt-1">
@@ -266,7 +268,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
     if (hotel.source === 'guesty') {
       return `https://guestyz.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`;
     } else if (hotel.source === 'booking' && hotel.hotel_link) {
-        return `${hotel.hotel_link}?checkin=${hotel.searchParams?.checkin || ''}&checkout=${hotel.searchParams?.checkout || ''}`;
+      return `${hotel.hotel_link}?checkin=${hotel.searchParams?.checkin || ''}&checkout=${hotel.searchParams?.checkout || ''}`;
     } else if (hotel.source === 'hotelbeds') {
       return `/hotels?code=${hotel.code}&checkin=${hotel.checkin || ''}&checkout=${hotel.checkout || ''}&guests=${hotel.guests || '2'}`;
     }
