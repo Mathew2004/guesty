@@ -34,21 +34,21 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
   const getSourceBadge = (source) => {
     if (source === 'guesty') {
       return (
-        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-500 text-white shadow-lg">
+        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-500 text-white shadow-lg" style={{ fontFamily: '"Playfair Display", serif' }}>
           <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
           Guestyzz
         </span>
       );
     } else if (source === 'hotelbeds') {
       return (
-        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-green-500 text-white shadow-lg">
+        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-green-500 text-white shadow-lg" style={{ fontFamily: '"Playfair Display", serif' }}>
           <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
           Hotelbeds
         </span>
       );
     } else if (source === 'booking') {
       return (
-        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-500 text-white shadow-lg">
+        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-500 text-white shadow-lg" style={{ fontFamily: '"Playfair Display", serif' }}>
           <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
           Booking.com
         </span>
@@ -65,12 +65,12 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         return (
           <div className="text-left">
             <div className="flex flex-col">
-              <span className="text-xs text-gray-500 mb-1">desde</span>
+              <span className="text-xs text-gray-500 mb-1" style={{ fontFamily: '"Playfair Display", serif' }}>desde</span>
               <div className="flex items-baseline">
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                   €{hotel.minRate}
                 </span>
-                <span className="text-xs text-gray-500 ml-1">
+                <span className="text-xs text-gray-500 ml-1" style={{ fontFamily: '"Playfair Display", serif' }}>
 
                 </span>
               </div>
@@ -84,14 +84,14 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         return (
           <div className="text-left">
             <div className="flex flex-col">
-              <span className="text-xs text-green-600 font-medium mb-1">Precio por noche</span>
+              <span className="text-xs text-green-600 font-medium mb-1" style={{ fontFamily: '"Playfair Display", serif' }}>Precio por noche</span>
               <div className="flex items-baseline">
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                   €{hotel.prices.basePrice}
                 </span>
               </div>
 
-              <p className="text-xs text-gray-500">pueden aplicarse cargos adicionales</p>
+              <p className="text-xs text-gray-500" style={{ fontFamily: '"Playfair Display", serif' }}>pueden aplicarse cargos adicionales</p>
             </div>
           </div>
         );
@@ -105,16 +105,16 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         return (
           <div className="text-left">
             <div className="flex flex-col">
-              <span className="text-xs text-purple-600 font-medium mb-1">Precio total</span>
+              <span className="text-xs text-purple-600 font-medium mb-1" style={{ fontFamily: '"Playfair Display", serif' }}>Precio total</span>
 
               {/* Show discount if available */}
               {hasDiscount && originalPrice && (
                 <div className="flex items-center mb-1">
-                  <span className="text-xs text-gray-500 line-through mr-2">
+                  <span className="text-xs text-gray-500 line-through mr-2" style={{ fontFamily: '"Playfair Display", serif' }}>
                     {hotel.currency} {Math.round(originalPrice)}
                   </span>
                   {hotel.priceBreakdown?.discounted_amount?.value && (
-                    <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">
+                    <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium" style={{ fontFamily: '"Playfair Display", serif' }}>
                       -{hotel.currency} {Math.round(hotel.priceBreakdown.discounted_amount.value)}
                     </span>
                   )}
@@ -123,14 +123,14 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
 
               {/* Main price */}
               <div className="flex items-baseline">
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                   {hotel.currency} {Math.round(hotel.price)}
                 </span>
               </div>
 
               {/* Per night price if available */}
               {perNightPrice && (
-                <span className="text-xs text-gray-500 mt-1">
+                <span className="text-xs text-gray-500 mt-1" style={{ fontFamily: '"Playfair Display", serif' }}>
                   {hotel.currency} {Math.round(perNightPrice)} por noche
                 </span>
               )}
@@ -139,7 +139,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               {hotel.priceBreakdown?.benefits && hotel.priceBreakdown.benefits.length > 0 && (
                 <div className="mt-1">
                   {hotel.priceBreakdown.benefits.slice(0, 1).map((benefit, idx) => (
-                    <span key={idx} className="inline-block text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                    <span key={idx} className="inline-block text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium" style={{ fontFamily: '"Playfair Display", serif' }}>
                       {benefit.name}
                     </span>
                   ))}
@@ -154,8 +154,8 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
     return (
       <div className="text-left">
         <div className="flex flex-col">
-          <span className="text-xs text-gray-500 font-medium mb-1">Consultar</span>
-          <span className="text-sm font-bold text-gray-900">Precio</span>
+          <span className="text-xs text-gray-500 font-medium mb-1" style={{ fontFamily: '"Playfair Display", serif' }}>Consultar</span>
+          <span className="text-sm font-bold text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>Precio</span>
         </div>
       </div>
     );
@@ -322,7 +322,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-2 mx-auto">
                 <MapPin className="w-6 h-6 text-gray-400" />
               </div>
-              <span className="text-gray-500 text-xs">No hay imagen</span>
+              <span className="text-gray-500 text-xs" style={{ fontFamily: '"Playfair Display", serif' }}>No hay imagen</span>
             </div>
           </div>
         )}
@@ -350,7 +350,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
         {hotel.rating && (
           <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 flex items-center shadow-sm">
             <Star className="w-3 h-3 text-yellow-500 fill-current mr-1" />
-            <span className="text-xs font-semibold text-gray-800">{hotel.rating}</span>
+            <span className="text-xs font-semibold text-gray-800" style={{ fontFamily: '"Playfair Display", serif' }}>{hotel.rating}</span>
           </div>
         )}
 
@@ -367,14 +367,14 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
       {/* Content Section */}
       <div className="p-4 flex-1 flex flex-col">
         {/* Hotel Name */}
-        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-[#486698] transition-colors duration-300">
+        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-[#486698] transition-colors duration-300" style={{ fontFamily: '"Playfair Display", serif' }}>
           {hotel.name}
         </h3>
 
         {/* Location */}
         <div className="flex items-center text-gray-600 mb-3">
           <MapPin size={14} className="text-gray-400 mr-1 flex-shrink-0" />
-          <span className="text-sm truncate">{hotel.address ? `${hotel.address},` : ''} {hotel.city ? `${hotel.city},` : ''} {hotel.country ? hotel.country : ''}</span>
+          <span className="text-sm truncate" style={{ fontFamily: '"Playfair Display", serif' }}>{hotel.address ? `${hotel.address},` : ''} {hotel.city ? `${hotel.city},` : ''} {hotel.country ? hotel.country : ''}</span>
         </div>
 
         {/* Property Details */}
@@ -382,19 +382,19 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
           {hotel.maxGuests && (
             <div className="flex items-center bg-[#486698]/10 rounded-full px-2 py-1">
               <Users size={12} className="text-[#486698] mr-1" />
-              <span className="text-xs font-medium text-[#486698]">{hotel.maxGuests} Huéspedes</span>
+              <span className="text-xs font-medium text-[#486698]" style={{ fontFamily: '"Playfair Display", serif' }}>{hotel.maxGuests} Huéspedes</span>
             </div>
           )}
           {hotel.bedrooms > 0 && (
             <div className="flex items-center bg-purple-50 rounded-full px-2 py-1">
               <Bed size={12} className="text-purple-600 mr-1" />
-              <span className="text-xs font-medium text-purple-700">{hotel.bedrooms} Habitaciones</span>
+              <span className="text-xs font-medium text-purple-700" style={{ fontFamily: '"Playfair Display", serif' }}>{hotel.bedrooms} Habitaciones</span>
             </div>
           )}
           {hotel.bathrooms > 0 && (
             <div className="flex items-center bg-green-50 rounded-full px-2 py-1">
               <Coffee size={12} className="text-green-600 mr-1" />
-              <span className="text-xs font-medium text-green-700">{hotel.bathrooms} Baños</span>
+              <span className="text-xs font-medium text-green-700" style={{ fontFamily: '"Playfair Display", serif' }}>{hotel.bathrooms} Baños</span>
             </div>
           )}
 
@@ -414,7 +414,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 return (
                   <div key={index} className={`flex items-center ${isSelected ? 'text-[#486698]' : 'text-gray-600'}`}>
                     {icon || ""}
-                    <span className={`text-xs ml-1.5 ${isSelected ? 'font-semibold' : ''}`}>{amenityName}</span>
+                    <span className={`text-xs ml-1.5 ${isSelected ? 'font-semibold' : ''}`} style={{ fontFamily: '"Playfair Display", serif' }}>{amenityName}</span>
                   </div>
                 );
               })}
@@ -438,7 +438,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 target='_blank'
                 className="group relative bg-gradient-to-r from-[#486698] to-[#3e5788] hover:from-[#3e5788] hover:to-[#354b77] text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
               >
-                <span className="relative z-10">Reservar</span>
+                <span className="relative z-10" style={{ fontFamily: '"Playfair Display", serif' }}>Reservar</span>
                 <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
               </Link>
             ) : hotel.source === 'booking' && hotel.hotel_link ? (
@@ -447,12 +447,12 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
                 target='_blank'
                 className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
               >
-                <span className="relative z-10">Reservar</span>
+                <span className="relative z-10" style={{ fontFamily: '"Playfair Display", serif' }}>Reservar</span>
                 <div className="absolute inset-0 bg-white rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
               </Link>
             ) : getRedirectUrl() ? (
               <Link href={getRedirectUrl()} className="text-center">
-                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg font-normal">
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg font-normal" style={{ fontFamily: '"Playfair Display", serif' }}>
                   Ver detalles
                 </span>
               </Link>
@@ -507,8 +507,8 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
   if (error) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-        <p className="text-red-800 font-medium">Error de búsqueda</p>
-        <p className="text-red-600 text-sm mt-1">{error}</p>
+        <p className="text-red-800 font-medium" style={{ fontFamily: '"Playfair Display", serif' }}>Error de búsqueda</p>
+        <p className="text-red-600 text-sm mt-1" style={{ fontFamily: '"Playfair Display", serif' }}>{error}</p>
       </div>
     );
   }
@@ -540,7 +540,7 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
           {/* Guestyzz Results Section */}
           {guestyHotels.length > 0 && (
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: '"Playfair Display", serif' }}>
                 <div className="w-4 h-4 bg-[#486698] rounded-full mr-2"></div>
                 Propiedades Guestyzz ({guestyHotels.length})
               </h3>
@@ -555,7 +555,7 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
           {/* Booking.com Results Section */}
           {bookingHotels.length > 0 && (
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: '"Playfair Display", serif' }}>
                 <div className="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
                 Hoteles Booking.com ({results.bookingCount})
               </h3>
@@ -570,7 +570,7 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
           {/* Hotelbeds Results Section */}
           {hotelbedsHotels.length > 0 && (
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: '"Playfair Display", serif' }}>
                 <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
                 Hoteles Hotelbeds ({hotelbedsHotels.length})
               </h3>
@@ -587,12 +587,12 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
       {/* API Errors (for debugging) */}
       {(results.errors?.guesty || results.errors?.hotelbeds) && (
         <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <h4 className="font-medium text-yellow-800 mb-2">Estado de la API:</h4>
+          <h4 className="font-medium text-yellow-800 mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>Estado de la API:</h4>
           {results.errors.guesty && (
-            <p className="text-sm text-yellow-700">Guestyzz API: {results.errors.guesty}</p>
+            <p className="text-sm text-yellow-700" style={{ fontFamily: '"Playfair Display", serif' }}>Guestyzz API: {results.errors.guesty}</p>
           )}
           {results.errors.hotelbeds && (
-            <p className="text-sm text-yellow-700">Hotelbeds API: {results.errors.hotelbeds}</p>
+            <p className="text-sm text-yellow-700" style={{ fontFamily: '"Playfair Display", serif' }}>Hotelbeds API: {results.errors.hotelbeds}</p>
           )}
         </div>
       )}

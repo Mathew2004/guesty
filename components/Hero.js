@@ -34,7 +34,7 @@ export default function Hero() {
     };
 
     return (
-        <div className="relative h-[35vh] lg:h-[70vh]">
+        <div className="relative h-[45vh] lg:h-[80vh]">
             {/* Background Video */}
             <div className="absolute inset-0">
                 {!videoError ? (
