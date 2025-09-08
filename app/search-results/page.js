@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import SearchForm from '@/components/SearchForm';
 import HotelResults from '@/components/HotelResults';
 import MobileSearchModal from '@/components/MobileSearchModal';
+import Pagination from '@/components/Pagination';
 import { MapPin, Calendar, Users, Search, FilterIcon, Map, Satellite, StarIcon, Star } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -790,6 +791,18 @@ export default function SearchResults() {
                   <p className="text-gray-500">No properties found matching your criteria.</p>
                 </div>
               )}
+
+              {/* Pagination */}
+              {results?.pagination?.booking && handlePageChange && selectedAmenities.length === 0 && (
+                <Pagination
+                  currentPage={results.pagination.booking.currentPage}
+                  totalPages={results.pagination.booking.totalPages}
+                  totalItems={results.pagination.booking.totalItems}
+                  pageSize={results.pagination.booking.pageSize}
+                  onPageChange={handlePageChange}
+                  loading={loading}
+                />
+               )} 
             </div>
           )}
         </div>
