@@ -19,7 +19,7 @@ export default function Home() {
 
         {/* Search Form */}
         <div className={`w-full z-[20] hidden md:block absolute -bottom-8 transition-all duration-1000 delay-300 `}>
-          <SearchForm compact={false} />
+          <SearchForm compact={false} isFrame={true} />
         </div>
         <div className='md:hidden relative z-[10]'>
           <SearchForm compact={false} />
