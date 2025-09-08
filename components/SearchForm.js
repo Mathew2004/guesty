@@ -13,7 +13,8 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
     location: initialValues.location || {},
     checkIn: initialValues.checkIn || '',
     checkOut: initialValues.checkOut || '',
-    guests: initialValues.guests || 2
+    guests: initialValues.guests || 2,
+    dest_id: initialValues.dest_id || '',
   });
 
   const [error, setError] = useState(null);
@@ -27,7 +28,8 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
         location: initialValues.location || prevData.location,
         checkIn: initialValues.checkIn || prevData.checkIn,
         checkOut: initialValues.checkOut || prevData.checkOut,
-        guests: initialValues.guests || prevData.guests
+        guests: initialValues.guests || prevData.guests,
+        dest_id: initialValues.dest_id || prevData.dest_id,
       }));
     }
   }, [initialValues]);
@@ -81,6 +83,7 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
       city: searchData.location.city,
       country: searchData.location.country || '',
       destinationCode: searchData.location.code || '',
+      dest_id: searchData.location.dest_id || '',
       checkin: searchData.checkIn,
       checkout: searchData.checkOut,
       guests: searchData.guests.toString()
@@ -176,11 +179,13 @@ export default function SearchForm({ onSearch, setSearchResults, loading, setLoa
 
           {/* Mobile Layout - Vertical Grid */}
           <form
-            style={{
-              margin: "30px 50px",
-              // marginTop: "30px",
-              // paddingBottom: "20px"
-            }}
+            style={
+              compact ? {} : {
+                margin: "30px 50px",
+                // marginTop: "30px",
+                // paddingBottom: "20px" 
+              }
+            }
             onSubmit={handleSubmit} className="md:hidden p-2 space-y-2  rounded-full">
             {/* Location Dropdown */}
             <div className="relative">

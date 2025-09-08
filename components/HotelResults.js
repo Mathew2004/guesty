@@ -94,12 +94,65 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
           </div>
         );
       }
+    } else if(hotel.source == 'booking') {
+      if (hotel.price && hotel.currency) {
+        const hasDiscount = hotel.priceBreakdown?.strikethrough_amount?.value > hotel.price;
+        const perNightPrice = hotel.priceBreakdown?.gross_amount_per_night?.value;
+        const originalPrice = hotel.priceBreakdown?.strikethrough_amount?.value;
+        
+        return (
+          <div className="text-left">
+            <div className="flex flex-col">
+              <span className="text-xs text-purple-600 font-medium mb-1">Precio total</span>
+              
+              {/* Show discount if available */}
+              {hasDiscount && originalPrice && (
+                <div className="flex items-center mb-1">
+                  <span className="text-xs text-gray-500 line-through mr-2">
+                    {hotel.currency} {Math.round(originalPrice)}
+                  </span>
+                  {hotel.priceBreakdown?.discounted_amount?.value && (
+                    <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">
+                      -{hotel.currency} {Math.round(hotel.priceBreakdown.discounted_amount.value)}
+                    </span>
+                  )}
+                </div>
+              )}
+              
+              {/* Main price */}
+              <div className="flex items-baseline">
+                <span className="text-lg font-bold text-gray-900">
+                  {hotel.currency} {Math.round(hotel.price)}
+                </span>
+              </div>
+              
+              {/* Per night price if available */}
+              {perNightPrice && (
+                <span className="text-xs text-gray-500 mt-1">
+                  {hotel.currency} {Math.round(perNightPrice)} por noche
+                </span>
+              )}
+              
+              {/* Benefits/badges */}
+              {hotel.priceBreakdown?.benefits && hotel.priceBreakdown.benefits.length > 0 && (
+                <div className="mt-1">
+                  {hotel.priceBreakdown.benefits.slice(0, 1).map((benefit, idx) => (
+                    <span key={idx} className="inline-block text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                      {benefit.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
     }
 
     return (
       <div className="text-left">
         <div className="flex flex-col">
-          <span className="text-xs text-blue-600 font-medium mb-1">Consultar</span>
+          <span className="text-xs text-gray-500 font-medium mb-1">Consultar</span>
           <span className="text-sm font-bold text-gray-900">Precio</span>
         </div>
       </div>
@@ -213,7 +266,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
     if (hotel.source === 'guesty') {
       return `https://travidu.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`;
     } else if (hotel.source === 'booking' && hotel.hotel_link) {
-      return hotel.hotel_link;
+        return `${hotel.hotel_link}?checkin=${hotel.searchParams?.checkin || ''}&checkout=${hotel.searchParams?.checkout || ''}`;
     } else if (hotel.source === 'hotelbeds') {
       return `/hotels?code=${hotel.code}&checkin=${hotel.checkin || ''}&checkout=${hotel.checkout || ''}&guests=${hotel.guests || '2'}`;
     }
@@ -388,7 +441,7 @@ const HotelCard = ({ hotel, selectedAmenities }) => {
               </Link>
             ) : hotel.source === 'booking' && hotel.hotel_link ? (
               <Link
-                href={hotel.hotel_link}
+                href={getRedirectUrl(hotel)}
                 target='_blank'
                 className="group relative bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2 px-4 rounded-lg font-medium text-sm transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 inline-block"
               >
@@ -502,7 +555,7 @@ const HotelResults = ({ results, loading, error, onPageChange, selectedAmenities
             <div className="mb-8">
               <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                 <div className="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
-                Hoteles Booking.com ({bookingHotels.length})
+                Hoteles Booking.com ({results.bookingCount})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {bookingHotels.map((hotel, index) => (

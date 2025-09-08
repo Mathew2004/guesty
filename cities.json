@@ -3,498 +3,913 @@
     "city": "Albacete",
     "code": "ABC",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-369589",
+    "dest_type": "city",
+    "latitude": 38.9951,
+    "longitude": -1.85596,
+    "label": "Albacete, Castilla-La Mancha, Spain"
   },
   {
     "city": "Lanzarote",
     "code": "ACE",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "760",
+    "dest_type": "region",
+    "latitude": 28.991966,
+    "longitude": -13.646647,
+    "label": "Lanzarote, Spain"
   },
   {
     "city": "Costa del Sol",
     "code": "AGP",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1402",
+    "dest_type": "region",
+    "latitude": 36.594944,
+    "longitude": -4.5825815,
+    "label": "Costa del Sol, Spain"
   },
   {
     "city": "Alicante - Costa Blanca",
     "code": "ALC",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-370210",
+    "dest_type": "city",
+    "latitude": 38.345284,
+    "longitude": -0.486233,
+    "label": "Alicante, Valencia Community, Spain"
   },
   {
     "city": "Pyrenees - Aragon",
     "code": "ARA",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "900133731",
+    "dest_type": "landmark",
+    "latitude": 42.786514,
+    "longitude": -0.5338673,
+    "label": "Alto Aragon, Candanchú, Aragon, Spain"
   },
   {
     "city": "Avila",
     "code": "AVA",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-371972",
+    "dest_type": "city",
+    "latitude": 40.655556,
+    "longitude": -4.6971674,
+    "label": "Avila, Castile and Leon, Spain"
   },
   {
     "city": "Barcelona",
     "code": "BCN",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-372490",
+    "dest_type": "city",
+    "latitude": 41.3871,
+    "longitude": 2.17001,
+    "label": "Barcelona, Catalonia, Spain"
   },
   {
     "city": "Benidorm - Costa Blanca",
     "code": "BEN",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-373226",
+    "dest_type": "city",
+    "latitude": 38.5366,
+    "longitude": -0.13268314,
+    "label": "Benidorm, Valencia Community, Spain"
   },
   {
     "city": "Vizcaya - Bilbao",
     "code": "BIO",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-373608",
+    "dest_type": "city",
+    "latitude": 43.262936,
+    "longitude": -2.9350204,
+    "label": "Bilbao, Basque Country, Spain"
   },
   {
     "city": "Badajoz",
     "code": "BJZ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-372124",
+    "dest_type": "city",
+    "latitude": 38.87821,
+    "longitude": -6.97016,
+    "label": "Badajoz, Extremadura, Spain"
   },
   {
     "city": "Burgos",
     "code": "BRG",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-374415",
+    "dest_type": "city",
+    "latitude": 42.34118,
+    "longitude": -3.701738,
+    "label": "Burgos, Castile and Leon, Spain"
   },
   {
     "city": "Cadiz / Jerez",
     "code": "CAD",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-386204",
+    "dest_type": "city",
+    "latitude": 36.68145,
+    "longitude": -6.1379347,
+    "label": "Jerez de la Frontera, Andalucía, Spain"
   },
   {
     "city": "Castellon",
     "code": "CAS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1520",
+    "dest_type": "region",
+    "latitude": 40.24128,
+    "longitude": -0.14675747,
+    "label": "Castellon Province, Spain"
   },
   {
     "city": "Costa de Azahar",
     "code": "CAZ",
     "state": null,
-    "country": "ES"
+    "country": "España",
+    "dest_id": "-376967",
+    "dest_type": "city",
+    "latitude": 39.9833,
+    "longitude": -0.0333333,
+    "label": "Castellón de la Plana, Comunidad Valenciana, España"
   },
   {
     "city": "Cuenca",
     "code": "CCA",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-379455",
+    "dest_type": "city",
+    "latitude": 40.06812,
+    "longitude": -2.13482,
+    "label": "Cuenca, Castilla-La Mancha, Spain"
   },
   {
     "city": "Ceuta",
     "code": "CEU",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-377755",
+    "dest_type": "city",
+    "latitude": 35.88836,
+    "longitude": -5.30414,
+    "label": "Ceuta, Ceuta, Spain"
   },
   {
     "city": "Ciudad Real",
     "code": "CRE",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-378244",
+    "dest_type": "city",
+    "latitude": 38.98542,
+    "longitude": -3.92851,
+    "label": "Ciudad Real, Castilla-La Mancha, Spain"
   },
   {
     "city": "Caceres",
     "code": "CRS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-374847",
+    "dest_type": "city",
+    "latitude": 39.47516,
+    "longitude": -6.37141,
+    "label": "Cáceres, Extremadura, Spain"
   },
   {
     "city": "Costa Tropical",
     "code": "CTR",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1403",
+    "dest_type": "region",
+    "latitude": 36.73535,
+    "longitude": -3.4252007,
+    "label": "Costa Tropical, Spain"
   },
   {
     "city": "Costa de Valencia",
     "code": "CVA",
     "state": null,
-    "country": "ES"
+    "country": "Espanya",
+    "dest_id": "-406131",
+    "dest_type": "city",
+    "latitude": 39.4698,
+    "longitude": -0.376542,
+    "label": "València, Comunitat Valenciana, Espanya"
   },
   {
     "city": "Guipuzcoa - San Sebastian",
     "code": "EAS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-401497",
+    "dest_type": "city",
+    "latitude": 43.3167,
+    "longitude": -1.98333,
+    "label": "San Sebastián, Basque Country, Spain"
   },
   {
     "city": "Formentera",
     "code": "FOR",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1406",
+    "dest_type": "region",
+    "latitude": 38.69956,
+    "longitude": 1.4793096,
+    "label": "Formentera, Spain"
   },
   {
     "city": "Fuerteventura",
     "code": "FUE",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "752",
+    "dest_type": "region",
+    "latitude": 28.387337,
+    "longitude": -14.161114,
+    "label": "Fuerteventura, Spain"
   },
   {
     "city": "Girona",
     "code": "GRO",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-383956",
+    "dest_type": "city",
+    "latitude": 41.983055,
+    "longitude": 2.824722,
+    "label": "Girona, Catalonia, Spain"
   },
   {
     "city": "Granada",
     "code": "GRX",
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-384328",
+    "dest_type": "city",
+    "latitude": 37.175667,
+    "longitude": -3.5974324,
+    "label": "Granada, Andalucía, Spain"
   },
   {
     "city": "Guadalajara",
     "code": "GUJ",
     "state": null,
-    "country": "ES"
+    "country": "Mexico",
+    "dest_id": "-1669612",
+    "dest_type": "city",
+    "latitude": 20.67614,
+    "longitude": -103.347,
+    "label": "Guadalajara, Jalisco, Mexico"
   },
   {
     "city": "Huelva",
     "code": "HUE",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-385563",
+    "dest_type": "city",
+    "latitude": 37.2583,
+    "longitude": -6.95083,
+    "label": "Huelva, Andalucía, Spain"
   },
   {
     "city": "Huesca",
     "code": "HUS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-385645",
+    "dest_type": "city",
+    "latitude": 42.13825,
+    "longitude": -0.40809,
+    "label": "Huesca, Aragon, Spain"
   },
   {
     "city": "Ibiza",
     "code": "IBZ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1408",
+    "dest_type": "region",
+    "latitude": 38.983204,
+    "longitude": 1.3492883,
+    "label": "Ibiza, Spain"
   },
   {
     "city": "Jaen",
     "code": "JEN",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-386068",
+    "dest_type": "city",
+    "latitude": 37.77289,
+    "longitude": -3.78833,
+    "label": "Jaén, Andalucía, Spain"
   },
   {
     "city": "Almeria Coast-Almeria",
     "code": "LEI",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "12071051",
+    "dest_type": "hotel",
+    "latitude": 36.828888,
+    "longitude": -2.453557,
+    "label": "Sal y Mar Apartment - Playa de Almeria - Centro de Almeria, Almería, Andalucía, Spain"
   },
   {
     "city": "Leon",
     "code": "LEO",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-389068",
+    "dest_type": "city",
+    "latitude": 42.6,
+    "longitude": -5.56667,
+    "label": "León, Castile and Leon, Spain"
   },
   {
     "city": "Lerida",
     "code": "LER",
     "state": null,
-    "country": "ES"
+    "country": "Colombia",
+    "dest_id": "-590640",
+    "dest_type": "city",
+    "latitude": 4.86333,
+    "longitude": -74.9128,
+    "label": "Lérida, Tolima, Colombia"
   },
   {
     "city": "Lugo",
     "code": "LGO",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-390505",
+    "dest_type": "city",
+    "latitude": 43.0118,
+    "longitude": -7.5576,
+    "label": "Lugo, Galicia, Spain"
   },
   {
     "city": "Costa Brava & Costa Barcelona-Maresme",
     "code": "LLM",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "3914426",
+    "dest_type": "hotel",
+    "latitude": 41.61717,
+    "longitude": 2.6650436,
+    "label": "CALELLA DE LA COSTA ( Maresme - Costa Brava), Calella, Catalonia, Spain"
   },
   {
     "city": "La Manga - Costa Calida",
     "code": "LMN",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "900039286",
+    "dest_type": "city",
+    "latitude": 37.65156,
+    "longitude": -0.7187004,
+    "label": "La Manga del Mar Menor, Murcia, Spain"
   },
   {
     "city": "La Rioja",
     "code": "LOG",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "761",
+    "dest_type": "region",
+    "latitude": 42.274853,
+    "longitude": -2.5169728,
+    "label": "La Rioja, Spain"
   },
   {
     "city": "Gran Canaria",
     "code": "LPA",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "754",
+    "dest_type": "region",
+    "latitude": 27.945147,
+    "longitude": -15.544393,
+    "label": "Gran Canaria, Spain"
   },
   {
     "city": "Costa de la Luz (Huelva)",
     "code": "LUS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-385563",
+    "dest_type": "city",
+    "latitude": 37.2583,
+    "longitude": -6.95083,
+    "label": "Huelva, Andalucía, Spain"
   },
   {
     "city": "Costa de la Luz (Cadiz)",
     "code": "LUZ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-374884",
+    "dest_type": "city",
+    "latitude": 36.529514,
+    "longitude": -6.295139,
+    "label": "Cádiz, Andalucía, Spain"
   },
   {
     "city": "Madrid",
     "code": "MAD",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-390625",
+    "dest_type": "city",
+    "latitude": 40.4167,
+    "longitude": -3.70342,
+    "label": "Madrid, Community of Madrid, Spain"
   },
   {
     "city": "Menorca",
     "code": "MAH",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1409",
+    "dest_type": "region",
+    "latitude": 39.95464,
+    "longitude": 4.0937295,
+    "label": "Menorca, Spain"
   },
   {
     "city": "Malaga",
     "code": "MAL",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-390787",
+    "dest_type": "city",
+    "latitude": 36.721138,
+    "longitude": -4.422028,
+    "label": "Málaga, Andalucía, Spain"
   },
   {
     "city": "Murcia",
     "code": "MJV",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "768",
+    "dest_type": "region",
+    "latitude": 38.0021,
+    "longitude": -1.4851741,
+    "label": "Murcia, Spain"
   },
   {
     "city": "Melilla",
     "code": "MLN",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-391809",
+    "dest_type": "city",
+    "latitude": 35.2919,
+    "longitude": -2.94071,
+    "label": "Melilla, Melilla, Spain"
   },
   {
     "city": "Cordoba",
     "code": "ODB",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-378765",
+    "dest_type": "city",
+    "latitude": 37.88352,
+    "longitude": -4.7744713,
+    "label": "Córdoba, Andalucía, Spain"
   },
   {
     "city": "Ourense",
     "code": "ORE",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-394670",
+    "dest_type": "city",
+    "latitude": 42.335655,
+    "longitude": -7.863807,
+    "label": "Ourense, Galicia, Spain"
   },
   {
     "city": "Asturias",
     "code": "OVD",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "727",
+    "dest_type": "region",
+    "latitude": 43.292187,
+    "longitude": -5.993652,
+    "label": "Asturias, Spain"
   },
   {
     "city": "Palencia",
     "code": "PAL",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-395195",
+    "dest_type": "city",
+    "latitude": 42.01081,
+    "longitude": -4.53279,
+    "label": "Palencia, Castile and Leon, Spain"
   },
   {
     "city": "Pyrenees - Catalan",
     "code": "PIR",
     "state": null,
-    "country": "ES"
+    "country": "France",
+    "dest_id": "-1457525",
+    "dest_type": "city",
+    "latitude": 42.697582,
+    "longitude": 2.894838,
+    "label": "Perpignan, Languedoc-Roussillon, France"
   },
   {
     "city": "Majorca",
     "code": "PMI",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "767",
+    "dest_type": "region",
+    "latitude": 39.618618,
+    "longitude": 2.9400835,
+    "label": "Majorca, Spain"
   },
   {
     "city": "Navarra",
     "code": "PNA",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "900137397",
+    "dest_type": "landmark",
+    "latitude": 42.795364,
+    "longitude": -1.6346759,
+    "label": "Navarra Arena, Pamplona, Navarre, Spain"
   },
   {
     "city": "Pyrenees - Navarra",
     "code": "PNR",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "14089269",
+    "dest_type": "hotel",
+    "latitude": 42.61687,
+    "longitude": -1.5766393,
+    "label": "Casa Rural Arco Navarra, Artariáin, Navarre, Spain"
   },
   {
     "city": "La Gomera",
     "code": "QGZ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1775",
+    "dest_type": "region",
+    "latitude": 28.08416,
+    "longitude": -17.253483,
+    "label": "La Gomera, Spain"
   },
   {
     "city": "Salou Area / Costa Dorada",
     "code": "SAL",
     "state": null,
-    "country": "ES"
+    "country": null,
+    "dest_id": null,
+    "dest_type": null,
+    "latitude": null,
+    "longitude": null,
+    "label": null
   },
   {
     "city": "A Coruña",
     "code": "SCQ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-386792",
+    "dest_type": "city",
+    "latitude": 43.371376,
+    "longitude": -8.395612,
+    "label": "A Coruña, Galicia, Spain"
   },
   {
     "city": "Cantabria",
     "code": "SDR",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "731",
+    "dest_type": "region",
+    "latitude": 43.196743,
+    "longitude": -4.029344,
+    "label": "Cantabria, Spain"
   },
   {
     "city": "Segovia",
     "code": "SEG",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-402548",
+    "dest_type": "city",
+    "latitude": 40.95022,
+    "longitude": -4.12415,
+    "label": "Segovia, Castile and Leon, Spain"
   },
   {
     "city": "Salamanca",
     "code": "SLM",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-400105",
+    "dest_type": "city",
+    "latitude": 40.965015,
+    "longitude": -5.6640086,
+    "label": "Salamanca, Castile and Leon, Spain"
   },
   {
     "city": "Soria",
     "code": "SOR",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-403310",
+    "dest_type": "city",
+    "latitude": 41.76338,
+    "longitude": -2.4642,
+    "label": "Soria, Castile and Leon, Spain"
   },
   {
     "city": "La Palma",
     "code": "SPC",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "1405",
+    "dest_type": "region",
+    "latitude": 28.686953,
+    "longitude": -17.856003,
+    "label": "La Palma Island, Spain"
   },
   {
     "city": "Sierra Nevada",
     "code": "SRN",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "900040207",
+    "dest_type": "city",
+    "latitude": 37.09389,
+    "longitude": -3.3999817,
+    "label": "Sierra Nevada, Andalucía, Spain"
   },
   {
     "city": "Sitges Area - Costa del Garraf",
     "code": "STS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "13154337",
+    "dest_type": "hotel",
+    "latitude": 41.24167,
+    "longitude": 1.8221097,
+    "label": "Villa Sitges Cambera 10 minutos de Playa andando Muy Comoda Area Tranquila, Sitges, Catalonia, Spain"
   },
   {
     "city": "Seville",
     "code": "SVQ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-402849",
+    "dest_type": "city",
+    "latitude": 37.388634,
+    "longitude": -5.9955525,
+    "label": "Seville, Andalucía, Spain"
   },
   {
     "city": "Teruel",
     "code": "TER",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-404164",
+    "dest_type": "city",
+    "latitude": 40.343086,
+    "longitude": -1.107129,
+    "label": "Teruel, Aragon, Spain"
   },
   {
     "city": "Tenerife",
     "code": "TFS",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "777",
+    "dest_type": "region",
+    "latitude": 28.322346,
+    "longitude": -16.484707,
+    "label": "Tenerife, Spain"
   },
   {
     "city": "Toledo",
     "code": "TOL",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-404357",
+    "dest_type": "city",
+    "latitude": 39.857147,
+    "longitude": -4.0236225,
+    "label": "Toledo, Castilla-La Mancha, Spain"
   },
   {
     "city": "El Hierro",
     "code": "VDE",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "3450",
+    "dest_type": "region",
+    "latitude": 27.761162,
+    "longitude": -18.001114,
+    "label": "El Hierro, Spain"
   },
   {
     "city": "Pontevedra",
     "code": "VGO",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-397117",
+    "dest_type": "city",
+    "latitude": 42.43189,
+    "longitude": -8.64316,
+    "label": "Pontevedra, Galicia, Spain"
   },
   {
     "city": "Alava",
     "code": "VIT",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "741",
+    "dest_type": "region",
+    "latitude": 42.83495,
+    "longitude": -2.7205744,
+    "label": "Alava Province, Spain"
   },
   {
     "city": "Valencia",
     "code": "VLC",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-406131",
+    "dest_type": "city",
+    "latitude": 39.4698,
+    "longitude": -0.376542,
+    "label": "Valencia, Valencia Community, Spain"
   },
   {
     "city": "Valladolid",
     "code": "VLL",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-406201",
+    "dest_type": "city",
+    "latitude": 41.65213,
+    "longitude": -4.72856,
+    "label": "Valladolid, Castile and Leon, Spain"
   },
   {
     "city": "Zamora",
     "code": "ZAM",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-409113",
+    "dest_type": "city",
+    "latitude": 41.50566,
+    "longitude": -5.7448,
+    "label": "Zamora, Castile and Leon, Spain"
   },
   {
     "city": "Zaragoza",
     "code": "ZAZ",
     "state": null,
-    "country": "ES"
+    "country": "Spain",
+    "dest_id": "-409149",
+    "dest_type": "city",
+    "latitude": 41.65213,
+    "longitude": -0.88094,
+    "label": "Zaragoza, Aragon, Spain"
   },
   {
     "city": "Barbate",
-    "code": "LUZ",
+    "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-372449",
+    "dest_type": "city",
+    "latitude": 36.1897,
+    "longitude": -5.92167,
+    "label": "Barbate, Andalucía, Spain"
   },
   {
     "city": "Chiclana de la Frontera",
-    "code": "LUZ",
+    "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-377937",
+    "dest_type": "city",
+    "latitude": 36.41911,
+    "longitude": -6.14607,
+    "label": "Chiclana de la Frontera, Andalucía, Spain"
   },
   {
     "city": "Conil de la Frontera",
-    "code": "LUZ",
+    "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-378657",
+    "dest_type": "city",
+    "latitude": 36.2764,
+    "longitude": -6.0875,
+    "label": "Conil de la Frontera, Andalucía, Spain"
   },
   {
     "city": "Cádiz",
-    "code": "CAD",
+    "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-374884",
+    "dest_type": "city",
+    "latitude": 36.529514,
+    "longitude": -6.295139,
+    "label": "Cádiz, Andalucía, Spain"
   },
   {
     "city": "El Palmar de Vejer",
     "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "10514887",
+    "dest_type": "hotel",
+    "latitude": 36.233856,
+    "longitude": -6.0549765,
+    "label": "Casa Mora - Vejer, El Palmar, Vejer de la Frontera, Andalucía, Spain"
   },
   {
     "city": "El Puerto de Santa María",
-    "code": "LUZ",
+    "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-381105",
+    "dest_type": "city",
+    "latitude": 36.600357,
+    "longitude": -6.225275,
+    "label": "El Puerto de Santa María, Andalucía, Spain"
   },
   {
     "city": "Jerez de la Frontera",
-    "code": "CAD",
+    "code": null,
     "state": "Andalucía",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-386204",
+    "dest_type": "city",
+    "latitude": 36.68145,
+    "longitude": -6.1379347,
+    "label": "Jerez de la Frontera, Andalucía, Spain"
   },
   {
     "city": "Vejer de la Frontera",
-    "code": "CAD",
+    "code": null,
     "state": "Andalusia",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-406798",
+    "dest_type": "city",
+    "latitude": 36.25,
+    "longitude": -5.96667,
+    "label": "Vejer de la Frontera, Andalucía, Spain"
   },
   {
     "city": "Vielha",
-    "code": "PIR",
+    "code": null,
     "state": "Cataluña",
-    "country": "Spain"
+    "country": "Spain",
+    "dest_id": "-407187",
+    "dest_type": "city",
+    "latitude": 42.70176,
+    "longitude": 0.79547,
+    "label": "Vielha, Catalonia, Spain"
   }
 ]

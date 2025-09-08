@@ -64,6 +64,7 @@ export default function SearchResults() {
   const city = searchParams.get('city');
   const country = searchParams.get('country');
   const destinationCode = searchParams.get('destinationCode');
+  const destId = searchParams.get('dest_id');
   const checkin = searchParams.get('checkin');
   const checkout = searchParams.get('checkout');
   const guests = searchParams.get('guests');
@@ -79,7 +80,8 @@ export default function SearchResults() {
     location: city && country ? {
       city: city,
       country: country,
-      destinationCode: destinationCode
+      destinationCode: destinationCode,
+      dest_id: destId
     } : {},
     checkIn: checkin || '',
     checkOut: checkout || '',
@@ -138,7 +140,7 @@ export default function SearchResults() {
       setError(null);
 
       try {
-        const apiUrl = `/api/hotels?city=${encodeURIComponent(city)}&checkin=${checkin || ''}&checkout=${checkout || ''}&guests=${guests || '2'}&destinationCode=${destinationCode || ''}&page=${currentPage}&pageSize=25`;
+        const apiUrl = `/api/hotels?city=${encodeURIComponent(city)}&checkin=${checkin || ''}&checkout=${checkout || ''}&guests=${guests || '2'}&destinationCode=${destinationCode || ''}&dest_id=${destId || ''}&page=${currentPage}&pageSize=25`;
 
         console.log('Fetching hotels from:', apiUrl);
 
@@ -159,7 +161,7 @@ export default function SearchResults() {
     };
 
     fetchHotels();
-  }, [city, checkin, checkout, guests, destinationCode, currentPage]);
+  }, [city, checkin, checkout, guests, destinationCode, destId, currentPage]);
 
   // Handle mobile search
   const handleMobileSearch = (searchData) => {
@@ -168,6 +170,7 @@ export default function SearchResults() {
       city: searchData.location.city,
       country: searchData.location.country || '',
       destinationCode: searchData.location.code || '',
+      dest_id: searchData.location.dest_id || '',
       checkin: searchData.checkIn,
       checkout: searchData.checkOut,
       guests: searchData.guests.toString(),
@@ -188,6 +191,7 @@ export default function SearchResults() {
       city: city,
       country: country || '',
       destinationCode: destinationCode || '',
+      dest_id: destId || '',
       checkin: checkin || '',
       checkout: checkout || '',
       guests: guests || '2',
@@ -459,7 +463,8 @@ export default function SearchResults() {
           location: city ? {
             city,
             country,
-            code: destinationCode
+            code: destinationCode,
+            dest_id: destId
           } : {},
           checkIn: checkin || '',
           checkOut: checkout || '',
