@@ -810,8 +810,8 @@ export default function SearchResults() {
                         <a href={getRedirectUrl(hotel)} target="_blank" rel="noopener noreferrer"
                           style={{
                             background: "#3A1C71",  /* fallback for old browsers */
-                            background: "-webkit-linear-gradient(to right, #FFAF7B, #D76D77, #3A1C71)",  /* Chrome 10-25, Safari 5.1-6 */
-                            background: "linear-gradient(to right, #FFAF7B, #D76D77, #3A1C71)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                            background: "-webkit-linear-gradient(to left, #FFAF7B, #D76D77, #3A1C71)",  /* Chrome 10-25, Safari 5.1-6 */
+                            background: "linear-gradient(to left, #FFAF7B, #D76D77, #3A1C71)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
                           }}
                           className=" text-white text-center px-8 py-3 text-md font-medium transition-colors rounded-full">
