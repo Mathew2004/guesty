@@ -323,6 +323,32 @@ export default function SearchResults() {
     return { location, dates, guests: guestsText };
   };
 
+  const getSourceBadge = (source) => {
+    if (source === 'guesty') {
+      return (
+        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-500 text-white shadow-lg" style={{ fontFamily: '"Playfair Display", serif' }}>
+          <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
+          Guestyzz
+        </span>
+      );
+    } else if (source === 'hotelbeds') {
+      return (
+        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-green-500 text-white shadow-lg" style={{ fontFamily: '"Playfair Display", serif' }}>
+          <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
+          Hotelbeds
+        </span>
+      );
+    } else if (source === 'booking') {
+      return (
+        <span className="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-500 text-white shadow-lg" style={{ fontFamily: '"Playfair Display", serif' }}>
+          <div className="w-1.5 h-1.5 bg-white rounded-full mr-2"></div>
+          Booking.com
+        </span>
+      );
+    }
+    return null;
+  };
+
 
   const coordinates = results?.coordinates || null;
 
@@ -390,11 +416,11 @@ export default function SearchResults() {
           </div>
 
           {/* Mobile Filter Toggle Button */}
-          <div className="md:hidden mb-4">
+          <div className="md:hidden sticky top-12 bg-gray-50 z-50 py-2 px-4 -mx-4 border-b border-gray-200 mb-4">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setMobileFiltersExpanded(!mobileFiltersExpanded)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <FilterIcon size={16} />
                 <span className="text-sm font-medium">Filtros</span>
@@ -657,6 +683,9 @@ export default function SearchResults() {
                             <MapPin className="w-8 h-8 text-gray-400" />
                           </div>
                         )}
+                        <div className="absolute top-3 right-3">
+                          {getSourceBadge(hotel.source)}
+                        </div>
                       </div>
 
                       {/* Hotel Details */}
@@ -712,7 +741,7 @@ export default function SearchResults() {
                               <div className="text-xs text-gray-400 mb-4">Se pueden aplicar cargos adicionales</div>
                               <a href={getRedirectUrl(hotel)} target="_blank" rel="noopener noreferrer"
                                 className="bg-[#486698] text-white text-center px-8 py-3 text-md font-medium transition-colors w-full">
-                                Reserva ahora
+                                Hometogo
                               </a>
                             </div>
                           </div>
@@ -739,6 +768,9 @@ export default function SearchResults() {
                           <MapPin className="w-8 h-8 text-gray-400" />
                         </div>
                       )}
+                      <div className="absolute top-3 right-3">
+                        {getSourceBadge(hotel.source)}
+                      </div>
                     </div>
 
                     {/* Hotel Details */}
@@ -765,19 +797,25 @@ export default function SearchResults() {
                       </div>
 
                       <div className="flex items-end justify-between">
-                        <div>
+                        <div className='max-w-2xl'>
                           <div className="text-sm text-gray-600">from</div>
                           <div className="text-xl font-bold text-gray-900">
                             € {Math.round(hotel.price || hotel.minRate || hotel.prices?.basePrice || 215)}.00
                           </div>
                           <div className="text-xs mb-1 font-semibold">Por noche</div>
-                          <div className="text-xs text-gray-400 mb-4">Se pueden aplicar cargos adicionales</div>
+                          <div className="text-xs text-gray-400 mb-4 mr-2">Se pueden aplicar cargos adicionales</div>
 
                         </div>
 
                         <a href={getRedirectUrl(hotel)} target="_blank" rel="noopener noreferrer"
-                          className="bg-[#486698] text-white text-center px-8 py-3 text-md font-medium transition-colors w-full">
-                          Reserva ahora
+                          style={{
+                            background: "#3A1C71",  /* fallback for old browsers */
+                            background: "-webkit-linear-gradient(to right, #FFAF7B, #D76D77, #3A1C71)",  /* Chrome 10-25, Safari 5.1-6 */
+                            background: "linear-gradient(to right, #FFAF7B, #D76D77, #3A1C71)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+                          }}
+                          className=" text-white text-center px-8 py-3 text-md font-medium transition-colors rounded-full">
+                          Hometogo
                         </a>
                       </div>
                     </div>
@@ -802,7 +840,7 @@ export default function SearchResults() {
                   onPageChange={handlePageChange}
                   loading={loading}
                 />
-               )} 
+              )}
             </div>
           )}
         </div>
@@ -812,14 +850,14 @@ export default function SearchResults() {
           <div className="sticky top-16 h-screen bg-gray-100">
             {/* Map Toggle Buttons */}
             <div className="absolute top-4 right-4 z-10 flex bg-white rounded-lg border border-gray-300 overflow-hidden">
-              <button className="px-3 py-2 text-sm bg-gray-800 text-white flex items-center">
+              {/* <button className="px-3 py-2 text-sm bg-gray-800 text-white flex items-center">
                 <Map size={16} className="mr-1" />
                 Map
               </button>
               <button className="px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 flex items-center">
                 <Satellite size={16} className="mr-1" />
                 Satellite
-              </button>
+              </button> */}
             </div>
 
             {/* Fullscreen Button */}
