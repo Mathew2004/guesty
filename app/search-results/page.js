@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { allAmenities } from '@/lib/amenities';
 import { FaStar } from "react-icons/fa";
+import { HotelsMap } from '@/components/Map';
 
 
 export default function SearchResults() {
@@ -35,6 +36,8 @@ export default function SearchResults() {
   const [tempBathrooms, setTempBathrooms] = useState(0);
   const [sortByPrice, setSortByPrice] = useState(false);
   const [tempSortByPrice, setTempSortByPrice] = useState(false);
+
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
 
   // Mobile filter expansion state
   const [mobileFiltersExpanded, setMobileFiltersExpanded] = useState(false);
@@ -59,6 +62,7 @@ export default function SearchResults() {
     setSelectedCategories(tempSelectedCategories);
     setSelectedPropertyTypes(tempSelectedPropertyTypes);
     setIsFilterOpen(false);
+    setIsFilterApplied(true);
   };
 
   const handleClearFilters = () => {
@@ -69,6 +73,7 @@ export default function SearchResults() {
     setTempPriceRange({ min: 0, max: 1000 });
     setTempSelectedCategories([]);
     setTempSelectedPropertyTypes([]);
+    setIsFilterApplied(false);
   };
 
   // Individual clear functions for quick filters
@@ -78,6 +83,7 @@ export default function SearchResults() {
   const clearAmenitiesFilter = () => setSelectedAmenities([]);
   const clearBedroomsFilter = () => setBedrooms(0);
   const clearBathroomsFilter = () => setBathrooms(0);
+
 
   const clearAllFilters = () => {
     clearPriceFilter();
@@ -353,12 +359,12 @@ export default function SearchResults() {
   const coordinates = results?.coordinates || null;
 
   const getRedirectUrl = (hotel) => {
-    if (hotel.source === 'guesty') {
+    if (hotel?.source === 'guesty') {
       return `https://guestyz.guestybookings.com/es/properties/${hotel.id}?city=${hotel.city}&country=${hotel.country}&minOccupancy=${hotel.minOccupancy || 2}&checkIn=${hotel.checkin || ''}&checkOut=${hotel.checkout || ''}`;
-    } else if (hotel.source === 'booking' && hotel.hotel_link) {
+    } else if (hotel?.source === 'booking' && hotel?.hotel_link) {
       // return `${hotel.hotel_link}?checkin=${hotel.searchParams?.checkin || ''}&checkout=${hotel.searchParams?.checkout || ''}`;
       return `https://www.booking.com/searchresults.html?ss=${hotel.city}&ssne=${hotel.city}&ssne_untouched=${hotel.city}&highlighted_hotels=${hotel.id}&checkin=${hotel.searchParams?.checkin || ''}&checkout=${hotel.searchParams?.checkout || ''}`;
-    } else if (hotel.source === 'hotelbeds') {
+    } else if (hotel?.source === 'hotelbeds') {
       return `/hotels?code=${hotel.code}&checkin=${hotel.checkin || ''}&checkout=${hotel.checkout || ''}&guests=${hotel.guests || '2'}`;
     }
     return null;
@@ -428,7 +434,7 @@ export default function SearchResults() {
                   {mobileFiltersExpanded ? '▼' : '▶'}
                 </span>
               </button>
-              <span className="text-sm text-blue-600 font-medium">{filteredHotels?.length || 0} properties</span>
+              <span className="text-sm text-blue-600 font-medium">{!isFilterApplied ? (results?.bookingCount + results?.total) || 0 : filteredHotels?.length || 0} properties</span>
             </div>
           </div>
 
@@ -550,7 +556,7 @@ export default function SearchResults() {
             {/* Separator - Only on Desktop */}
             <div className="hidden md:block border-l-2 w-2 h-6 border-gray-600 mx-2" />
 
-            {/* Bedrooms Filter Dropdown */}
+            {/* Dormitorios Filter Dropdown */}
             <div className="relative mb-2 md:mb-0">
               <Select value={bedrooms.toString()} onValueChange={(val) => setBedrooms(parseInt(val))}>
                 <SelectTrigger className="h-8 text-md border-0 bg-transparent hover:bg-gray-100 focus:ring-0 w-full md:w-auto">
@@ -599,7 +605,7 @@ export default function SearchResults() {
 
             {/* Desktop Properties Count and Clear All */}
             <div className="hidden md:flex items-center gap-4">
-              <span className="text-sm text-blue-600 font-medium">{filteredHotels?.length || 0} properties</span>
+              <span className="text-sm text-blue-600 font-medium">{!isFilterApplied ? (results?.bookingCount + results?.total) || 0 : filteredHotels?.length || 0} properties</span>
 
               {(priceRange.min > 0 || priceRange.max < 1000 || selectedCategories.length > 0 ||
                 selectedPropertyTypes.length > 0 || selectedAmenities.length > 0 || bedrooms > 0 || bathrooms > 0) && (
@@ -710,9 +716,9 @@ export default function SearchResults() {
                             <div className="flex items-center text-sm text-gray-600 space-x-6">
 
                               <>
-                                <span>• {hotel.maxGuests || 8} Guests</span>
-                                <span>• {hotel.bedrooms || 2} Bedrooms</span>
-                                <span>• {(hotel.bathrooms || 1.5).toString().includes('.') ? hotel.bathrooms || 1.5 : hotel.bathrooms || 1} Bathrooms</span>
+                                <span>• {hotel.maxGuests || 8} Huéspedes</span>
+                                <span>• {hotel.bedrooms || 2} Dormitorios</span>
+                                <span>• {(hotel.bathrooms || 1.5).toString().includes('.') ? hotel.bathrooms || 1.5 : hotel.bathrooms || 1} Baños</span>
                               </>
 
                             </div>
@@ -790,7 +796,7 @@ export default function SearchResults() {
                       <div className="flex flex-wrap items-center text-sm text-gray-600 mb-4 space-x-4">
                         <>
                           <span>• {hotel.maxGuests || 8} Guests</span>
-                          <span>• {hotel.bedrooms || 2} Bedrooms</span>
+                          <span>• {hotel.bedrooms || 2} Dormitorios</span>
                           <span>• {(hotel.bathrooms || 1.5).toString().includes('.') ? hotel.bathrooms || 1.5 : hotel.bathrooms || 1} Bathrooms</span>
                         </>
 
@@ -869,7 +875,7 @@ export default function SearchResults() {
 
             {/* Map Container */}
             <div className="w-full h-full">
-              <iframe
+              {/* <iframe
                 width="100%"
                 height="100%"
                 frameBorder="0"
@@ -877,7 +883,9 @@ export default function SearchResults() {
                 src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${coordinates?.longitude},${coordinates?.latitude}&zoom=12`}
                 allowFullScreen
                 title={`Map of ${city}`}
-              />
+              /> */}
+
+              <HotelsMap hotels={filteredHotels} getRedirectUrl={getRedirectUrl()} />
 
               {/* Map Pins for Hotels */}
               {/* {filteredHotels.map((hotel, index) => {
@@ -1031,10 +1039,10 @@ export default function SearchResults() {
               />
             </div>
 
-            {/* Bedrooms and Bathrooms */}
+            {/* Dormitorios and Bathrooms */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium">Bedrooms</label>
+                <label className="text-sm font-medium">Dormitorios</label>
                 <Select value={tempBedrooms.toString()} onValueChange={(val) => setTempBedrooms(parseInt(val))}>
                   <SelectTrigger>
                     <SelectValue placeholder="Any" />
