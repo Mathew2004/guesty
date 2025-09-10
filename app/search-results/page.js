@@ -741,7 +741,7 @@ export default function SearchResults() {
                               <div className="text-xs text-gray-400 mb-4">Se pueden aplicar cargos adicionales</div>
                               <a href={getRedirectUrl(hotel)} target="_blank" rel="noopener noreferrer"
                                 className="bg-[#486698] text-white text-center px-8 py-3 text-md font-medium transition-colors w-full">
-                                Hometogo
+                                Buscar oferta
                               </a>
                             </div>
                           </div>
@@ -815,7 +815,7 @@ export default function SearchResults() {
 
                           }}
                           className=" text-white text-center px-8 py-3 text-md font-medium transition-colors rounded-full">
-                          Hometogo
+                          Buscar oferta
                         </a>
                       </div>
                     </div>
