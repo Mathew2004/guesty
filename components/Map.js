@@ -13,7 +13,7 @@ export function HotelsMap({ hotels, selectedCurrency, convertPrice, getCurrencyS
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY // <-- put your API key
     });
 
-    const center = { lat: hotels[0]?.coordinates.latitude, lng: hotels[0]?.coordinates.longitude };
+    const center = { lat: hotels[0]?.coordinates?.latitude, lng: hotels[0]?.coordinates?.longitude };
 
     const [selectedHotel, setSelectedHotel] = useState(null);
 
@@ -39,7 +39,7 @@ export function HotelsMap({ hotels, selectedCurrency, convertPrice, getCurrencyS
                 {hotels.map((hotel) => (
                     <Marker
                         key={hotel.id}
-                        position={{ lat: hotel.coordinates.latitude, lng: hotel.coordinates.longitude }}
+                        position={{ lat: hotel?.coordinates?.latitude, lng: hotel?.coordinates?.longitude }}
                         title={hotel.name}
                         onClick={() => setSelectedHotel(hotel)}
                     />
