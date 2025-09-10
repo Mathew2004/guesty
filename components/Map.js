@@ -7,7 +7,7 @@ const containerStyle = {
     height: "500px"
 };
 
-export function HotelsMap({ hotels }) {
+export function HotelsMap({ hotels, selectedCurrency, convertPrice, getCurrencySymbol }) {
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY // <-- put your API key
@@ -48,7 +48,7 @@ export function HotelsMap({ hotels }) {
                 {selectedHotel && (
                     <InfoWindow
                         position={{ lat: selectedHotel.coordinates.latitude, lng: selectedHotel.coordinates.longitude }}
-                        options={{ disableAutoPan: false, closeBoxURL: "" }}
+                        onCloseClick={() => setSelectedHotel(null)}
                     >
                         <div style={{
                             width: "300px",
@@ -134,7 +134,10 @@ export function HotelsMap({ hotels }) {
                                         color: "#1f2937",
                                         margin: "0"
                                     }}>
-                                        €{Math.round(selectedHotel.price || selectedHotel.minRate || selectedHotel.prices?.basePrice || 294)}
+                                        {convertPrice && getCurrencySymbol ? 
+                                            `${getCurrencySymbol()}${convertPrice(selectedHotel.price || selectedHotel.minRate || selectedHotel.prices?.basePrice || 294).toLocaleString()}` :
+                                            `€${Math.round(selectedHotel.price || selectedHotel.minRate || selectedHotel.prices?.basePrice || 294)}`
+                                        }
                                     </p>
                                     <p style={{
                                         fontSize: "11px",
@@ -146,28 +149,8 @@ export function HotelsMap({ hotels }) {
                                 </div>
 
                                 {/* View Deal Button */}
-                                <a 
-                                    href={getRedirectUrl(selectedHotel)} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        display: "block",
-                                        width: "100%",
-                                        padding: "12px 16px",
-                                        backgroundColor: "#486698",
-                                        color: "white",
-                                        textAlign: "center",
-                                        textDecoration: "none",
-                                        borderRadius: "6px",
-                                        fontSize: "14px",
-                                        fontWeight: "500",
-                                        cursor: "pointer",
-                                        transition: "background-color 0.2s",
-                                        boxSizing: "border-box"
-                                    }}
-                                    onMouseOver={(e) => e.target.style.backgroundColor = "#3a5a87"}
-                                    onMouseOut={(e) => e.target.style.backgroundColor = "#486698"}
-                                >
+                                <a href={getRedirectUrl(selectedHotel)} target="_blank" rel="noopener noreferrer"
+                                    className="bg-[#486698] text-white text-center px-8 py-3 text-md font-medium transition-colors w-full">
                                     Buscar oferta
                                 </a>
                             </div>

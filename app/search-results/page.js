@@ -42,6 +42,53 @@ export default function SearchResults() {
   // Mobile filter expansion state
   const [mobileFiltersExpanded, setMobileFiltersExpanded] = useState(false);
 
+  // Currency conversion state
+  const [selectedCurrency, setSelectedCurrency] = useState('EUR');
+
+  // Exchange rates data
+  const exchangeRates = {
+    "EUR": 1, // Base currency
+    "USD": 1.17314999,
+    "GBP": 0.86646479,
+    "JPY": 172.57625282,
+    "CAD": 1.62135196,
+    "AUD": 1.77925230,
+    "CHF": 0.93300620,
+    "CNY": 8.35840018,
+    "INR": 103.37060533,
+    "BRL": 6.36381079,
+    "KRW": 1628.13415825,
+    "MXN": 21.84170573,
+    "SGD": 1.50433025,
+    "HKD": 9.13502545,
+    "NOK": 11.68680303,
+    "SEK": 10.99851564,
+    "DKK": 7.46457722,
+    "PLN": 4.25149552,
+    "CZK": 24.33898955,
+    "HUF": 393.14975861,
+    "RUB": 98.10471501,
+    "TRY": 48.42117904,
+    "ZAR": 20.52719165,
+    "AED": 4.30903856,
+    "SAR": 4.40189340,
+    "THB": 37.21817929
+  };
+
+  // Popular currencies for dropdown
+  const popularCurrencies = [
+    { code: 'EUR', symbol: '€', name: 'Euro' },
+    { code: 'USD', symbol: '$', name: 'US Dollar' },
+    { code: 'GBP', symbol: '£', name: 'British Pound' },
+    { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+    { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+    { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+    { code: 'CHF', symbol: 'CHF', name: 'Swiss Franc' },
+    { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+    { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+    { code: 'KRW', symbol: '₩', name: 'South Korean Won' }
+  ];
+
   // Additional filter states
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [tempPriceRange, setTempPriceRange] = useState({ min: 0, max: 1000 });
@@ -52,6 +99,24 @@ export default function SearchResults() {
 
   const popularAmenities = allAmenities.filter(a => a.type === 'popular');
   const otherAmenities = allAmenities.filter(a => a.type === 'other');
+
+  // Currency conversion function
+  const convertPrice = (priceInEUR, targetCurrency = selectedCurrency) => {
+    if (!priceInEUR || !exchangeRates[targetCurrency]) return 0;
+    const convertedPrice = priceInEUR * exchangeRates[targetCurrency];
+
+    // Format based on currency
+    if (targetCurrency === 'JPY' || targetCurrency === 'KRW') {
+      return Math.round(convertedPrice);
+    }
+    return Math.round(convertedPrice * 100) / 100;
+  };
+
+  // Get currency symbol
+  const getCurrencySymbol = (currencyCode = selectedCurrency) => {
+    const currency = popularCurrencies.find(c => c.code === currencyCode);
+    return currency ? currency.symbol : currencyCode;
+  };
 
   const handleApplyFilters = () => {
     setSelectedAmenities(tempSelectedAmenities);
@@ -393,7 +458,26 @@ export default function SearchResults() {
             {/* Navigation Links - Right Aligned */}
             <div className="w-1/3 flex justify-end">
               <nav className="hidden md:flex items-center space-x-8">
-                <span className="text-gray-600 hover:text-gray-900 cursor-pointer">USD $</span>
+                {/* Currency Selector */}
+                <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
+                  <SelectTrigger className="w-24 h-8 border-0 bg-transparent hover:bg-gray-100 focus:ring-0 text-gray-600">
+                    <SelectValue>
+                      <span className="flex items-center gap-1">
+                        {getCurrencySymbol()} {selectedCurrency}
+                      </span>
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {popularCurrencies.map(currency => (
+                      <SelectItem key={currency.code} value={currency.code}>
+                        <span className="flex items-center gap-2">
+                          {currency.symbol} {currency.code} - {currency.name}
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
                 <Link href="/contact" className="text-gray-600 hover:text-gray-900">
                   Contact
                 </Link>
@@ -463,17 +547,17 @@ export default function SearchResults() {
                     <span className="text-gray-800">Precio por noche:</span>
                     <span className="font-medium text-gray-800">
                       {priceRange.min > 0 || priceRange.max < 1000
-                        ? `€${priceRange.min} - €${priceRange.max}`
+                        ? `${getCurrencySymbol()}${Math.round(convertPrice(priceRange.min))} - ${getCurrencySymbol()}${Math.round(convertPrice(priceRange.max))}`
                         : 'All'}
                     </span>
                   </div>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="0-100">€0 - €100</SelectItem>
-                  <SelectItem value="100-200">€100 - €200</SelectItem>
-                  <SelectItem value="200-500">€200 - €500</SelectItem>
-                  <SelectItem value="500+">€500+</SelectItem>
+                  <SelectItem value="0-100">{getCurrencySymbol()}0 - {getCurrencySymbol()}{Math.round(convertPrice(100))}</SelectItem>
+                  <SelectItem value="100-200">{getCurrencySymbol()}{Math.round(convertPrice(100))} - {getCurrencySymbol()}{Math.round(convertPrice(200))}</SelectItem>
+                  <SelectItem value="200-500">{getCurrencySymbol()}{Math.round(convertPrice(200))} - {getCurrencySymbol()}{Math.round(convertPrice(500))}</SelectItem>
+                  <SelectItem value="500+">{getCurrencySymbol()}{Math.round(convertPrice(500))}+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -741,9 +825,11 @@ export default function SearchResults() {
                             <div className='flex flex-col items-start w-full'>
                               <div className="text-xs mb-1 font-semibold">de</div>
                               <div className="text-xl text-gray-900 mb-1 font-bold" style={{ fontFamily: "Arial" }}>
-                                € {Math.round(hotel.price || hotel.minRate || hotel.prices?.basePrice)}
+                                {getCurrencySymbol()} {convertPrice(hotel.price || hotel.minRate || hotel.prices?.basePrice || 215).toLocaleString()}
                               </div>
-                              <div className="text-xs mb-1 font-semibold">Por noche</div>
+                              {hotel.source != "booking" && (
+                                <div className="text-xs mb-1 font-semibold">Por noche</div>
+                              )}
                               <div className="text-xs text-gray-400 mb-4">Se pueden aplicar cargos adicionales</div>
                               <a href={getRedirectUrl(hotel)} target="_blank" rel="noopener noreferrer"
                                 className="bg-[#486698] text-white text-center px-8 py-3 text-md font-medium transition-colors w-full">
@@ -806,7 +892,7 @@ export default function SearchResults() {
                         <div className='max-w-2xl'>
                           <div className="text-sm text-gray-600">from</div>
                           <div className="text-xl font-bold text-gray-900">
-                            € {Math.round(hotel.price || hotel.minRate || hotel.prices?.basePrice || 215)}.00
+                            {getCurrencySymbol()} {convertPrice(hotel.price || hotel.minRate || hotel.prices?.basePrice || 215).toLocaleString()}
                           </div>
                           <div className="text-xs mb-1 font-semibold">Por noche</div>
                           <div className="text-xs text-gray-400 mb-4 mr-2">Se pueden aplicar cargos adicionales</div>
@@ -866,13 +952,6 @@ export default function SearchResults() {
               </button> */}
             </div>
 
-            {/* Fullscreen Button */}
-            <button className="absolute top-4 left-4 z-10 bg-white p-2 rounded-lg border border-gray-300 hover:bg-gray-50">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-              </svg>
-            </button>
-
             {/* Map Container */}
             <div className="w-full h-full">
               {/* <iframe
@@ -885,7 +964,12 @@ export default function SearchResults() {
                 title={`Map of ${city}`}
               /> */}
 
-              <HotelsMap hotels={filteredHotels} getRedirectUrl={getRedirectUrl()} />
+              <HotelsMap
+                hotels={filteredHotels}
+                selectedCurrency={selectedCurrency}
+                convertPrice={convertPrice}
+                getCurrencySymbol={getCurrencySymbol}
+              />
 
               {/* Map Pins for Hotels */}
               {/* {filteredHotels.map((hotel, index) => {
